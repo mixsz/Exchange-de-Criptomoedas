@@ -1,6 +1,1 @@
 # Exchange-de-Criptomoedas
-
-
-
-
-OI
