@@ -1,5 +1,6 @@
 #include "biblioteca.h"
 
+
 typedef struct cadastro {
   char nome[51];
   char senha[15];
