@@ -17,7 +17,7 @@ int main() {
   int contador = 0;
   int contador_cadastros = 0;
   int NV = contador_cadastros + 1; // Novo Cadastro
-  int PT = 0;                      // CONTADOR DE PONTO E VÃRGULA
+  int PT = 0;                      // CONTADOR DE PONTO E VÍRGULA
   int contador_nome, contador_CPF, contador_senha;
   int permissao_acesso = 1, CPF_existente = 1;
   int indice_usuario = -1, cpf_finder,
@@ -32,7 +32,7 @@ int main() {
     contador_CPF = 0;
     contador_nome = 0;
     contador_senha = 0;
-    PT = 0; // CONTADOR DE PONTO E VÃRGULA
+    PT = 0; // CONTADOR DE PONTO E VÍRGULA
 
     fscanf(ler, "%s", linha);
     for (i = 0; i < strlen(linha); i++) {
@@ -86,7 +86,7 @@ int main() {
   fclose(ler);
 
   while (sair != 't') {
-    puts("Bem-vindo! Digite a opcao desejada:");
+    puts("Bem-vindo! Digite a opção desejada:");
     puts("");
     printf("1 - Criar conta \n");
     printf("2 - Acessar conta\n");
@@ -95,15 +95,15 @@ int main() {
     puts("");
 
     if (resposta[0] == '1') { // Cadastra conta
-      verificar = 'n'; // VARIÃVEL 'verificar' QUE VERIFICA SE A INFORMAÃ‡ÃƒO DADA
-                       // ESTÃ CORRETA!
+      verificar = 'n'; // VARIÁVEL 'verificar' QUE VERIFICA SE A INFORMAÇÃO DADA
+                       // ESTÁ CORRETA!
       while (verificar == 'n') {
         printf("Digite seu nome completo: ");
         fgets(usuarios[NV].nome, sizeof(usuarios[NV].nome), stdin);
         if (strlen(usuarios[NV].nome) < 10 ||
             strlen(usuarios[NV].nome) >
                 50) { // nome maior que 10 e menor que 50
-          puts("Nome invalido!\n");
+          puts("Nome inválido!\n");
           continue;
         } else {
           for (i = 0; i < strlen(usuarios[NV].nome); i++) {
@@ -119,7 +119,7 @@ int main() {
       }
       verificar = 'n';
       while (verificar == 'n') {
-        printf("Digite uma senha de 6 digitos: ");
+        printf("Digite uma senha de 6 dígitos: ");
         fgets(usuarios[NV].senha, sizeof(usuarios[NV].senha), stdin);
         tamanho = strlen(usuarios[NV].senha);
         if (tamanho != 7) {
@@ -144,7 +144,7 @@ int main() {
         printf("Digite seu CPF (formato de CPF: xxx.xxx.xxx-xx): ");
         fgets(usuarios[NV].CPF, sizeof(usuarios[NV].CPF), stdin);
         if (strlen(usuarios[NV].CPF) != 15) {
-          puts("CPF invalido!");
+          puts("CPF inválido!");
         } else {
           for (i = 0; i < strlen(usuarios[NV].CPF); i++) {
             if (usuarios[NV].CPF[i] == '\n') {
@@ -180,7 +180,7 @@ int main() {
           puts("Conta cancelada com sucesso!\n");
           verificar = 't';
         } else {
-          puts("Opcao inválida!\n");
+          puts("Opção inválida!\n");
         } /////////////////////////////////////////////////////////////////////
       }
     } else if (resposta[0] == '2') { // Acessar a conta
@@ -192,7 +192,7 @@ int main() {
         for (i = 0; i < 10; i++) {
           if (CPF_existente == 0) {
             break;
-          } // Caso o CPF já¡ tenha sido encontrado pare o loop
+          } // Caso o CPF já tenha sido encontrado pare o loop
           for (j = 0; j < 14; j++) {
             if (usuarios[i].CPF[j] == cpflogin[j]) {
               cpf_finder = 0;
@@ -217,7 +217,7 @@ int main() {
           for (i = 0; i < 10; i++) {
             if (permissao_acesso == 0) {
               break;
-            } // Caso a senha já¡ tenha sido encontrada pare o loop
+            } // Caso a senha já tenha sido encontrada pare o loop
             for (j = 0; j < 6; j++) {
               if (usuarios[i].senha[j] == senhalogin[j]) {
                 senha_finder = 0;
@@ -240,7 +240,7 @@ int main() {
         }
 
         else {
-          printf("CPF nÃ£o encontrado\n");
+          printf("CPF não encontrado\n");
         }
         ///////////////////////////////////////////////////
       }
@@ -254,23 +254,23 @@ int main() {
           puts("4. Sacar");
           puts("5. Comprar criptomoedas");
           puts("6. Vender criptomoedas");
-          puts("7. Atualizar cotaÃ§Ã£o");
+          puts("7. Atualizar cotação");
           puts("8. Sair");
           puts("");
           if (oi == 't') {
-            printf("OlÃ¡ Sr(a) %s! Digite a opÃ§Ã£o desejada: ",
+            printf("Olá Sr(a) %s! Digite a opção desejada: ",
                    usuarios[indice_usuario].nome);
             oi = 'f';
           } else {
-            printf("Digite a opÃ§Ã£o desejada: ");
+            printf("Digite a opção desejada: ");
           }
           fgets(opcao, sizeof(opcao), stdin);
           puts("");
           while (opcao[0] != '1' && opcao[0] != '2' && opcao[0] != '3' &&
                  opcao[0] != '4' && opcao[0] != '5' && opcao[0] != '6' &&
                  opcao[0] != '7' && opcao[0] != '8') {
-            puts("OpÃ§Ã£o invÃ¡lida!\n");
-            printf("Digite uma opÃ§Ã£o vÃ¡lida: ");
+            puts("Opção inválida!\n");
+            printf("Digite uma opção válida: ");
             fgets(opcao, sizeof(opcao), stdin);
             puts("");
           }
@@ -293,10 +293,10 @@ int main() {
             puts("Vender criptomoedas");
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
           } else if (opcao[0] == '7') {
-            puts("Atualizar cotaÃ§Ã£o");
+            puts("Atualizar cotação");
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
           } else if (opcao[0] == '8') {
-            printf("Tenha um Ã³timo dia Sr(a) %s!\n",
+            printf("Tenha um ótimo dia Sr(a) %s!\n",
                    usuarios[indice_usuario].nome);
             menu = 'f';
             sair = 't';
@@ -304,10 +304,10 @@ int main() {
         }
       }
     } else if (resposta[0] == '3') { // Sair do programa
-      puts("Tenha um Ã³timo dia!");
+      puts("Tenha um ótimo dia!");
       sair = 't';
     } else {
-      puts("\nResposta invÃ¡lida!");
+      puts("\nResposta inválida!");
     }
   }
 
