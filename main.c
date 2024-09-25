@@ -149,7 +149,7 @@ int main() {
           for (i = 0; i < strlen(usuarios[NV].CPF); i++) {
             if (usuarios[NV].CPF[i] == '\n') {
               usuarios[NV].CPF[i] = ';';
-              strcpy(usuarios[NV].real, "0.00;");
+              strcpy(usuarios[NV].real, "0.00");
             }
           }
           puts("CPF cadastrado!\n");
@@ -167,7 +167,7 @@ int main() {
           FILE *escreve = fopen("usuarios.txt", "a"); // SALVA O CADSATRO NO TXT
 
           fprintf(
-              escreve, "*;%s%s%s%s\n", usuarios[NV].CPF, usuarios[NV].senha,
+              escreve, "*;%s%s%s%s;\n", usuarios[NV].CPF, usuarios[NV].senha,
               usuarios[NV].nome, usuarios[NV].real); // ADICIONA O %X E ESCREVE O USUARIO[NV].XXXX
 
           fclose(escreve);
