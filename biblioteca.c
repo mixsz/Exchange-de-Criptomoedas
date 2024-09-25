@@ -80,7 +80,6 @@ char depositar(char *real){
         sprintf(real, "%.2lf", valor);
         puts("\nDepósito bem sucedido!");
         printf("Valor do depósito: R$%s\n",real_depositado);
-        return *real;
         ok = 't';
       }
       else{
@@ -88,7 +87,11 @@ char depositar(char *real){
       }
     }
   }
-
+  if (ok == 't'){
+    return *real;
+  }
+  else{
+    return 'f';
+  }
 }
 
-//parte das funcoes
