@@ -5,6 +5,9 @@ typedef struct cadastro {
   char senha[15];
   char CPF[30];
   char real[30]; 
+  char BTC[30];
+  char RIP[30];
+  char ETH[30];
 } Cadastro;
 
 int main() {
@@ -18,7 +21,7 @@ int main() {
   int contador = 0;
   int contador_cadastros = 0;
   int PT = 0;                      // CONTADOR DE PONTO E VÍRGULA
-  int contador_nome, contador_CPF, contador_senha, contador_real;
+  int contador_nome, contador_CPF, contador_senha, contador_real,contador_btc, contador_ripple, contador_eth;
   int permissao_acesso = 1, CPF_existente = 1,CPF_existente1 = 0,permissao_funcao = 1;
   int indice_usuario = -1, cpf_finder, cpf_finder1,
       senha_finder; // variaveis que comparam se o cpf e a senha existem nos
@@ -28,7 +31,7 @@ int main() {
 
   char controle[30];
   char *controle1;
-  
+
   FILE *ler = fopen("usuarios.txt", "r"); // LER ARQUIVO TXT
   char linha[2550]; // VARIAVEL QUE ARMAZENA TEMPORARIAMENTE OS CADASTROS DO TXT
   while (fgets(linha, 2550, ler) !=
@@ -37,6 +40,9 @@ int main() {
     contador_nome = 0;
     contador_senha = 0;
     contador_real = 0;
+    contador_btc = 0;
+    contador_ripple = 0;
+    contador_eth = 0;
     PT = 0; // CONTADOR DE PONTO E VÍRGULA
 
     fscanf(ler, "%s", linha);
@@ -73,6 +79,21 @@ int main() {
           usuarios[contador_cadastros - 1].real[contador_real + 1] = '\0';
           contador_real++;
           break;
+        case 5:
+          usuarios[contador_cadastros - 1].BTC[contador_btc] = linha[i];
+          usuarios[contador_cadastros - 1].BTC[contador_btc + 1] = '\0';
+          contador_btc++;
+          break;
+        case 6:
+          usuarios[contador_cadastros - 1].RIP[contador_ripple] = linha[i];
+          usuarios[contador_cadastros - 1].RIP[contador_ripple + 1] = '\0';
+          contador_ripple++;
+          break;
+        case 7:
+          usuarios[contador_cadastros - 1].ETH[contador_eth] = linha[i];
+          usuarios[contador_cadastros - 1].ETH[contador_eth + 1] = '\0';
+          contador_eth++;
+          break;
 
 
         default:
@@ -86,12 +107,12 @@ int main() {
   printf("%s\n", usuarios[1].CPF);
   // printf(" %d", contador_cadastros);
   fclose(ler);
-  
-  FILE *escreve = fopen("usuarios.txt", "a"); 
+
+  FILE *escreve1 = fopen("usuarios.txt", "a"); 
   if (contador_cadastros == 0){
-  fprintf(escreve, "\n");}
-  fclose(escreve);
-  
+  fprintf(escreve1, "\n");}
+  fclose(escreve1);
+
   printf(" %d\n\n", contador_cadastros);
 
   int NV = contador_cadastros; // Novo Cadastro
@@ -192,6 +213,9 @@ int main() {
               }
             }
             strcpy(usuarios[NV].real, "0.00");
+            strcpy(usuarios[NV].BTC, "0.00");
+            strcpy(usuarios[NV].RIP, "0.00");
+            strcpy(usuarios[NV].ETH, "0.00");
             puts("CPF cadastrado!\n");
             verificar = 't';
           }
@@ -205,11 +229,12 @@ int main() {
           // SALVAR STRUCT
           puts("\nConta cadastrada com sucesso!\n");
 
+          
           FILE *escreve = fopen("usuarios.txt", "a"); // SALVA O CADSATRO NO TXT
 
           fprintf(
-              escreve, "*;%s;%s;%s;%s;\n", usuarios[NV].CPF, usuarios[NV].senha,
-              usuarios[NV].nome, usuarios[NV].real); // ADICIONA O %X E ESCREVE O USUARIO[NV].XXXX
+              escreve, "*;%s;%s;%s;%s;%s;%s;%s;", usuarios[NV].CPF, usuarios[NV].senha,
+              usuarios[NV].nome, usuarios[NV].real,usuarios[NV].BTC,usuarios[NV].RIP,usuarios[NV].ETH); // ADICIONA O %X E ESCREVE O USUARIO[NV].XXXX
 
           fclose(escreve);
 
@@ -287,20 +312,20 @@ int main() {
       if (permissao_acesso == 0) {    
 
 
-        
-        strcpy(registro, registros[indice_usuario]);
-        
-    
-        while (menu == 't') {
-          
 
-          
+        strcpy(registro, registros[indice_usuario]);
+
+
+        while (menu == 't') {
+
+
+
           FILE *escreve = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO RETORNA AO MENU!
           fprintf(escreve, "\n");
           for(i = 0; i < contador_cadastros; i++){
           fprintf(
-              escreve, "*;%s;%s;%s;%s;\n", usuarios[i].CPF, usuarios[i].senha,
-              usuarios[i].nome, usuarios[i].real); 
+              escreve, "*;%s;%s;%s;%s;%s;%s;%s;\n", usuarios[i].CPF, usuarios[i].senha,
+              usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH); 
           }
           fclose(escreve);
 
@@ -354,12 +379,12 @@ int main() {
           } else if (opcao[0] == '4') {
 
             permissao(usuarios[indice_usuario].senha);
-            
-            *controle1 = sacar(usuarios[indice_usuario].real, registro);
-            printf(" %s", controle1);
-          
+
+            sacar(usuarios[indice_usuario].real, *registro);
+
+
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
-            
+
 
           } else if (opcao[0] == '5') {
             permissao(usuarios[indice_usuario].senha);
@@ -390,8 +415,8 @@ int main() {
         fprintf(escreve, "\n");
         for(i = 0; i < contador_cadastros; i++){
         fprintf(
-            escreve, "*;%s;%s;%s;%s;\n", usuarios[i].CPF, usuarios[i].senha,
-            usuarios[i].nome, usuarios[i].real); 
+            escreve, "*;%s;%s;%s;%s;%s;%s;%s;\n", usuarios[i].CPF, usuarios[i].senha,
+            usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH); 
         }
         fclose(escreve);
       }
