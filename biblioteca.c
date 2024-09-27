@@ -1,155 +1,409 @@
 #include "biblioteca.h"
 
-void confirmacao(char *confirmar, char *nome, char *menu, char *sair){
-  char novamente = 't';
-  while(novamente == 't'){
-    printf("\nDeseja continuar? [S/N]: ");
-    fgets(confirmar,sizeof(confirmar),stdin);
-    if (confirmar[0] == 's' && strlen(confirmar) == 2 || confirmar[0] == 'S' && strlen(confirmar) == 2){
-      novamente = 'f';
+typedef struct cadastro {
+  char nome[51];
+  char senha[15];
+  char CPF[30];
+  char real[30]; 
+} Cadastro;
+
+int main() {
+
+  setlocale(LC_ALL, "portuguese");
+  char sair = 'f', bemvindo = 't', oi = 't';
+  char resposta[10], confirmar[10], cpflogin[16], senhalogin[15], opcao[10];
+  Cadastro usuarios[10];
+  int tamanho, i, j;
+  char verificar = 'n', login = 'f', menu = 't';
+  int contador = 0;
+  int contador_cadastros = 0;
+  int PT = 0;                      // CONTADOR DE PONTO E VÍRGULA
+  int contador_nome, contador_CPF, contador_senha, contador_real;
+  int permissao_acesso = 1, CPF_existente = 1,CPF_existente1 = 0,permissao_funcao = 1;
+  int indice_usuario = -1, cpf_finder, cpf_finder1,
+      senha_finder; // variaveis que comparam se o cpf e a senha existem nos
+                    // dados armazenados
+  char registros[10][10] ={"registro0","registro1","registro2","registro3","registro4","registro5","registro6","registro7","registro8","registro9"};
+  char registro[10];
+
+  char controle[30];
+  char *controle1;
+  
+  FILE *ler = fopen("usuarios.txt", "r"); // LER ARQUIVO TXT
+  char linha[2550]; // VARIAVEL QUE ARMAZENA TEMPORARIAMENTE OS CADASTROS DO TXT
+  while (fgets(linha, 2550, ler) !=
+         NULL) { // LOOP QUE LE SEPARADAMENTE OS CADASRTOS SEPARADOS POR \n
+    contador_CPF = 0;
+    contador_nome = 0;
+    contador_senha = 0;
+    contador_real = 0;
+    PT = 0; // CONTADOR DE PONTO E VÍRGULA
+
+    fscanf(ler, "%s", linha);
+    for (i = 0; i < strlen(linha); i++) {
+      if (linha[i] == '*') {
+        contador_cadastros++;
+      }
     }
-    else if (confirmar[0] == 'n' && strlen(confirmar ) == 2|| confirmar[0] == 'N'&& strlen(confirmar) == 2){
-      printf("\nTenha um ótimo dia Sr(a) %s!\n", nome);
-      *menu = 'f';
-      *sair = 't';
-      novamente = 'f';
-    }
-    else{
-      puts("Resposta inválida!");
-    }
-  }
-}
+
+    for (i = 0; i < strlen(linha); i++) {
+      if (linha[i] == ';') {
+        PT++;
+      } else if (linha[i] == '*') {
+        continue;
+      } else {
+        switch (PT) {
+        case 1:
+          usuarios[contador_cadastros - 1].CPF[contador_CPF] = linha[i]; // COLOCA O CPF NO VETOR
+          usuarios[contador_cadastros - 1].CPF[contador_CPF + 1] = '\0'; // TIRA LIXOS QUE FICAM NO FINAL DO VETOR
+          contador_CPF++;
+          break;
+        case 2:
+          usuarios[contador_cadastros - 1].senha[contador_senha] = linha[i];
+          usuarios[contador_cadastros - 1].senha[contador_senha + 1] = '\0';
+          contador_senha++;
+          break;
+        case 3:
+          usuarios[contador_cadastros - 1].nome[contador_nome] = linha[i];
+          usuarios[contador_cadastros - 1].nome[contador_nome + 1] = '\0';
+          contador_nome++;
+          break;
+        case 4:
+          usuarios[contador_cadastros - 1].real[contador_real] = linha[i];
+          usuarios[contador_cadastros - 1].real[contador_real + 1] = '\0';
+          contador_real++;
+          break;
 
 
-void permissao (char *senharegistrada){ 
-  int permissao_acesso = 1;
-  int permissao_funcao = 1;
-  char senhalogin[40];
-  while (permissao_acesso == 1){
-
-    printf("Digite sua senha: ");
-    fgets(senhalogin, sizeof(senhalogin), stdin);
-    senhalogin[strcspn(senhalogin, "\n")] = '\0'; // TIRANDO O \n PRA PODER COMPARAR AS SENHAS
-    if (strcmp(senhalogin,senharegistrada) == 0){ // SE FOR = 0 É PQ N TEM DIFERENCA DE CARACTER
-
-      permissao_funcao = 0;
-      permissao_acesso = 0;
-    }
-    else{
-      printf("Senha incorreta!\n\n");
-    }
-  }
-}
-
-char depositar(char *real){
-  double valor;
-    int i;
-    char ok = 'f';
-    char real_depositado[50];
-    valor = atof(real);
-    printf("\nSaldo atual: R$%.2lf\n\n\n", valor);
-    while (ok == 'f'){
-
-      char numero = 'f', letra = 'f';
-      printf("Insira o valor que deseja depositar: R$");
-      letra = 'f';
-      fgets(real_depositado, sizeof(real_depositado), stdin);
-      real_depositado[strcspn(real_depositado, "\n")] = '\0';
-      for (i = 0; i < strlen(real_depositado);i++){
-        if ( !isdigit(real_depositado[i])){ // verificacao de caracter (caso tenha letras) e numero negativo
-          if (real_depositado[i] != '.' && real_depositado[i] != ','|| numero == 'f'){
-            letra = 't';
-          }
-          else if (real_depositado[i] == ','){
-            real_depositado[i] = '.'; // muda a virgula para um ponto
-          }
+        default:
+          break;
         }
-        else{
-          numero = 't'; // caso o usuario digite apenas '.' o programa entendera que esta errado!
+      }
+    }
+    // printf(" %s", linha);
+  }
+  printf("%s\n", usuarios[1].nome);
+  printf("%s\n", usuarios[1].CPF);
+  // printf(" %d", contador_cadastros);
+  fclose(ler);
+  
+  FILE *escreve = fopen("usuarios.txt", "a"); 
+  if (contador_cadastros == 0){
+  fprintf(escreve, "\n");}
+  fclose(escreve);
+  
+  printf(" %d\n\n", contador_cadastros);
+
+  int NV = contador_cadastros; // Novo Cadastro
+
+  while (sair != 't') {   
+    printf("1 - Criar conta \n");
+    printf("2 - Acessar conta\n");
+    printf("3 - Sair\n");
+    if (bemvindo == 't'){
+      printf("\nBem-vindo! Digite a opção desejada: ");
+    }
+    else{
+      printf("\nDigite a opção desejada: ");
+    }
+    fgets(resposta, sizeof(resposta), stdin);
+    puts("");
+
+    if (resposta[0] == '1' && strlen(resposta) == 2) { // Cadastra conta
+      verificar = 'n'; // VARIÁVEL 'verificar' QUE VERIFICA SE A INFORMAÇÃO DADA ESTÁ CORRETA!
+      while (verificar == 'n') {
+        printf("Digite seu nome completo: ");
+        fgets(usuarios[NV].nome, sizeof(usuarios[NV].nome), stdin);
+        if (strlen(usuarios[NV].nome) < 10 || strlen(usuarios[NV].nome) > 50) { // nome maior que 10 e menor que 50
+          puts("Nome inválido!\n");
+          continue;
+        } else {
+          for (i = 0; i < strlen(usuarios[NV].nome); i++) {
+            if (usuarios[NV].nome[i] == ' ') {
+              usuarios[NV].nome[i] = '_';
+            } else if (usuarios[NV].nome[i] == '\n') {
+              usuarios[NV].nome[i] = '\0';
+            }
+          }
+          puts("Nome cadastrado!\n");
+          verificar = 't';
         }
       }
-    if (letra != 'f'){
-      puts("Valor inválido!\n");
-    }
-    else{
-      if (atof(real_depositado) > 0){ // se o valor for = 0 nao funcionara!
-        valor += atof(real_depositado);    
-        sprintf(real, "%.2lf", valor);
-        puts("\nDepósito bem sucedido!\n");
-        printf("Valor do depósito: R$%.2lf\n",atof(real_depositado));
-        printf("Saldo atual: R$%.2lf\n", valor);
-        ok = 't';
-      }
-      else{
-        puts("Valor inválido!\n");
-      }
-    }
-  }
-  if (ok == 't'){
-    return *real;
-  }
-  else{
-    return 'f';
-  }
-}
+      verificar = 'n';
+      while (verificar == 'n') {
+        printf("Digite uma senha de 6 dígitos: ");
+        fgets(usuarios[NV].senha, sizeof(usuarios[NV].senha), stdin);
+        tamanho = strlen(usuarios[NV].senha);
+        if (tamanho != 7) {
+          puts("A senha precisa ter 6 caracteres!\n");
 
-char sacar (char *real){
-    double valor;
-    valor = atof(real);
-    int i = 0;
-    char ok = 'f';
-    char real_sacado[50];
-    if (real[0] == '0'){ // se tiver zerado ou com centavos n funcionará!
-      puts("\nOps! Parece que você não possui saldo suficiente para realizar essa operação!");
-    }
-    else{
-      printf("\nSaldo atual: R$%.2lf\n\n\n", valor);
-      while (ok == 'f'){
+          continue;
+        } else {
 
-        char numero = 'f', letra = 'f'; // variaveis de verificacao
-        printf("Digite o valor que deseja sacar: R$");
-        letra = 'f';
-        fgets(real_sacado, sizeof(real_sacado), stdin);
-        real_sacado[strcspn(real_sacado, "\n")] = '\0';
-        for (i = 0; i < strlen(real_sacado);i++){
-          if ( !isdigit(real_sacado[i])){ // verificacao de caracter (caso tenha letras) e numero negativo
-            if (real_sacado[i] != '.' && real_sacado[i] != ','|| numero == 'f'){
+          for (i = 0; i < strlen(usuarios[NV].senha); i++) {
+            if (usuarios[NV].senha[i] == '\n') {
+              usuarios[NV].senha[i] = '\0';
             }
-            else if (real_sacado[i] == ','){
-              real_sacado[i] = '.'; // muda a virgula para um ponto
-            }
+          }
+          // troca o \n por ;
+
+          puts("Senha cadastrada!\n");
+          verificar = 't';
+        }
+      }
+      verificar = 'n';
+      while (verificar == 'n') {
+        printf("Digite seu CPF (formato de CPF: xxx.xxx.xxx-xx): ");
+        fgets(usuarios[NV].CPF, sizeof(usuarios[NV].CPF), stdin);
+
+        if (strlen(usuarios[NV].CPF) != 15) {
+          puts("CPF inválido!\n");
+          verificar = 'n';
+        } 
+        else {
+          CPF_existente1 = 0;
+                if (contador_cadastros != 0){
+                  for (i = 0; i < 10; i++) {
+
+                    for (j = 0; j < 14; j++) {
+                      if (usuarios[i].CPF[j] == usuarios[NV].CPF[j]) {
+                        cpf_finder1 = 0;
+                      } // Comparador
+                      else {
+                        cpf_finder1 = 1;
+;
+                        break;
+                      }
+                      if (j == 13 && cpf_finder1 == 0) {
+                        CPF_existente1++;
+                        break;
+                      }
+                    }
+                  }
+                }
+          if (CPF_existente1 == 2){
+            puts("Esse CPF já foi cadastrado!\n"); 
+            verificar = 'n';
           }
           else{
-            numero = 't'; // caso o usuario digite apenas '.' o programa entendera que esta errado!
-          }
-        }
-        if (letra != 'f'){
-          puts("Valor inválido!\n");
-        }
-        else{
-          if (atof(real_sacado) > 0){ // se o valor for = 0 nao funcionara!
-            if (atof(real_sacado) > valor){
-              puts("Você não possui esse valor!\n");
+            for (i = 0; i < strlen(usuarios[NV].CPF); i++) {
+              if (usuarios[NV].CPF[i] == '\n') {
+                usuarios[NV].CPF[i] = '\0';              
+              }
             }
-            else{
-              valor -= atof(real_sacado);    
-              sprintf(real, "%.2lf", valor);
-              puts("\nSaque bem sucedido!\n");
-              printf("Valor do saque: R$%.2lf\n",atof(real_sacado));
-              printf("Saldo atual: R$%.2lf\n", valor);
-              ok = 't';
-            }
+            strcpy(usuarios[NV].real, "0.00");
+            puts("CPF cadastrado!\n");
+            verificar = 't';
           }
-          else{
-            puts("Valor inválido!\n");
-          }
+        }    
       }
+      verificar = 'n'; 
+      while (verificar == 'n') {
+        puts("Deseja cadastrar a conta? [S/N]: "); // CONFIRMACAO DE CADASTRO DE CONTA
+        fgets(confirmar, sizeof(confirmar), stdin);
+        if (confirmar[0] == 's'  && strlen(confirmar) == 2 || confirmar[0] == 'S' && strlen(confirmar) == 2) {
+          // SALVAR STRUCT
+          puts("\nConta cadastrada com sucesso!\n");
+
+          FILE *escreve = fopen("usuarios.txt", "a"); // SALVA O CADSATRO NO TXT
+
+          fprintf(
+              escreve, "*;%s;%s;%s;%s;\n", usuarios[NV].CPF, usuarios[NV].senha,
+              usuarios[NV].nome, usuarios[NV].real); // ADICIONA O %X E ESCREVE O USUARIO[NV].XXXX
+
+          fclose(escreve);
+
+          contador_cadastros++;
+
+
+          verificar = 't';
+        } else if (confirmar[0] == 'n'  && strlen(confirmar) == 2 ||
+                   confirmar[0] == 'N' && strlen(confirmar) == 2) { // VOLTA AO INICIO DO PROGRAMA!
+          puts("\nConta cancelada com sucesso!\n");
+          verificar = 't';
+        } else {
+          puts("Opção inválida!\n");
+        } /////////////////////////////////////////////////////////////////////
+      }
+    } else if (resposta[0] == '2' && strlen(resposta) == 2) { // Acessar a conta
+      verificar = 't';
+      // login = 'f';
+      while (verificar == 't') {
+        printf("Digite seu CPF: ");
+        fgets(cpflogin, sizeof(cpflogin), stdin);
+        for (i = 0; i < 10; i++) {
+          if (CPF_existente == 0) {
+            break;
+          } // Caso o CPF já tenha sido encontrado pare o loop
+          for (j = 0; j < 14; j++) {
+            if (usuarios[i].CPF[j] == cpflogin[j]) {
+              cpf_finder = 0;
+            } // Comparador
+            else {
+              cpf_finder = 1;
+              break;
+            }
+            if (j == 13 && cpf_finder == 0) {
+              CPF_existente = 0;
+              indice_usuario = i;
+              break;
+            }
+          }
+        }
+        if (CPF_existente == 0) {
+          while (permissao_acesso == 1){
+            printf("\nDigite sua senha: ");
+            fgets(senhalogin, sizeof(senhalogin), stdin);
+
+            for (i = 0; i < 10; i++) {
+              if (permissao_acesso == 0) {
+                break;
+              } // Caso a senha já tenha sido encontrada pare o loop
+              for (j = 0; j < 6; j++) {
+                if (usuarios[i].senha[j] == senhalogin[j]) {
+                  senha_finder = 0;
+                } // Comparador
+                else {
+                  senha_finder = 1;
+                  break;
+                }
+                if (j == 5 && senha_finder == 0) {
+                  permissao_acesso = 0;
+                  verificar = 'f';
+                  break;
+                }
+              }
+            }
+            if (permissao_acesso == 1) {
+              printf("Senha incorreta!\n");
+            }
+          }
+        }
+        else {
+          printf("CPF não encontrado!\n\n");
+        }
+        ///////////////////////////////////////////////////
+      }
+      if (permissao_acesso == 0) {    
+
+
+        
+        strcpy(registro, registros[indice_usuario]);
+        
+    
+        while (menu == 't') {
+          
+
+          
+          FILE *escreve = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO RETORNA AO MENU!
+          fprintf(escreve, "\n");
+          for(i = 0; i < contador_cadastros; i++){
+          fprintf(
+              escreve, "*;%s;%s;%s;%s;\n", usuarios[i].CPF, usuarios[i].senha,
+              usuarios[i].nome, usuarios[i].real); 
+          }
+          fclose(escreve);
+
+          puts("");
+          puts("1. Consultar saldo");
+          puts("2. Consultar extrato");
+          puts("3. Depositar");
+          puts("4. Sacar");
+          puts("5. Comprar criptomoedas");
+          puts("6. Vender criptomoedas");
+          puts("7. Atualizar cotação");
+          puts("8. Sair");
+          puts("");
+          if (oi == 't') {
+            printf("Olá Sr(a) %s! Digite a opção desejada: ",
+                   usuarios[indice_usuario].nome);
+            oi = 'f';
+          } else {
+            printf("Digite a opção desejada: ");
+          }
+          fgets(opcao, sizeof(opcao), stdin);
+          puts("");
+          while (opcao[0] != '1' && opcao[0] != '2' && opcao[0] != '3' &&
+                 opcao[0] != '4' && opcao[0] != '5' && opcao[0] != '6' &&
+                 opcao[0] != '7' && opcao[0] != '8' || strlen(opcao) > 2) {
+            puts("Opção inválida!\n");
+            printf("Digite uma opção válida: ");
+            fgets(opcao, sizeof(opcao), stdin);
+            puts("");
+          }
+          if (opcao[0] == '1') {
+            permissao(usuarios[indice_usuario].senha);
+
+            puts("Consultar saldo");
+
+            confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+
+          } else if (opcao[0] == '2') {
+            permissao(usuarios[indice_usuario].senha);
+
+            puts("Consultar extrato");
+
+            confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+
+          } else if (opcao[0] == '3') {
+
+            permissao(usuarios[indice_usuario].senha);
+            depositar(usuarios[indice_usuario].real);
+            confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+
+          } else if (opcao[0] == '4') {
+
+            permissao(usuarios[indice_usuario].senha);
+            
+            *controle1 = sacar(usuarios[indice_usuario].real, registro);
+            printf(" %s", controle1);
+          
+            confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+            
+
+          } else if (opcao[0] == '5') {
+            permissao(usuarios[indice_usuario].senha);
+
+            puts("Comprar criptomoedas");
+
+            confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+
+          } else if (opcao[0] == '6') {
+            permissao(usuarios[indice_usuario].senha);
+
+            puts("Vender criptomoedas");
+
+            confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+
+          } else if (opcao[0] == '7') {
+            puts("Atualizar cotação");
+            confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+
+          } else if (opcao[0] == '8') {
+            printf("Tenha um ótimo dia Sr(a) %s!\n",usuarios[indice_usuario].nome);
+            menu = 'f';
+            sair = 't';
+          }
+        }
+
+        FILE *escreve = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO SAI DO PROGRAMA!
+        fprintf(escreve, "\n");
+        for(i = 0; i < contador_cadastros; i++){
+        fprintf(
+            escreve, "*;%s;%s;%s;%s;\n", usuarios[i].CPF, usuarios[i].senha,
+            usuarios[i].nome, usuarios[i].real); 
+        }
+        fclose(escreve);
+      }
+    } else if (resposta[0] == '3' && strlen(resposta) == 2) { // Sair do programa
+      puts("Tenha um ótimo dia!\n");
+      sair = 't';
+    } else {
+      puts("Resposta inválida!\n");
+      bemvindo = 'f';
     }
   }
-  if (ok == 't'){
-    return *real;
-  }
-  else{
-    return 'f';
-  }
+
+  // system("pause");
+  return 0;
 }
