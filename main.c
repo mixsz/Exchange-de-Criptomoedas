@@ -19,8 +19,8 @@ int main() {
   int contador_cadastros = 0;
   int PT = 0;                      // CONTADOR DE PONTO E VÍRGULA
   int contador_nome, contador_CPF, contador_senha, contador_real;
-  int permissao_acesso = 1, CPF_existente = 1,permissao_funcao = 1;
-  int indice_usuario = -1, cpf_finder,
+  int permissao_acesso = 1, CPF_existente = 1,CPF_existente1 = 0,permissao_funcao = 1;
+  int indice_usuario = -1, cpf_finder, cpf_finder1,
       senha_finder; // variaveis que comparam se o cpf e a senha existem nos
                     // dados armazenados
 
@@ -40,6 +40,7 @@ int main() {
         contador_cadastros++;
       }
     }
+    //if(contador_cadastros == 0){}
 
     for (i = 0; i < strlen(linha); i++) {
       if (linha[i] == ';') {
@@ -77,10 +78,16 @@ int main() {
     }
     // printf(" %s", linha);
   }
-  printf("%s\n", usuarios[0].nome);
-  printf("%s\n", usuarios[0].CPF);
+  printf("%s\n", usuarios[1].nome);
+  printf("%s\n", usuarios[1].CPF);
   // printf(" %d", contador_cadastros);
   fclose(ler);
+  
+  FILE *escreve = fopen("usuarios.txt", "a"); 
+  if (contador_cadastros == 0){
+  fprintf(escreve, "\n");}
+  fclose(escreve);
+  
   printf(" %d\n\n", contador_cadastros);
 
   int NV = contador_cadastros; // Novo Cadastro
@@ -111,7 +118,7 @@ int main() {
             if (usuarios[NV].nome[i] == ' ') {
               usuarios[NV].nome[i] = '_';
             } else if (usuarios[NV].nome[i] == '\n') {
-              usuarios[NV].nome[i] = ';';
+              usuarios[NV].nome[i] = '\0';
             }
           }
           puts("Nome cadastrado!\n");
@@ -131,7 +138,7 @@ int main() {
 
           for (i = 0; i < strlen(usuarios[NV].senha); i++) {
             if (usuarios[NV].senha[i] == '\n') {
-              usuarios[NV].senha[i] = ';';
+              usuarios[NV].senha[i] = '\0';
             }
           }
           // troca o \n por ;
@@ -144,21 +151,49 @@ int main() {
       while (verificar == 'n') {
         printf("Digite seu CPF (formato de CPF: xxx.xxx.xxx-xx): ");
         fgets(usuarios[NV].CPF, sizeof(usuarios[NV].CPF), stdin);
+
         if (strlen(usuarios[NV].CPF) != 15) {
           puts("CPF inválido!\n");
           verificar = 'n';
-        } else {
-          for (i = 0; i < strlen(usuarios[NV].CPF); i++) {
-            if (usuarios[NV].CPF[i] == '\n') {
-              usuarios[NV].CPF[i] = ';';              
-            }
+        } 
+        else {
+          CPF_existente1 = 0;
+                if (contador_cadastros != 0){
+                  for (i = 0; i < 10; i++) {
+
+                    for (j = 0; j < 14; j++) {
+                      if (usuarios[i].CPF[j] == usuarios[NV].CPF[j]) {
+                        cpf_finder1 = 0;
+                      } // Comparador
+                      else {
+                        cpf_finder1 = 1;
+;
+                        break;
+                      }
+                      if (j == 13 && cpf_finder1 == 0) {
+                        CPF_existente1++;
+                        break;
+                      }
+                    }
+                  }
+                }
+          if (CPF_existente1 == 2){
+            puts("Esse CPF já foi cadastrado!\n"); 
+            verificar = 'n';
           }
-          strcpy(usuarios[NV].real, "0.00");
-          puts("CPF cadastrado!\n");
-          verificar = 't';
-        }
+          else{
+            for (i = 0; i < strlen(usuarios[NV].CPF); i++) {
+              if (usuarios[NV].CPF[i] == '\n') {
+                usuarios[NV].CPF[i] = '\0';              
+              }
+            }
+            strcpy(usuarios[NV].real, "0.00");
+            puts("CPF cadastrado!\n");
+            verificar = 't';
+          }
+        }    
       }
-      verificar = 'n';
+      verificar = 'n'; 
       while (verificar == 'n') {
         puts("Deseja cadastrar a conta? [S/N]: "); // CONFIRMACAO DE CADASTRO DE CONTA
         fgets(confirmar, sizeof(confirmar), stdin);
@@ -169,24 +204,12 @@ int main() {
           FILE *escreve = fopen("usuarios.txt", "a"); // SALVA O CADSATRO NO TXT
 
           fprintf(
-              escreve, "*;%s%s%s%s;\n", usuarios[NV].CPF, usuarios[NV].senha,
+              escreve, "*;%s;%s;%s;%s;\n", usuarios[NV].CPF, usuarios[NV].senha,
               usuarios[NV].nome, usuarios[NV].real); // ADICIONA O %X E ESCREVE O USUARIO[NV].XXXX
 
           fclose(escreve);
 
-          FILE *ler = fopen("usuarios.txt", "r");//atualiza o contador de cadastros
-          char linha[2550];
-          contador_cadastros = 0;
-
-          while (fgets(linha, 2550, ler) != NULL){
-            fscanf(ler, "%s", linha);
-            for (i = 0; i < strlen(linha); i++) {
-              if (linha[i] == '*') {
-                contador_cadastros++;
-              }
-            }
-          }
-          fclose(ler);
+          contador_cadastros++;
 
 
           verificar = 't';
