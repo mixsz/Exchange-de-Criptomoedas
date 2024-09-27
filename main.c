@@ -81,29 +81,24 @@ int main() {
   printf("%s\n", usuarios[0].CPF);
   // printf(" %d", contador_cadastros);
   fclose(ler);
-  printf(" %d", contador_cadastros);
+  printf(" %d\n\n", contador_cadastros);
 
   int NV = contador_cadastros; // Novo Cadastro
 
-
-
-
-
-  while (sair != 't') {
-    if (bemvindo == 't'){
-      puts("Bem-vindo! Digite a opção desejada:");
-    }
-    else{
-      puts("Digite a opção desejada:");
-    }
-    puts("");
+  while (sair != 't') {   
     printf("1 - Criar conta \n");
     printf("2 - Acessar conta\n");
     printf("3 - Sair\n");
+    if (bemvindo == 't'){
+      printf("\nBem-vindo! Digite a opção desejada: ");
+    }
+    else{
+      printf("\nDigite a opção desejada: ");
+    }
     fgets(resposta, sizeof(resposta), stdin);
     puts("");
 
-    if (resposta[0] == '1') { // Cadastra conta
+    if (resposta[0] == '1' && strlen(resposta) == 2) { // Cadastra conta
       verificar = 'n'; // VARIÁVEL 'verificar' QUE VERIFICA SE A INFORMAÇÃO DADA ESTÁ CORRETA!
       while (verificar == 'n') {
         printf("Digite seu nome completo: ");
@@ -203,7 +198,7 @@ int main() {
           puts("Opção inválida!\n");
         } /////////////////////////////////////////////////////////////////////
       }
-    } else if (resposta[0] == '2') { // Acessar a conta
+    } else if (resposta[0] == '2' && strlen(resposta) == 2) { // Acessar a conta
       verificar = 't';
       // login = 'f';
       while (verificar == 't') {
@@ -265,8 +260,7 @@ int main() {
       if (permissao_acesso == 0) {    
         while (menu == 't') {
 
-
-          FILE *escreve = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO
+          FILE *escreve = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO RETORNA AO MENU!
           fprintf(escreve, "\n");
           for(i = 0; i < contador_cadastros; i++){
           fprintf(
@@ -274,7 +268,6 @@ int main() {
               usuarios[i].nome, usuarios[i].real); 
           }
           fclose(escreve);
-
 
           strcpy(confirmar, "confirme");
           puts("");
@@ -298,7 +291,7 @@ int main() {
           puts("");
           while (opcao[0] != '1' && opcao[0] != '2' && opcao[0] != '3' &&
                  opcao[0] != '4' && opcao[0] != '5' && opcao[0] != '6' &&
-                 opcao[0] != '7' && opcao[0] != '8') {
+                 opcao[0] != '7' && opcao[0] != '8' || strlen(opcao) > 2) {
             puts("Opção inválida!\n");
             printf("Digite uma opção válida: ");
             fgets(opcao, sizeof(opcao), stdin);
@@ -325,7 +318,7 @@ int main() {
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
 
           } else if (opcao[0] == '4') {
-            
+
             permissao(usuarios[indice_usuario].senha);
             sacar(usuarios[indice_usuario].real);
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
@@ -354,8 +347,17 @@ int main() {
             sair = 't';
           }
         }
+        
+        FILE *escreve = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO SAI DO PROGRAMA!
+        fprintf(escreve, "\n");
+        for(i = 0; i < contador_cadastros; i++){
+        fprintf(
+            escreve, "*;%s;%s;%s;%s;\n", usuarios[i].CPF, usuarios[i].senha,
+            usuarios[i].nome, usuarios[i].real); 
+        }
+        fclose(escreve);
       }
-    } else if (resposta[0] == '3') { // Sair do programa
+    } else if (resposta[0] == '3' && strlen(resposta) == 2) { // Sair do programa
       puts("Tenha um ótimo dia!\n");
       sair = 't';
     } else {
