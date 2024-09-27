@@ -5,10 +5,10 @@ void confirmacao(char *confirmar, char *nome, char *menu, char *sair){
   while(novamente == 't'){
     printf("\nDeseja continuar? [S/N]: ");
     fgets(confirmar,sizeof(confirmar),stdin);
-    if (confirmar[0] == 's' || confirmar[0] == 'S'){
+    if (confirmar[0] == 's' && strlen(confirmar) == 2 || confirmar[0] == 'S' && strlen(confirmar) == 2){
       novamente = 'f';
     }
-    else if (confirmar[0] == 'n' || confirmar[0] == 'N'){
+    else if (confirmar[0] == 'n' && strlen(confirmar ) == 2|| confirmar[0] == 'N'&& strlen(confirmar) == 2){
       printf("\nTenha um ótimo dia Sr(a) %s!\n", nome);
       *menu = 'f';
       *sair = 't';
