@@ -101,10 +101,10 @@ int main() {
         }
       }
     }
-    // printf(" %s", linha);
+    printf(" %s", linha);
   }
-  printf("%s\n", usuarios[1].nome);
-  printf("%s\n", usuarios[1].CPF);
+  //printf("%s\n", usuarios[0].nome);
+ // printf("%s\n", usuarios[0].CPF);
   // printf(" %d", contador_cadastros);
   fclose(ler);
 
@@ -233,7 +233,7 @@ int main() {
           FILE *escreve = fopen("usuarios.txt", "a"); // SALVA O CADSATRO NO TXT
 
           fprintf(
-              escreve, "*;%s;%s;%s;%s;%s;%s;%s;", usuarios[NV].CPF, usuarios[NV].senha,
+              escreve, "*;%s;%s;%s;%s;%s;%s;%s;\n", usuarios[NV].CPF, usuarios[NV].senha,
               usuarios[NV].nome, usuarios[NV].real,usuarios[NV].BTC,usuarios[NV].RIP,usuarios[NV].ETH); // ADICIONA O %X E ESCREVE O USUARIO[NV].XXXX
 
           fclose(escreve);
