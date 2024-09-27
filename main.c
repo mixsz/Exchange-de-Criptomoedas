@@ -162,7 +162,7 @@ int main() {
       while (verificar == 'n') {
         puts("Deseja cadastrar a conta? [S/N]: "); // CONFIRMACAO DE CADASTRO DE CONTA
         fgets(confirmar, sizeof(confirmar), stdin);
-        if (confirmar[0] == 's' || confirmar[0] == 'S') {
+        if (confirmar[0] == 's'  && strlen(confirmar) == 2 || confirmar[0] == 'S' && strlen(confirmar) == 2) {
           // SALVAR STRUCT
           puts("\nConta cadastrada com sucesso!\n");
 
@@ -190,8 +190,8 @@ int main() {
 
 
           verificar = 't';
-        } else if (confirmar[0] == 'n' ||
-                   confirmar[0] == 'N') { // VOLTA AO INICIO DO PROGRAMA!
+        } else if (confirmar[0] == 'n'  && strlen(confirmar) == 2 ||
+                   confirmar[0] == 'N' && strlen(confirmar) == 2) { // VOLTA AO INICIO DO PROGRAMA!
           puts("\nConta cancelada com sucesso!\n");
           verificar = 't';
         } else {
@@ -347,7 +347,7 @@ int main() {
             sair = 't';
           }
         }
-        
+
         FILE *escreve = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO SAI DO PROGRAMA!
         fprintf(escreve, "\n");
         for(i = 0; i < contador_cadastros; i++){
