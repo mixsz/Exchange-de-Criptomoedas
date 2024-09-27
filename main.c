@@ -40,7 +40,7 @@ int main() {
         contador_cadastros++;
       }
     }
-   
+
     for (i = 0; i < strlen(linha); i++) {
       if (linha[i] == ';') {
         PT++;
@@ -82,12 +82,12 @@ int main() {
   // printf(" %d", contador_cadastros);
   fclose(ler);
   printf(" %d", contador_cadastros);
-  
-  int NV = contador_cadastros; // Novo Cadastro
-  
 
-  
-  
+  int NV = contador_cadastros; // Novo Cadastro
+
+
+
+
 
   while (sair != 't') {
     if (bemvindo == 't'){
@@ -170,7 +170,7 @@ int main() {
         if (confirmar[0] == 's' || confirmar[0] == 'S') {
           // SALVAR STRUCT
           puts("\nConta cadastrada com sucesso!\n");
-          
+
           FILE *escreve = fopen("usuarios.txt", "a"); // SALVA O CADSATRO NO TXT
 
           fprintf(
@@ -178,11 +178,11 @@ int main() {
               usuarios[NV].nome, usuarios[NV].real); // ADICIONA O %X E ESCREVE O USUARIO[NV].XXXX
 
           fclose(escreve);
-          
+
           FILE *ler = fopen("usuarios.txt", "r");//atualiza o contador de cadastros
           char linha[2550];
           contador_cadastros = 0;
-          
+
           while (fgets(linha, 2550, ler) != NULL){
             fscanf(ler, "%s", linha);
             for (i = 0; i < strlen(linha); i++) {
@@ -193,7 +193,7 @@ int main() {
           }
           fclose(ler);
 
-          
+
           verificar = 't';
         } else if (confirmar[0] == 'n' ||
                    confirmar[0] == 'N') { // VOLTA AO INICIO DO PROGRAMA!
@@ -258,14 +258,14 @@ int main() {
           }
         }
         else {
-          printf("CPF não encontrado\n\n");
+          printf("CPF não encontrado!\n\n");
         }
         ///////////////////////////////////////////////////
       }
       if (permissao_acesso == 0) {    
         while (menu == 't') {
 
-          
+
           FILE *escreve = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO
           fprintf(escreve, "\n");
           for(i = 0; i < contador_cadastros; i++){
@@ -275,7 +275,7 @@ int main() {
           }
           fclose(escreve);
 
-          
+
           strcpy(confirmar, "confirme");
           puts("");
           puts("1. Consultar saldo");
@@ -325,10 +325,9 @@ int main() {
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
 
           } else if (opcao[0] == '4') {
+            
             permissao(usuarios[indice_usuario].senha);
-
-            puts("Sacar");
-
+            sacar(usuarios[indice_usuario].real);
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
 
           } else if (opcao[0] == '5') {
@@ -350,15 +349,14 @@ int main() {
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
 
           } else if (opcao[0] == '8') {
-            printf("Tenha um ótimo dia Sr(a) %s!\n",
-                   usuarios[indice_usuario].nome);
+            printf("Tenha um ótimo dia Sr(a) %s!\n",usuarios[indice_usuario].nome);
             menu = 'f';
             sair = 't';
           }
         }
       }
     } else if (resposta[0] == '3') { // Sair do programa
-      puts("Tenha um ótimo dia!");
+      puts("Tenha um ótimo dia!\n");
       sair = 't';
     } else {
       puts("Resposta inválida!\n");
