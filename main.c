@@ -23,7 +23,12 @@ int main() {
   int indice_usuario = -1, cpf_finder, cpf_finder1,
       senha_finder; // variaveis que comparam se o cpf e a senha existem nos
                     // dados armazenados
+  char registros[10][10] ={"registro0","registro1","registro2","registro3","registro4","registro5","registro6","registro7","registro8","registro9"};
+  char registro[10];
 
+  char controle[30];
+  char *controle1;
+  
   FILE *ler = fopen("usuarios.txt", "r"); // LER ARQUIVO TXT
   char linha[2550]; // VARIAVEL QUE ARMAZENA TEMPORARIAMENTE OS CADASTROS DO TXT
   while (fgets(linha, 2550, ler) !=
@@ -40,7 +45,6 @@ int main() {
         contador_cadastros++;
       }
     }
-    //if(contador_cadastros == 0){}
 
     for (i = 0; i < strlen(linha); i++) {
       if (linha[i] == ';') {
@@ -281,8 +285,16 @@ int main() {
         ///////////////////////////////////////////////////
       }
       if (permissao_acesso == 0) {    
-        while (menu == 't') {
 
+
+        
+        strcpy(registro, registros[indice_usuario]);
+        
+    
+        while (menu == 't') {
+          
+
+          
           FILE *escreve = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO RETORNA AO MENU!
           fprintf(escreve, "\n");
           for(i = 0; i < contador_cadastros; i++){
@@ -292,7 +304,6 @@ int main() {
           }
           fclose(escreve);
 
-          strcpy(confirmar, "confirme");
           puts("");
           puts("1. Consultar saldo");
           puts("2. Consultar extrato");
@@ -343,8 +354,12 @@ int main() {
           } else if (opcao[0] == '4') {
 
             permissao(usuarios[indice_usuario].senha);
-            sacar(usuarios[indice_usuario].real);
+            
+            *controle1 = sacar(usuarios[indice_usuario].real, registro);
+            printf(" %s", controle1);
+          
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+            
 
           } else if (opcao[0] == '5') {
             permissao(usuarios[indice_usuario].senha);
