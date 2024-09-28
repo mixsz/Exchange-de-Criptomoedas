@@ -41,7 +41,7 @@ void permissao (char *senharegistrada){
   }
 }
 
-char depositar(char *real){
+void depositar(char *real, char *bitcoin, char *ripple, char *ethereum, char *registro){
   double valor;
     int i;
     char ok = 'f';
@@ -78,6 +78,11 @@ char depositar(char *real){
         puts("\nDepósito bem sucedido!\n");
         printf("Valor do depósito: R$%.2lf\n",atof(real_depositado));
         printf("Saldo atual: R$%.2lf\n", valor);
+        FILE *escreve4 = fopen(registro, "a"); 
+        fprintf(escreve4, "\n");
+        fprintf(escreve4, "+R$%s\n", real_depositado);
+        fprintf(escreve4, "R$%.2lf___BTC:%s___RIP:%s___ETH:%s", valor, bitcoin, ripple, ethereum);
+        fclose(escreve4);
         ok = 't';
       }
       else{
@@ -85,15 +90,9 @@ char depositar(char *real){
       }
     }
   }
-  if (ok == 't'){
-    return *real;
-  }
-  else{
-    return 'f';
-  }
 }
 
-char sacar (char *real, char *registro){
+void sacar (char *real, char *registro, char *bitcoin, char *ripple, char *ethereum){
     double valor;
     valor = atof(real);
     int i = 0;
@@ -140,7 +139,8 @@ char sacar (char *real, char *registro){
               ok = 't';
               FILE *escreve4 = fopen(registro, "a"); 
               fprintf(escreve4, "\n");
-              fprintf(escreve4, "-R$%s", real_sacado);
+              fprintf(escreve4, "-R$%s\n", real_sacado);
+              fprintf(escreve4, "R$%.2lf___BTC:%s___RIP:%s___ETH:%s", valor, bitcoin, ripple, ethereum);
               fclose(escreve4);
 
             }
@@ -151,10 +151,225 @@ char sacar (char *real, char *registro){
       }
     }
   }
-  if (ok == 't'){
-    return *real;
+}
+
+void consultar_saldo(char *real,char *bitcoin,char *ripple,char *ethereum){
+  if (strcmp(real, "0.00") == 0 && strcmp(bitcoin, "0.00") == 0 && strcmp(ethereum, "0.00") == 0 
+  && strcmp(ripple, "0.00") == 0){                                //verifica se o saldo eh diferente de 0
+    puts("Ops! Parece que você não possui um saldo!");
   }
   else{
-    return 'f';
+    printf("\nReal: %s\n", real);
+    printf("Bitcoin: %s\n", bitcoin);
+    printf("Ripple: %s\n", ripple);
+    printf("Ethereum: %s\n", ethereum);
   }
+}
+
+void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario,char *registro){
+  int i;
+  char escolha[10];
+  char ok = 'f'; // variavel de verificacao de input
+  char valor[18];
+  double double_valor, double_bitcoin, double_ripple, double_ethereum; // converter string p double
+  double valor_atual, bitcoin_atual, ripple_atual, ethereum_atual; // converter o saldo atual de string p double
+
+  double taxa;
+
+  while (ok != 't'){
+    puts("\n1. Bitcoin - Cotação: 0.02"); //COTACAO MUDA AO ATUALIZAR COTACAO - TRANSFORMAR EM VARIAVEL CT
+    puts("2. Ripple - Cotação: 0.01");
+    puts("3. Ethereum - Cotação: 0.01");
+    puts("4. Cancelar compra\n");
+    printf("Digite a criptomoeda desejada: ");
+    fgets(escolha, sizeof(escolha), stdin);
+
+    if (strlen(escolha) > 2 || escolha[0] != '1' && escolha[0] != '2' && escolha[0] != '3' && escolha[0] != '4'){
+      puts("Opção inválida!");
+    }
+    else{
+      ok = 't';
+    }              
+  }
+  ok = 'f';
+  if (escolha[0] == '4'){
+    puts("Compra cancelada com sucesso!");
+    ok = 't';
+  }
+  if (escolha[0] == '1'){
+    while (ok == 'f'){
+      char numero = 'f', letra = 'f'; // variaveis de verificacao
+      printf("\nDigite o valor que deseja investir em Bitcoin: R$");
+      letra = 'f';
+      fgets(valor, sizeof(valor), stdin);
+      valor[strcspn(valor, "\n")] = '\0';
+      for (i = 0; i < strlen(valor);i++){
+        if ( !isdigit(valor[i])){ // verificacao de caracter (caso tenha letras) e numero negativo
+          if (valor[i] != '.' && valor[i] != ','|| numero == 'f'){
+            letra = 't';
+          }
+          else if (valor[i] == ','){
+            valor[i] = '.'; // muda a virgula para um ponto
+          }
+        }
+        else{
+          numero = 't'; // caso o usuario digite apenas '.' o programa entendera que esta errado!
+        }
+      }
+      if (letra != 'f'){
+        puts("Valor inválido!\n");
+      }
+      else{
+        double_valor = atof(valor);
+        if(double_valor > 0){
+          if (double_valor > atof(real_usuario)){
+            puts("Saldo insuficiente!");
+            ok = 't';
+          }
+          else{ // COMPRA DE BITCOIN
+            double_bitcoin = double_valor / 357340.87; // valor em bitcoin comprado
+            double_bitcoin = double_bitcoin * 0.98; // taxa de comissao
+            bitcoin_atual = atof(bitcoin_usuario) + double_bitcoin; // valor TOTAL em bitcoin
+            valor_atual = atof(real_usuario) - double_valor; // valor TOTAL em real
+
+            sprintf((real_usuario), "%.2lf", valor_atual); // double para string
+            sprintf(bitcoin_usuario, "%.6lf", bitcoin_atual); // double para string
+            puts("Compra realizada com sucesso!");
+            
+            FILE *escreve5 = fopen(registro, "a"); 
+            fprintf(escreve5, "\n");
+            fprintf(escreve5, "-R$%.2lf\n", double_valor);
+            fprintf(escreve5, "R$%.2lf___BTC:%.6lf___RIP:%s___ETH:%s", valor_atual, bitcoin_atual, ripple_usuario, ethereum_usuario);
+            fclose(escreve5);
+            ok = 't';
+          }
+        }
+        else{
+          puts("Valor inválido!\n");
+        }
+      }
+    }          
+  }
+  if (escolha[0] == '2'){
+    while (ok == 'f'){
+      char numero = 'f', letra = 'f'; // variaveis de verificacao
+      printf("\nDigite o valor que deseja investir em Ripple: R$");
+      letra = 'f';
+      fgets(valor, sizeof(valor), stdin);
+      valor[strcspn(valor, "\n")] = '\0';
+      for (i = 0; i < strlen(valor);i++){
+        if ( !isdigit(valor[i])){ // verificacao de caracter (caso tenha letras) e numero negativo
+          if (valor[i] != '.' && valor[i] != ','|| numero == 'f'){
+            letra = 't';
+          }
+          else if (valor[i] == ','){
+            valor[i] = '.'; // muda a virgula para um ponto
+          }
+        }
+        else{
+          numero = 't'; // caso o usuario digite apenas '.' o programa entendera que esta errado!
+        }
+      }
+      if (letra != 'f'){
+        puts("Valor inválido!\n");
+      }
+      else{
+        double_valor = atof(valor);
+        if(double_valor > 0){
+          if (double_valor > atof(real_usuario)){
+            puts("Saldo insuficiente!");
+            ok = 't';
+          }
+          else{ // COMPRA DE RIPPLE
+            double_ripple = double_valor / 3.36; // valor em ripple comprado
+            double_ripple = double_ripple * 0.99; // taxa de comissao
+            ripple_atual = atof(ripple_usuario) + double_ripple; // valor TOTAL em ripple
+            valor_atual = atof(real_usuario) - double_valor; // valor TOTAL em real
+
+            sprintf((real_usuario), "%.2lf", valor_atual); // double para string
+            sprintf(ripple_usuario, "%.6lf", ripple_atual); // double para string
+            FILE *escreve6 = fopen(registro, "a"); 
+            fprintf(escreve6, "\n");
+            fprintf(escreve6, "-R$%.2lf\n", double_valor);
+            fprintf(escreve6, "R$%.2lf___BTC:%s___RIP:%.6lf___ETH:%s", valor_atual, bitcoin_usuario, ripple_atual, ethereum_usuario);
+            fclose(escreve6);
+            puts("Compra realizada com sucesso!");
+            ok = 't';
+          }
+        }
+        else{
+          puts("Valor inválido!\n");
+        }
+      }
+    }          
+  }
+  if (escolha[0] == '3'){
+    while (ok == 'f'){
+      char numero = 'f', letra = 'f'; // variaveis de verificacao
+      printf("\nDigite o valor que deseja investir em Ethereum: R$");
+      letra = 'f';
+      fgets(valor, sizeof(valor), stdin);
+      valor[strcspn(valor, "\n")] = '\0';
+      for (i = 0; i < strlen(valor);i++){
+        if ( !isdigit(valor[i])){ // verificacao de caracter (caso tenha letras) e numero negativo
+          if (valor[i] != '.' && valor[i] != ','|| numero == 'f'){
+            letra = 't';
+          }
+          else if (valor[i] == ','){
+            valor[i] = '.'; // muda a virgula para um ponto
+          }
+        }
+        else{
+          numero = 't'; // caso o usuario digite apenas '.' o programa entendera que esta errado!
+        }
+      }
+      if (letra != 'f'){
+        puts("Valor inválido!\n");
+      }
+      else{
+        double_valor = atof(valor);
+        if(double_valor > 0){
+          if (double_valor > atof(real_usuario)){
+            puts("Saldo insuficiente!");
+            ok = 't';
+          }
+          else{ // COMPRA DE ETHEREUM
+            double_ethereum = double_valor / 14999.58; // valor em ethereum comprado
+            double_ethereum = double_ethereum * 0.99; // taxa de comissao
+            ethereum_atual = atof(ethereum_usuario) + double_ethereum; // valor TOTAL em ethereum
+            valor_atual = atof(real_usuario) - double_valor; // valor TOTAL em real
+
+            sprintf((real_usuario), "%.2lf", valor_atual); // double para string
+            sprintf(ethereum_usuario, "%.6lf", ethereum_atual); // double para string
+            FILE *escreve7 = fopen(registro, "a"); 
+            fprintf(escreve7, "\n");
+            fprintf(escreve7, "-R$%.2lf\n", double_valor);
+            fprintf(escreve7, "R$%.2lf___BTC:%s___RIP:%s___ETH:%.6lf", valor_atual, bitcoin_usuario, ripple_usuario, ethereum_atual);
+            fclose(escreve7);
+            puts("Compra realizada com sucesso!");
+            ok = 't';
+          }
+        }
+        else{
+          puts("Valor inválido!\n");
+        }
+      }
+    }          
+  }
+}
+void consultar_extrato(char *registro){
+  
+  FILE *extrato = fopen(registro, "r");
+  
+  char linha[2550];
+  int i;
+  while (fgets(linha, 2550, extrato) != NULL)
+  {
+    fscanf(extrato, "%s", linha);
+    for (i = 0; i < strlen(linha); i++) {      
+    }
+    printf(" \n%s", linha);
+  }
+
+  
 }
