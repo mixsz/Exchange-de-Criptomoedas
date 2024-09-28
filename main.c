@@ -99,7 +99,7 @@ int main() {
         }
       }
     }
-    printf(" %s", linha);
+    //printf(" %s", linha);
   }
   //printf("%s\n", usuarios[0].nome);
  // printf("%s\n", usuarios[0].CPF);
@@ -111,9 +111,9 @@ int main() {
   fprintf(escreve1, "\n");}
   fclose(escreve1);
 
-  printf(" %d\n\n", contador_cadastros);
+  //printf(" %d\n\n", contador_cadastros);
 
-  
+
 
   while (sair != 't') { 
 
@@ -229,7 +229,7 @@ int main() {
           // SALVAR STRUCT
           puts("\nConta cadastrada com sucesso!\n");
 
-          
+
           FILE *escreve = fopen("usuarios.txt", "a"); // SALVA O CADSATRO NO TXT
 
           fprintf(
@@ -357,40 +357,33 @@ int main() {
             puts("");
           }
           if (opcao[0] == '1') {
+
             permissao(usuarios[indice_usuario].senha);
-
-            puts("Consultar saldo");
-
+            consultar_saldo(usuarios[indice_usuario].real, usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP,                  usuarios[indice_usuario].ETH);
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
 
           } else if (opcao[0] == '2') {
+
             permissao(usuarios[indice_usuario].senha);
-
-            puts("Consultar extrato");
-
+            consultar_extrato(registro);
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
 
           } else if (opcao[0] == '3') {
 
             permissao(usuarios[indice_usuario].senha);
-            depositar(usuarios[indice_usuario].real);
+            depositar(usuarios[indice_usuario].real,usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP, usuarios[indice_usuario].ETH, registro);
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
 
           } else if (opcao[0] == '4') {
 
             permissao(usuarios[indice_usuario].senha);
-
-            sacar(usuarios[indice_usuario].real, registro);
-
-
+            sacar(usuarios[indice_usuario].real, registro,usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP, usuarios[indice_usuario].ETH);
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
 
-
           } else if (opcao[0] == '5') {
+
             permissao(usuarios[indice_usuario].senha);
-
-            puts("Comprar criptomoedas");
-
+            comprar_criptomoeda(usuarios[indice_usuario].real,usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP, usuarios[indice_usuario].ETH, registro);      
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
 
           } else if (opcao[0] == '6') {
