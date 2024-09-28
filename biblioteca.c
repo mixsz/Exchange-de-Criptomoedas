@@ -158,3 +158,16 @@ char sacar (char *real, char *registro){
     return 'f';
   }
 }
+
+void consultar_saldo(char *real,char *bitcoin,char *ripple,char *ethereum){
+  if (strcmp(real, "0.00") == 0 && strcmp(bitcoin, "0.00") == 0 && strcmp(ethereum, "0.00") == 0 
+  && strcmp(ripple, "0.00") == 0){                                //verifica se o saldo eh diferente de 0
+    puts("Ops! Parece que você não possui um saldo!");
+  }
+  else{
+    printf("\nReal: %s\n", real);
+    printf("Bitcoin: %s\n", bitcoin);
+    printf("Ripple: %s\n", ripple);
+    printf("Ethereum: %s\n", ethereum);
+  }
+}
