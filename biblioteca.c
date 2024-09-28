@@ -1,5 +1,3 @@
-
-
 #include "biblioteca.h"
 
 void confirmacao(char *confirmar, char *nome, char *menu, char *sair){
@@ -137,12 +135,14 @@ char sacar (char *real, char *registro){
               valor -= atof(real_sacado);    
               sprintf(real, "%.2lf", valor);
               puts("\nSaque bem sucedido!\n");
-              printf("Valor do saque: R$%.2lf\n",atof(real_sacado));            
+              printf("Valor do saque: R$%.2lf\n",atof(real_sacado));
               printf("Saldo atual: R$%.2lf\n", valor);
-              FILE *escreve2 = fopen(registro, "a");
-              fprintf(escreve2, "bananas de pijamas\n");
-              fclose(escreve2);
               ok = 't';
+              FILE *escreve4 = fopen(registro, "a"); 
+              fprintf(escreve4, "\n");
+              fprintf(escreve4, "bananas de pijama");
+              fclose(escreve4);
+
             }
           }
           else{
