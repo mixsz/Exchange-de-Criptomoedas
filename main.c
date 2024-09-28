@@ -26,8 +26,8 @@ int main() {
   int indice_usuario = -1, cpf_finder, cpf_finder1,
       senha_finder; // variaveis que comparam se o cpf e a senha existem nos
                     // dados armazenados
-  char registros[10][10] ={"registro0","registro1","registro2","registro3","registro4","registro5","registro6","registro7","registro8","registro9"};
-  char registro[10];
+  char registros[10][15] ={"registro0.txt","registro1.txt","registro2.txt","registro3.txt","registro4.txt","registro5.txt","registro6.txt","registro7.txt","registro8.txt","registro9.txt"};
+  char registro[15];
 
 
   FILE *ler = fopen("usuarios.txt", "r"); // LER ARQUIVO TXT
