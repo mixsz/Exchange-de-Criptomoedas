@@ -113,7 +113,7 @@ int main() {
 
   printf(" %d\n\n", contador_cadastros);
 
-  
+
 
   while (sair != 't') { 
 
@@ -229,7 +229,7 @@ int main() {
           // SALVAR STRUCT
           puts("\nConta cadastrada com sucesso!\n");
 
-          
+
           FILE *escreve = fopen("usuarios.txt", "a"); // SALVA O CADSATRO NO TXT
 
           fprintf(
@@ -357,17 +357,15 @@ int main() {
             puts("");
           }
           if (opcao[0] == '1') {
+            
             permissao(usuarios[indice_usuario].senha);
-
-            puts("Consultar saldo");
-
+            consultar_saldo(usuarios[indice_usuario].real, usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP,                  usuarios[indice_usuario].ETH);
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
 
           } else if (opcao[0] == '2') {
+            
             permissao(usuarios[indice_usuario].senha);
-
             puts("Consultar extrato");
-
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
 
           } else if (opcao[0] == '3') {
@@ -379,20 +377,15 @@ int main() {
           } else if (opcao[0] == '4') {
 
             permissao(usuarios[indice_usuario].senha);
-
             sacar(usuarios[indice_usuario].real, registro);
-
-
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
-
 
           } else if (opcao[0] == '5') {
+            
             permissao(usuarios[indice_usuario].senha);
-
-            puts("Comprar criptomoedas");
-
+            comprar_criptomoeda(usuarios[indice_usuario].real,usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP,               usuarios[indice_usuario].ETH);      
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
-
+            
           } else if (opcao[0] == '6') {
             permissao(usuarios[indice_usuario].senha);
 
