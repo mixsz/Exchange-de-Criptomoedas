@@ -113,7 +113,7 @@ int main() {
 
   printf(" %d\n\n", contador_cadastros);
 
-  
+
 
   while (sair != 't') { 
 
@@ -229,7 +229,7 @@ int main() {
           // SALVAR STRUCT
           puts("\nConta cadastrada com sucesso!\n");
 
-          
+
           FILE *escreve = fopen("usuarios.txt", "a"); // SALVA O CADSATRO NO TXT
 
           fprintf(
@@ -357,10 +357,9 @@ int main() {
             puts("");
           }
           if (opcao[0] == '1') {
+            
             permissao(usuarios[indice_usuario].senha);
-
-            puts("Consultar saldo");
-
+            consultar_saldo(usuarios[indice_usuario].real, usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP,                  usuarios[indice_usuario].ETH);
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
 
           } else if (opcao[0] == '2') {
