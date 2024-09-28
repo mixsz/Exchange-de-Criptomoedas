@@ -29,8 +29,6 @@ int main() {
   char registros[10][10] ={"registro0","registro1","registro2","registro3","registro4","registro5","registro6","registro7","registro8","registro9"};
   char registro[10];
 
-  char controle[30];
-  char *controle1;
 
   FILE *ler = fopen("usuarios.txt", "r"); // LER ARQUIVO TXT
   char linha[2550]; // VARIAVEL QUE ARMAZENA TEMPORARIAMENTE OS CADASTROS DO TXT
@@ -115,9 +113,11 @@ int main() {
 
   printf(" %d\n\n", contador_cadastros);
 
-  int NV = contador_cadastros; // Novo Cadastro
+  
 
-  while (sair != 't') {   
+  while (sair != 't') { 
+
+    int NV = contador_cadastros; // Novo Cadastro
     printf("1 - Criar conta \n");
     printf("2 - Acessar conta\n");
     printf("3 - Sair\n");
@@ -320,14 +320,14 @@ int main() {
 
 
 
-          FILE *escreve = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO RETORNA AO MENU!
-          fprintf(escreve, "\n");
+          FILE *escreve2 = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO RETORNA AO MENU!
+          fprintf(escreve2, "\n");
           for(i = 0; i < contador_cadastros; i++){
           fprintf(
-              escreve, "*;%s;%s;%s;%s;%s;%s;%s;\n", usuarios[i].CPF, usuarios[i].senha,
+              escreve2, "*;%s;%s;%s;%s;%s;%s;%s;\n", usuarios[i].CPF, usuarios[i].senha,
               usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH); 
           }
-          fclose(escreve);
+          fclose(escreve2);
 
           puts("");
           puts("1. Consultar saldo");
@@ -380,7 +380,7 @@ int main() {
 
             permissao(usuarios[indice_usuario].senha);
 
-            sacar(usuarios[indice_usuario].real, *registro);
+            sacar(usuarios[indice_usuario].real, registro);
 
 
             confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
@@ -411,14 +411,14 @@ int main() {
           }
         }
 
-        FILE *escreve = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO SAI DO PROGRAMA!
-        fprintf(escreve, "\n");
+        FILE *escreve3 = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO SAI DO PROGRAMA!
+        fprintf(escreve3, "\n");
         for(i = 0; i < contador_cadastros; i++){
         fprintf(
-            escreve, "*;%s;%s;%s;%s;%s;%s;%s;\n", usuarios[i].CPF, usuarios[i].senha,
+            escreve3, "*;%s;%s;%s;%s;%s;%s;%s;\n", usuarios[i].CPF, usuarios[i].senha,
             usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH); 
         }
-        fclose(escreve);
+        fclose(escreve3);
       }
     } else if (resposta[0] == '3' && strlen(resposta) == 2) { // Sair do programa
       puts("Tenha um ótimo dia!\n");
