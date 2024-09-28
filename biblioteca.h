@@ -12,7 +12,8 @@
 
 void confirmacao(char *confirmar, char *nome, char *menu, char *sair); //funcao para continuar no menu ou sair do programa
 void permissao (char *senharegistrada); // funcao para realizar a acao desejada apos a confirmacao de senha
-char depositar(char *real);
-char sacar (char *real, char *registro);
-
+void depositar(char *real);
+void sacar (char *real, char *registro);
+void consultar_saldo(char *real,char *bitcoin,char *ripple,char *ethereum);
+void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario);
 #endif
