@@ -13,6 +13,6 @@
 void confirmacao(char *confirmar, char *nome, char *menu, char *sair); //funcao para continuar no menu ou sair do programa
 void permissao (char *senharegistrada); // funcao para realizar a acao desejada apos a confirmacao de senha
 char depositar(char *real);
-char sacar (char *real);
+char sacar (char *real, char *registro);
 
 #endif
