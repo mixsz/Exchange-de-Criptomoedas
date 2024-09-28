@@ -140,7 +140,7 @@ char sacar (char *real, char *registro){
               ok = 't';
               FILE *escreve4 = fopen(registro, "a"); 
               fprintf(escreve4, "\n");
-              fprintf(escreve4, "bananas de pijama");
+              fprintf(escreve4, "-R$%s", real_sacado);
               fclose(escreve4);
 
             }
