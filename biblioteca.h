@@ -14,5 +14,6 @@ void confirmacao(char *confirmar, char *nome, char *menu, char *sair); //funcao 
 void permissao (char *senharegistrada); // funcao para realizar a acao desejada apos a confirmacao de senha
 char depositar(char *real);
 char sacar (char *real, char *registro);
+void consultar_saldo(char *real,char *bitcoin,char *ripple,char *ethereum);
 
 #endif
