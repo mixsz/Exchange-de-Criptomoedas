@@ -47,6 +47,7 @@ void depositar(char *real, char *bitcoin, char *ripple, char *ethereum, char *re
 
   time_t antes = 0;
   time( &antes);
+   antes -= 10800;// converter para horario de brasilia subtraindo 3 horas em segundos
   char horario[100]; 
   strcpy(horario, ctime( &antes));
   for (i = 0; i < strlen(horario); i++){
@@ -109,6 +110,7 @@ void sacar (char *real, char *registro, char *bitcoin, char *ripple, char *ether
  
   time_t antes = 0;
   time( &antes);
+  antes -= 10800;// converter para horario de brasilia subtraindo 3 horas em segundos
   char horario[100]; 
   strcpy(horario, ctime( &antes));
   for (i = 0; i < strlen(horario); i++){
@@ -197,6 +199,7 @@ void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple
 
   time_t antes = 0;
   time( &antes);
+   antes -= 10800;// converter para horario de brasilia subtraindo 3 horas em segundos
   char horario[100]; 
   strcpy(horario, ctime( &antes));
   for (i = 0; i < strlen(horario); i++){
@@ -401,6 +404,7 @@ void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_
 
   time_t antes = 0;
   time( &antes);
+   antes -= 10800;// converter para horario de brasilia subtraindo 3 horas em segundos
   char horario[100]; 
   strcpy(horario, ctime( &antes));
   for (i = 0; i < strlen(horario); i++){
