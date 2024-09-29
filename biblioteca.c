@@ -425,7 +425,7 @@ void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_
             }
             else  { // VENDA DE BITCOIN
               double_real = double_valor * 357340.87; // valor em real do bitcoin
-              double_real *= 0.98; // taxa de comissao
+              double_real *= 0.97; // taxa de comissao
               real_atual = atof(real_usuario) + double_real; // valor TOTAL em real
               bitcoin_atual = atof(bitcoin_usuario) - double_valor; // valor TOTAL em bitcoin
   
@@ -485,7 +485,7 @@ void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_
             }
             else  { // VENDA DE XRP
               double_real = double_valor * 3.36; // valor em real do ripple
-              double_real *= 0.98; // taxa de comissao
+              double_real *= 0.99; // taxa de comissao
               real_atual = atof(real_usuario) + double_real; // valor TOTAL em real
               ripple_atual = atof(ripple_usuario) - double_valor; // valor TOTAL em ripple
 
