@@ -584,4 +584,3 @@ void consultar_extrato(char *registro){
     printf(" \n%s", linha);
   }
 }
-
