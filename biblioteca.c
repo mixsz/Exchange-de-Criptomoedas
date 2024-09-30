@@ -107,7 +107,7 @@ void depositar(char *real, char *bitcoin, char *ripple, char *ethereum, char *re
 
 void sacar (char *real, char *registro, char *bitcoin, char *ripple, char *ethereum){
   int i = 0; 
- 
+
   time_t antes = 0;
   time( &antes);
   antes -= 10800;// converter para horario de brasilia subtraindo 3 horas em segundos
@@ -123,7 +123,7 @@ void sacar (char *real, char *registro, char *bitcoin, char *ripple, char *ether
    /////////////
     double valor;
     valor = atof(real);
-    
+
     char ok = 'f';
     char real_sacado[50];
     if (real[0] == '0'){ // se tiver zerado ou com centavos n funcionará!
@@ -640,4 +640,37 @@ void consultar_extrato(char *registro){
     }
     printf(" \n%s", linha);
   }
+}
+
+void atualizar_cotacao(char *cotacao_btc, char *cotacao_rip, char *cotacao_eth){
+  srand(time(NULL));
+  double variacao1;
+  double variacao2;
+  double variacao3;
+
+  double cotacao_btc_double, cotacao_rip_double, cotacao_eth_double;
+  variacao1 = rand() % 11;// 0 a 10
+  variacao2 = rand() % 11;
+  variacao3 = rand() % 11;
+  
+  variacao1 -= 5;
+  variacao2 -= 5;
+  variacao3 -= 5;
+  
+  cotacao_btc_double = atof(cotacao_btc);
+  cotacao_rip_double = atof(cotacao_rip);
+  cotacao_eth_double = atof(cotacao_eth);
+
+  variacao1 = 1 + (variacao1 / 100);// 1.05 a 0.95
+  variacao2 = 1 + (variacao2 / 100);// 1.05 a 0.95
+  variacao3 = 1 + (variacao3 / 100);// 1.05 a 0.95
+  
+  cotacao_btc_double *= variacao1;
+  cotacao_rip_double *= variacao2;
+  cotacao_eth_double *= variacao3;
+  
+  sprintf(cotacao_btc, "%.2lf", cotacao_btc_double);
+  sprintf(cotacao_rip, "%.2lf", cotacao_rip_double);
+  sprintf(cotacao_eth, "%.2lf", cotacao_eth_double);
+  puts("Cotação atualizada!\n");
 }
