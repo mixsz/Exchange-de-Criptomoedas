@@ -51,14 +51,14 @@ Informações adicionais:
 
 1.  Além das 8 funções já existentes, foram criadas mais duas chamadas “permissao” e “confirmacao” utilizadas para facilitar a leitura do código e reduzir redundâncias.
 
-*Função permissão: Essa função tem como objetivo permitir acesso para outra função e é utilizada na ação “1” até a “6”. O usuário precisa informar a senha corretamente para prosseguir com o programa.
+* Função permissão: Essa função tem como objetivo permitir acesso para outra função e é utilizada na ação “1” até a “6”. O usuário precisa informar a senha corretamente para prosseguir com o programa.
 
-*Função confirmação: Função utilizada na maior parte do código após uma ação. Essa função tem o objetivo de identificar se o usuário quer continuar utilizando o sistema ou se quer sair através da mensagem “Deseja continuar? [S/N]:”  se a resposta for “n/N”, o programa é encerrado, caso contrário, o programa deve prosseguir.
+* Função confirmação: Função utilizada na maior parte do código após uma ação. Essa função tem o objetivo de identificar se o usuário quer continuar utilizando o sistema ou se quer sair através da mensagem “Deseja continuar? [S/N]:”  se a resposta for “n/N”, o programa é encerrado, caso contrário, o programa deve prosseguir.
 Obs: A função só deve aceitar resposta válida.
 
 2. Existem dois tipos de finalizar o programa:
-*Usando a ação "8" (Sair).
-*Com a função confirmação, se o input for “n/N”.
+* Usando a ação "8" (Sair).
+* Com a função confirmação, se o input for “n/N”.
 
 3. Os dados são salvos após a ação.
 
