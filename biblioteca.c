@@ -94,7 +94,7 @@ void depositar(char *real, char *bitcoin, char *ripple, char *ethereum, char *re
         FILE *escreve4 = fopen(registro, "a"); 
         fprintf(escreve4, "\n");
         fprintf(escreve4, "%s:___+R$%s\n",horario, real_depositado);
-        fprintf(escreve4, "%s:___R$%.2lf___BTC:%s___RIP:%s___ETH:%s",horario, valor, bitcoin, ripple, ethereum);
+        fprintf(escreve4, "%s:___R$%.2lf___BTC:%s___XRP:%s___ETH:%s\n",horario, valor, bitcoin, ripple, ethereum);
         fclose(escreve4);
         ok = 't';
       }
@@ -107,7 +107,7 @@ void depositar(char *real, char *bitcoin, char *ripple, char *ethereum, char *re
 
 void sacar (char *real, char *registro, char *bitcoin, char *ripple, char *ethereum){
   int i = 0; 
- 
+
   time_t antes = 0;
   time( &antes);
   antes -= 10800;// converter para horario de brasilia subtraindo 3 horas em segundos
@@ -123,7 +123,7 @@ void sacar (char *real, char *registro, char *bitcoin, char *ripple, char *ether
    /////////////
     double valor;
     valor = atof(real);
-    
+
     char ok = 'f';
     char real_sacado[50];
     if (real[0] == '0'){ // se tiver zerado ou com centavos n funcionará!
@@ -168,7 +168,7 @@ void sacar (char *real, char *registro, char *bitcoin, char *ripple, char *ether
               FILE *escreve4 = fopen(registro, "a"); 
               fprintf(escreve4, "\n");
               fprintf(escreve4, "%s:___-R$%s\n",horario, real_sacado);
-              fprintf(escreve4, "%s:___R$%.2lf___BTC:%s___RIP:%s___ETH:%s",horario, valor, bitcoin, ripple, ethereum);
+              fprintf(escreve4, "%s:___R$%.2lf___BTC:%s___XRP:%s___ETH:%s\n",horario, valor, bitcoin, ripple, ethereum);
               fclose(escreve4);
 
             }
@@ -194,7 +194,7 @@ void consultar_saldo(char *real,char *bitcoin,char *ripple,char *ethereum){
   }
 }
 
-void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario,char *registro){
+void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario,char *registro, char *cotacao_btc2, char *cotacao_rip2, char *cotacao_eth2){
   int i = 0; 
 
   time_t antes = 0;
@@ -218,9 +218,9 @@ void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple
   double taxa;
 
   while (ok != 't'){
-    puts("\n1. Bitcoin   - Cotação: 357340.87"); //COTACAO MUDA AO ATUALIZAR COTACAO - TRANSFORMAR EM VARIAVEL CT
-    puts("2. Ripple    - Cotação: 3.36");
-    puts("3. Ethereum  - Cotação: 14999.58");
+    printf("\n1. Bitcoin   - Cotação: %s\n", cotacao_btc2); //COTACAO MUDA AO ATUALIZAR COTACAO - TRANSFORMAR EM VARIAVEL CT
+    printf("2. Ripple    - Cotação: %s\n", cotacao_rip2);
+    printf("3. Ethereum  - Cotação: %s\n", cotacao_eth2);
     puts("4. Cancelar compra\n");
     printf("Digite a criptomoeda desejada: ");
     fgets(escolha, sizeof(escolha), stdin);
@@ -268,7 +268,7 @@ void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple
             ok = 't';
           }
           else{ // COMPRA DE BITCOIN
-            double_bitcoin = double_valor / 357340.87; // valor em bitcoin comprado
+            double_bitcoin = double_valor / atof(cotacao_btc2); // valor em bitcoin comprado
             double_bitcoin = double_bitcoin * 0.98; // taxa de comissao
             bitcoin_atual = atof(bitcoin_usuario) + double_bitcoin; // valor TOTAL em bitcoin
             valor_atual = atof(real_usuario) - double_valor; // valor TOTAL em real
@@ -280,7 +280,8 @@ void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple
             FILE *escreve5 = fopen(registro, "a"); 
             fprintf(escreve5, "\n");
             fprintf(escreve5, "%s:___-R$%.2lf\n",horario, double_valor);
-            fprintf(escreve5, "%s:___R$%.2lf___BTC:%.6lf___RIP:%s___ETH:%s",horario, valor_atual, bitcoin_atual, ripple_usuario,ethereum_usuario);
+            fprintf(escreve5, "%s:___+BTC:%.6lf___CT:%s___TX:0.02\n",horario, double_bitcoin,cotacao_btc2);
+            fprintf(escreve5, "%s:___R$%.2lf___BTC:%.6lf___XRP:%s___ETH:%s\n",horario, valor_atual, bitcoin_atual, ripple_usuario,ethereum_usuario);
             fclose(escreve5);
             ok = 't';
           }
@@ -322,7 +323,7 @@ void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple
             ok = 't';
           }
           else{ // COMPRA DE RIPPLE
-            double_ripple = double_valor / 3.36; // valor em ripple comprado
+            double_ripple = double_valor / atof(cotacao_rip2); // valor em ripple comprado
             double_ripple = double_ripple * 0.99; // taxa de comissao
             ripple_atual = atof(ripple_usuario) + double_ripple; // valor TOTAL em ripple
             valor_atual = atof(real_usuario) - double_valor; // valor TOTAL em real
@@ -332,7 +333,8 @@ void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple
             FILE *escreve6 = fopen(registro, "a"); 
             fprintf(escreve6, "\n");
             fprintf(escreve6, "%s:___-R$%.2lf\n",horario, double_valor);
-            fprintf(escreve6, "%s:___R$%.2lf___BTC:%s___RIP:%.6lf___ETH:%s",horario, valor_atual, bitcoin_usuario, ripple_atual, ethereum_usuario);
+            fprintf(escreve6, "%s:___+XRP:%.6lf___CT:%s___TX:0.01\n",horario, double_ripple,cotacao_rip2);
+            fprintf(escreve6, "%s:___R$%.2lf___BTC:%s___XRP:%.6lf___ETH:%s\n",horario, valor_atual, bitcoin_usuario, ripple_atual, ethereum_usuario);
             fclose(escreve6);
             puts("Compra realizada com sucesso!");
             ok = 't';
@@ -375,7 +377,7 @@ void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple
             ok = 't';
           }
           else{ // COMPRA DE ETHEREUM
-            double_ethereum = double_valor / 14999.58; // valor em ethereum comprado
+            double_ethereum = double_valor / atof(cotacao_eth2); // valor em ethereum comprado
             double_ethereum = double_ethereum * 0.99; // taxa de comissao
             ethereum_atual = atof(ethereum_usuario) + double_ethereum; // valor TOTAL em ethereum
             valor_atual = atof(real_usuario) - double_valor; // valor TOTAL em real
@@ -385,7 +387,8 @@ void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple
             FILE *escreve7 = fopen(registro, "a"); 
             fprintf(escreve7, "\n");
             fprintf(escreve7, "%s:___-R$%.2lf\n",horario, double_valor);
-            fprintf(escreve7, "%s:___R$%.2lf___BTC:%s___RIP:%s___ETH:%.6lf", horario, valor_atual, bitcoin_usuario, ripple_usuario, ethereum_atual);
+            fprintf(escreve7, "%s:___+ETH:%.6lf___CT:%s___TX:0.01\n",horario, double_ethereum,cotacao_eth2);
+            fprintf(escreve7, "%s:___R$%.2lf___BTC:%s___XRP:%s___ETH:%.6lf\n", horario, valor_atual, bitcoin_usuario, ripple_usuario, ethereum_atual);
             fclose(escreve7);
             puts("Compra realizada com sucesso!");
             ok = 't';
@@ -399,7 +402,7 @@ void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple
   }
 }
 
-void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario,char *registro){
+void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario,char *registro, char *cotacao_btc1, char *cotacao_rip1, char *cotacao_eth1){
   int i = 0; 
 
   time_t antes = 0;
@@ -423,9 +426,9 @@ void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_
   double taxa;
 
   while (ok != 't'){
-    puts("\n1. Bitcoin   - Cotação: 357340.87"); //COTACAO MUDA AO ATUALIZAR COTACAO - TRANSFORMAR EM VARIAVEL CT
-    puts("2. Ripple    - Cotação: 3.36");
-    puts("3. Ethereum  - Cotação: 14999.58");
+    printf("\n1. Bitcoin   - Cotação: %s\n",cotacao_btc1); //COTACAO MUDA AO ATUALIZAR COTACAO - TRANSFORMAR EM VARIAVEL CT
+    printf("2. Ripple    - Cotação: %s\n",cotacao_rip1);
+    printf("3. Ethereum  - Cotação: %s\n",cotacao_eth1);
     puts("4. Cancelar venda\n");
     printf("Digite a criptomoeda desejada: ");
     fgets(escolha, sizeof(escolha), stdin);
@@ -478,7 +481,7 @@ void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_
               ok = 't';
             }
             else  { // VENDA DE BITCOIN
-              double_real = double_valor * 357340.87; // valor em real do bitcoin
+              double_real = double_valor * atof(cotacao_btc1); // valor em real do bitcoin
               double_real *= 0.97; // taxa de comissao
               real_atual = atof(real_usuario) + double_real; // valor TOTAL em real
               bitcoin_atual = atof(bitcoin_usuario) - double_valor; // valor TOTAL em bitcoin
@@ -489,9 +492,9 @@ void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_
 
              FILE *escreve8 = fopen(registro, "a"); 
              fprintf(escreve8, "\n");
-             fprintf(escreve8, "%s:___-BTC:%.6lf\n", horario, double_valor);
+             fprintf(escreve8, "%s:___-BTC:%.6lf___CT:%s___TX:0.03\n", horario, double_valor, cotacao_btc1);
              fprintf(escreve8, "%s:___+R$%.2lf\n", horario, double_real);
-             fprintf(escreve8, "%s:___R$%.2lf___BTC:%.6lf___RIP:%s___ETH:%s", horario, real_atual, bitcoin_atual, ripple_usuario, ethereum_usuario);
+             fprintf(escreve8, "%s:___R$%.2lf___BTC:%.6lf___XRP:%s___ETH:%s\n", horario, real_atual, bitcoin_atual, ripple_usuario, ethereum_usuario);
              fclose(escreve8);
               ok = 't';
             }
@@ -539,20 +542,20 @@ void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_
               ok = 't';
             }
             else  { // VENDA DE XRP
-              double_real = double_valor * 3.36; // valor em real do ripple
+              double_real = double_valor * atof(cotacao_eth1); // valor em real do ripple
               double_real *= 0.99; // taxa de comissao
               real_atual = atof(real_usuario) + double_real; // valor TOTAL em real
               ripple_atual = atof(ripple_usuario) - double_valor; // valor TOTAL em ripple
 
               sprintf(real_usuario, "%.2lf", real_atual); // double para string
               sprintf(ripple_usuario, "%.6lf", ripple_atual); // double para string
-              puts("Compra realizada com sucesso!");
+              puts("Venda realizada com sucesso!");
 
               FILE *escreve9 = fopen(registro, "a"); 
                fprintf(escreve9, "\n");
-               fprintf(escreve9, "%s:___-RIP:%.6lf\n", horario, double_valor);
+               fprintf(escreve9, "%s:___-XRP:%.6lf___CT:%s___TX:0.01\n", horario, double_valor, cotacao_rip1);
                fprintf(escreve9, "%s:___+R$%.2lf\n", horario, double_real);
-               fprintf(escreve9, "%s:___R$%.2lf___BTC:%s___RIP:%.6lf___ETH:%s", horario, real_atual, bitcoin_usuario, ripple_atual, ethereum_usuario);
+               fprintf(escreve9, "%s:___R$%.2lf___BTC:%s___XRP:%.6lf___ETH:%s\n", horario, real_atual, bitcoin_usuario, ripple_atual, ethereum_usuario);
                fclose(escreve9);
               ok = 't';
             }
@@ -607,13 +610,13 @@ void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_
 
               sprintf(real_usuario, "%.2lf", real_atual); // double para string
               sprintf(ethereum_usuario, "%.6lf", ethereum_atual); // double para string
-              puts("Compra realizada com sucesso!");
+              puts("Venda realizada com sucesso!");
 
               FILE *escreve10 = fopen(registro, "a"); 
                fprintf(escreve10, "\n");
-               fprintf(escreve10, "%s:___-ETH:%.6lf\n", horario, double_valor);
+               fprintf(escreve10, "%s:___-ETH:%.6lf___CT:%s___TX:0.01\n", horario, double_valor, cotacao_eth1);
                fprintf(escreve10, "%s:___+R$%.2lf\n", horario, double_real);
-               fprintf(escreve10, "%s:___R$%.2lf___BTC:%s___RIP:%s___ETH:%.6lf", horario, real_atual, bitcoin_usuario, ripple_usuario, ethereum_atual);
+               fprintf(escreve10, "%s:___R$%.2lf___BTC:%s___XRP:%s___ETH:%.6lf\n", horario, real_atual, bitcoin_usuario, ripple_usuario, ethereum_atual);
                fclose(escreve10);
               ok = 't';
             }
@@ -640,4 +643,37 @@ void consultar_extrato(char *registro){
     }
     printf(" \n%s", linha);
   }
+}
+
+void atualizar_cotacao(char *cotacao_btc, char *cotacao_rip, char *cotacao_eth){
+  srand(time(NULL));
+  double variacao1;
+  double variacao2;
+  double variacao3;
+
+  double cotacao_btc_double, cotacao_rip_double, cotacao_eth_double;
+  variacao1 = rand() % 11;// 0 a 10
+  variacao2 = rand() % 11;
+  variacao3 = rand() % 11;
+
+  variacao1 -= 5;
+  variacao2 -= 5;
+  variacao3 -= 5;
+
+  cotacao_btc_double = atof(cotacao_btc);
+  cotacao_rip_double = atof(cotacao_rip);
+  cotacao_eth_double = atof(cotacao_eth);
+
+  variacao1 = 1 + (variacao1 / 100);// 1.05 a 0.95
+  variacao2 = 1 + (variacao2 / 100);// 1.05 a 0.95
+  variacao3 = 1 + (variacao3 / 100);// 1.05 a 0.95
+
+  cotacao_btc_double *= variacao1;
+  cotacao_rip_double *= variacao2;
+  cotacao_eth_double *= variacao3;
+
+  sprintf(cotacao_btc, "%.2lf", cotacao_btc_double);
+  sprintf(cotacao_rip, "%.2lf", cotacao_rip_double);
+  sprintf(cotacao_eth, "%.2lf", cotacao_eth_double);
+  puts("Cotação atualizada!\n");
 }
