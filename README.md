@@ -60,7 +60,7 @@ Obs: A função só deve aceitar resposta válida.
 * Usando a ação "8" (Sair).
 * Com a função confirmação, se o input for “n/N”.
 
-3. Os dados são salvos após a ação.
+3. Os dados são salvos após cada ação onde haja mudança de dados.
 
 4. As cotações são atualizadas individualmente por criptomoeda, porém são as mesmas para quaisquer perfis.
 
