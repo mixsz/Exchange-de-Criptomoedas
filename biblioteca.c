@@ -181,12 +181,15 @@ void sacar (char *real, char *registro, char *bitcoin, char *ripple, char *ether
   }
 }
 
-void consultar_saldo(char *real,char *bitcoin,char *ripple,char *ethereum){
+void consultar_saldo(char *real,char *bitcoin,char *ripple,char *ethereum,char *nome, char *cpf){
   if (strcmp(real, "0.00") == 0 && strcmp(bitcoin, "0.00") == 0 && strcmp(ethereum, "0.00") == 0 
   && strcmp(ripple, "0.00") == 0){                                //verifica se o saldo eh diferente de 0
     puts("Ops! Parece que você não possui um saldo!");
   }
   else{
+    printf("\n%s\n",nome);
+    printf("%s\n",cpf);
+
     printf("\nReal: %s\n", real);
     printf("Bitcoin: %s\n", bitcoin);
     printf("Ripple: %s\n", ripple);
@@ -630,10 +633,11 @@ void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_
   }
 }
 
-void consultar_extrato(char *registro){
+void consultar_extrato(char *registro, char *nome, char *cpf){
 
   FILE *extrato = fopen(registro, "r");
-
+  printf("\n%s\n",nome);
+  printf("%s\n",cpf);
   char linha[2550];
   int i;
   while (fgets(linha, 2550, extrato) != NULL)
