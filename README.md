@@ -5,6 +5,15 @@ Feito por:
 * Felipe Pereira Munerato - 24.124.067-0 
 * Caue Yusuke Bonets Ohta - 24.124.098-8
 
+Este projeto tem como objetivo simular um aplicativo de compra e venda de criptomedas.
+Para a execução do código será necessária a criação e cópia dos seguintes arquivos:
+* main.c
+* biblioteca.c
+* biblioteca.h
+* cotacao.txt
+* usuario.txt (somente a criação)
+Obs: Os registros.txt serão gerados automaticamente por conta do fluxo do código, não sendo necessária a sua criação
+
 
 Documentação Projeto - Exchange de Criptomoedas
 
