@@ -17,7 +17,7 @@ int main() {
   char cotacao_eth[30];
   setlocale(LC_ALL, "portuguese");
   char sair = 'f', bemvindo = 't', oi = 't';
-  char resposta[10], confirmar[10], cpflogin[16], senhalogin[15], opcao[10];
+  char resposta[10], confirmar[10], cpflogin[16], senhalogin[15], opcao[10], nome_mostra[51];
   Cadastro usuarios[10];
   int tamanho, i, j;
   char verificar = 'n', login = 'f', menu = 't';
@@ -53,9 +53,9 @@ int main() {
       }      
     }   
   }
-  printf(" %s" ,cotacao_btc);
-  printf(" %s" ,cotacao_rip);
-  printf(" %s" ,cotacao_eth);
+  // printf(" %s" ,cotacao_btc);
+  // printf(" %s" ,cotacao_rip);
+  // printf(" %s" ,cotacao_eth);
 
 
   fclose(arquivo_moedas);
@@ -350,7 +350,16 @@ int main() {
         strcpy(registro, registros[indice_usuario]);
 
         while (menu == 't') {
-
+          
+          for (int i = 0; usuarios[indice_usuario].nome[i] - 1 != '\0'; i++) {
+            if (usuarios[indice_usuario].nome[i] == '_') {
+                nome_mostra[i] = ' ';
+              }
+            else{
+              nome_mostra[i] = usuarios[indice_usuario].nome[i];
+            }
+          }
+          
           FILE *nova_cotacao = fopen("cotacao.txt", "w");
           fprintf(nova_cotacao, "\n");
           fprintf(nova_cotacao, "%s;\n%s;\n%s;", cotacao_btc, cotacao_rip, cotacao_eth);
@@ -364,7 +373,7 @@ int main() {
               usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH); 
           }
           fclose(escreve2);
-
+          
           puts("");
           puts("1. Consultar saldo");
           puts("2. Consultar extrato");
@@ -377,7 +386,7 @@ int main() {
           puts("");
           if (oi == 't') {
             printf("Olá Sr(a) %s! Digite a opção desejada: ",
-                   usuarios[indice_usuario].nome);
+              nome_mostra);
             oi = 'f';
           } else {
             printf("Digite a opção desejada: ");
@@ -395,45 +404,45 @@ int main() {
           if (opcao[0] == '1') {
 
             permissao(usuarios[indice_usuario].senha);
-            consultar_saldo(usuarios[indice_usuario].real, usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP,                  usuarios[indice_usuario].ETH);
-            confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+            consultar_saldo(usuarios[indice_usuario].real,   usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP,                  usuarios[indice_usuario].ETH,nome_mostra,usuarios[indice_usuario].CPF);
+            confirmacao(confirmar, nome_mostra, &menu, &sair);
 
           } else if (opcao[0] == '2') {
 
             permissao(usuarios[indice_usuario].senha);
-            consultar_extrato(registro);
-            confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+            consultar_extrato(registro,nome_mostra,usuarios[indice_usuario].CPF);
+            confirmacao(confirmar, nome_mostra, &menu, &sair);
 
           } else if (opcao[0] == '3') {
 
             permissao(usuarios[indice_usuario].senha);
             depositar(usuarios[indice_usuario].real,usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP, usuarios[indice_usuario].ETH, registro);
-            confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+            confirmacao(confirmar, nome_mostra, &menu, &sair);
 
           } else if (opcao[0] == '4') {
 
             permissao(usuarios[indice_usuario].senha);
             sacar(usuarios[indice_usuario].real, registro,usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP,                   usuarios[indice_usuario].ETH);
-            confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+            confirmacao(confirmar, nome_mostra, &menu, &sair);
 
           } else if (opcao[0] == '5') {
 
             permissao(usuarios[indice_usuario].senha);
             comprar_criptomoeda(usuarios[indice_usuario].real,usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP, usuarios[indice_usuario].ETH, registro, cotacao_btc, cotacao_rip, cotacao_eth);      
-            confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+            confirmacao(confirmar, nome_mostra, &menu, &sair);
 
           } else if (opcao[0] == '6') {
 
             permissao(usuarios[indice_usuario].senha);
             vender_criptomoeda(usuarios[indice_usuario].real,usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP,usuarios[indice_usuario].ETH, registro, cotacao_btc, cotacao_rip, cotacao_eth);
-            confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+            confirmacao(confirmar, nome_mostra, &menu, &sair);
 
           } else if (opcao[0] == '7') {
             atualizar_cotacao(cotacao_btc, cotacao_rip, cotacao_eth);
-            confirmacao(confirmar, usuarios[indice_usuario].nome, &menu, &sair);
+            confirmacao(confirmar, nome_mostra, &menu, &sair);
 
           } else if (opcao[0] == '8') {
-            printf("Tenha um ótimo dia Sr(a) %s!\n",usuarios[indice_usuario].nome);
+            printf("Tenha um ótimo dia Sr(a) %s!\n",nome_mostra);
             menu = 'f';
             sair = 't';
           }
