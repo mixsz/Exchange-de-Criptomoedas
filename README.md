@@ -46,23 +46,25 @@ As 3 cotações são armazenadas dentro de um arquivo TXT para facilitar a ident
 
 8. Sair: Se o usuário digitar 8, o programa será finalizado e exibirá a seguinte mensagem: Tenha um ótimo dia, Sr(a)[nome do usuário]!
 
+
 Informações adicionais:
+
 1.  Além das 8 funções já existentes, foram criadas mais duas chamadas “permissao” e “confirmacao” utilizadas para facilitar a leitura do código e reduzir redundâncias.
 
-1.1. Função permissão: Essa função tem como objetivo permitir acesso para outra função e é utilizada na ação “1” até a “6”. O usuário precisa informar a senha corretamente para prosseguir com o programa.
+*1.1. Função permissão: Essa função tem como objetivo permitir acesso para outra função e é utilizada na ação “1” até a “6”. O usuário precisa informar a senha corretamente para prosseguir com o programa.
 
-1.2 Função confirmação: Função utilizada na maior parte do código após uma ação. Essa função tem o objetivo de identificar se o usuário quer continuar utilizando o sistema ou se quer sair através da mensagem “Deseja continuar? [S/N]:”  se a resposta for “n/N”, o programa é encerrado, caso contrário, o programa deve prosseguir.
+*1.2 Função confirmação: Função utilizada na maior parte do código após uma ação. Essa função tem o objetivo de identificar se o usuário quer continuar utilizando o sistema ou se quer sair através da mensagem “Deseja continuar? [S/N]:”  se a resposta for “n/N”, o programa é encerrado, caso contrário, o programa deve prosseguir.
 Obs: A função só deve aceitar resposta válida.
 
 2. Existem dois tipos de finalizar o programa:
 
-2.1 Usando a ação "8" (Sair).
+*2.1 Usando a ação "8" (Sair).
 
-2.2 Com a função confirmação, se o input for “n/N”.
+*2.2 Com a função confirmação, se o input for “n/N”.
 
-2. Os dados são salvos após a ação.
+3. Os dados são salvos após a ação.
 
-3. As cotações são atualizadas individualmente por criptomoeda, porém são as mesmas para quaisquer perfis.
+4. As cotações são atualizadas individualmente por criptomoeda, porém são as mesmas para quaisquer perfis.
 
-4. O usuário não pode criar uma conta com um CPF que já está sendo utilizado, caso contrário o programa mostrará uma mensagem informando que o CPF já está sendo utilizado.
+5. O usuário não pode criar uma conta com um CPF que já está sendo utilizado, caso contrário o programa mostrará uma mensagem informando que o CPF já está sendo utilizado.
 
