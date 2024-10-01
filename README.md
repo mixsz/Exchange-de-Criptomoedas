@@ -1,9 +1,9 @@
 # Exchange Criptomoedas (C) 
 
 Feito por:
--Danilo Cardoso Pradella (mixsz) - 24.124.069-6 
--Felipe Pereira Munerato - 24.124.067-0 
--Caue Yusuke Bonets Ohta - 24.124.098-8
+* Danilo Cardoso Pradella (mixsz) - 24.124.069-6 
+* Felipe Pereira Munerato - 24.124.067-0 
+* Caue Yusuke Bonets Ohta - 24.124.098-8
 
 
 Documentação Projeto - Exchange de Criptomoedas
@@ -23,6 +23,7 @@ Menu: Depois de efetuar o login, o usuário verá o menu onde terá 8 opções p
 * Bitcoin
 * Ripple
 * Ethereum
+  
 Obs: Caso o usuário esteja com o saldo totalmente zerado, aparecerá uma mensagem informando que o mesmo não possui saldo.
 
 2. Consultar extrato: Se for digitado "2", o programa pedirá novamente sua senha, se estiver correta, o usuário verá todas as suas transações com as seguintes informações: data, horário, adição ou subtração de valor, valor, cotação da criptomoeda (se houver), taxação e saldo após a ação realizada.
