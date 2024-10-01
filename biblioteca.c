@@ -640,10 +640,12 @@ void consultar_extrato(char *registro, char *nome, char *cpf){
   printf("%s\n",cpf);
   char linha[2550];
   int i;
-  while (fgets(linha, 2550, extrato) != NULL)
-  {
+  while (fgets(linha, 2550, extrato) != NULL){
     fscanf(extrato, "%s", linha);
-    for (i = 0; i < strlen(linha); i++) {      
+    for (i = 0; i < strlen(linha); i++) {
+      if (linha[i] == '_') {
+        linha[i] = ' ';
+      }
     }
     printf(" \n%s", linha);
   }
