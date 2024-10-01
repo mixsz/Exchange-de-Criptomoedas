@@ -679,5 +679,5 @@ void atualizar_cotacao(char *cotacao_btc, char *cotacao_rip, char *cotacao_eth){
   sprintf(cotacao_btc, "%.2lf", cotacao_btc_double);
   sprintf(cotacao_rip, "%.2lf", cotacao_rip_double);
   sprintf(cotacao_eth, "%.2lf", cotacao_eth_double);
-  puts("Cotação atualizada!\n");
+  puts("Cotação atualizada!");
 }
