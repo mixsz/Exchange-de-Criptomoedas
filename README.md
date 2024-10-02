@@ -12,6 +12,7 @@ Para a execução do código será necessária a criação e cópia dos seguinte
 * biblioteca.h
 * cotacao.txt
 * usuario.txt (somente a criação)
+
 Obs: Os registros.txt serão gerados automaticamente por conta do fluxo do código, não sendo necessária a sua criação
 
 
