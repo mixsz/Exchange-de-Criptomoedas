@@ -1,20 +1,8 @@
 #include "biblioteca.h"
 
-typedef struct cadastro {
-  char tipo[20]; // tipo da conta
-  char nome[51];
-  char senha[15];
-  char CPF[30];
-  char real[30]; 
-  char BTC[30];
-  char RIP[30];
-  char ETH[30];
-} Cadastro;
 
 int main() {
-  char CPF_ADMIN[30] = "123.456.789-10";
   char resposta1[30];
-  char SENHA_ADMIN[15] = "123456";
   char escolha_menu[10];
   char cotacao_btc[30];
   char cotacao_rip[30];
@@ -141,7 +129,17 @@ int main() {
 
   }
   printf("%s\n", usuarios[0].nome);
-  printf("%s\n", usuarios[0].tipo);
+  printf("%s\n", usuarios[0].CPF);
+  printf("%s\n", usuarios[0].senha);
+  printf("%s\n", usuarios[1].nome);
+  printf("%s\n", usuarios[1].CPF);
+  printf("%s\n", usuarios[1].senha);
+  printf("%s\n", usuarios[2].nome);
+  printf("%s\n", usuarios[2].CPF);
+  printf("%s\n", usuarios[2].senha);
+  printf("%s\n", usuarios[3].nome);
+  printf("%s\n", usuarios[3].CPF);
+  printf("%s\n", usuarios[3].senha);
   // printf(" %d", contador_cadastros);
   fclose(ler);
 
@@ -185,6 +183,7 @@ int main() {
   while (sair != 't') { 
 
     int NV = contador_cadastros; // Novo Cadastro
+    
     printf("1 - Criar conta \n");
     printf("2 - Acessar conta\n");
     printf("3 - Sair\n");
@@ -331,61 +330,32 @@ int main() {
       while (verificar == 't') {
         printf("Digite seu CPF: ");
         fgets(cpflogin, sizeof(cpflogin), stdin);
-        for (i = 0; i < 10; i++) {
-          if (CPF_existente == 0) {
+        cpflogin[strcspn(cpflogin, "\n")] = '\0';
+        for (i = 0; i < contador_cadastros; i++){
+          if (strcmp(cpflogin, usuarios[i].CPF) == 0){
+            verificar = 'f';
+            indice_usuario = i;
             break;
-          } // Caso o CPF já tenha sido encontrado pare o loop
-          for (j = 0; j < 14; j++) {
-            if (usuarios[i].CPF[j] == cpflogin[j]) {
-              cpf_finder = 0;
-            } // Comparador
-            else {
-              cpf_finder = 1;
-              break;
-            }
-            if (j == 13 && cpf_finder == 0) {
-              CPF_existente = 0;
-              indice_usuario = i;
-              break;
-            }
           }
         }
-        if (CPF_existente == 0) {
-          while (permissao_acesso == 1){
-            printf("\nDigite sua senha: ");
-            fgets(senhalogin, sizeof(senhalogin), stdin);
-
-            for (i = 0; i < 10; i++) {
-              if (permissao_acesso == 0) {
-                break;
-              } // Caso a senha já tenha sido encontrada pare o loop
-              for (j = 0; j < 6; j++) {
-                if (usuarios[i].senha[j] == senhalogin[j]) {
-                  senha_finder = 0;
-                } // Comparador
-                else {
-                  senha_finder = 1;
-                  break;
-                }
-                if (j == 5 && senha_finder == 0) {
-                  printf("AAAAAAA");
-                  permissao_acesso = 0;
-                  verificar = 'f';
-                  break;
-                }
-              }
-            }
-            if (permissao_acesso == 1) {
-              printf("Senha incorreta!\n");
-            }
-          }
+        if (verificar == 't'){
+          puts("CPF não encontrado!\n");
         }
-        else {
-          printf("CPF não encontrado!\n\n");
-        }
-        ///////////////////////////////////////////////////
       }
-      printf("AAAAAAAAAAA");
+      verificar = 'f';
+      while (verificar == 'f'){
+        printf("Digite sua senha: ");
+        fgets(senhalogin, sizeof(senhalogin), stdin);
+        senhalogin[strcspn(senhalogin, "\n")] = '\0';
+        if (strcmp(senhalogin, usuarios[indice_usuario].senha) == 0){
+          verificar = 't';
+          permissao_acesso = 0;
+        }
+        else{
+          puts("Senha incorreta!\n");
+        }
+      }
+      
       if (permissao_acesso == 0) {    
         strcpy(registro, registros[indice_usuario]);
 
@@ -409,7 +379,7 @@ int main() {
           fprintf(escreve2, "\n");
           for(i = 0; i < contador_cadastros; i++){
           fprintf(
-              escreve2, "*;%s;%s;%s;%s;%s;%s;%s;\n", usuarios[i].CPF, usuarios[i].senha,
+              escreve2, "*;%s;%s;%s;%s;%s;%s;%s;%s;\n",usuarios[i].tipo, usuarios[i].CPF, usuarios[i].senha,
               usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH); 
           }
           fclose(escreve2);
@@ -492,7 +462,7 @@ int main() {
         fprintf(escreve3, "\n");
         for(i = 0; i < contador_cadastros; i++){
         fprintf(
-            escreve3, "*;%s;%s;%s;%s;%s;%s;%s;\n", usuarios[i].CPF, usuarios[i].senha,
+            escreve3, "*;%s;%s;%s;%s;%s;%s;%s;%s;\n", usuarios[i].tipo, usuarios[i].CPF, usuarios[i].senha,
             usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH); 
         }
         fclose(escreve3);
@@ -506,17 +476,7 @@ int main() {
     }
   }
   }
-  else if (escolha_menu[0] == '2'){
-    printf("Digite o CPF de Administrador: ");
-    fgets(resposta1, sizeof(CPF_ADMIN), stdin);
-    if (strcmp(CPF_ADMIN, resposta1) == 0){
-      printf("Digite a senha de Administrador: ");
-      fgets(resposta1, sizeof(SENHA_ADMIN), stdin);
-      if (strcmp(SENHA_ADMIN, resposta1) == 0){
-        
-      }
-    }
-  }
+  else if (escolha_menu[0] == '2'){}
   // system("pause");
   return 0;
 }

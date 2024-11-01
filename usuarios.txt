@@ -1,2 +1,6 @@
 
-*;investidor;123.123.123-12;123123;caue_bunda_lisa;0.00;0.00;0.00;0.00;
+*;investidor;123.123.124-11;123111;cancer_silva;0.00;0.00;0.00;0.00;
+*;investidor;123.123.123-12;123123;cancer_aniomal;0.00;0.00;0.00;0.00;
+*;investidor;123.123.123-22;333333;aaaaaaaaaaaaa;0.00;0.00;0.00;0.00;
+*;investidor;123.123.123-11;123111;cancer_silva;0.00;0.00;0.00;0.00;
+*;investidor;123.123.123-aa;123333;VTCVTCVTC;0.00;0.00;0.00;0.00;

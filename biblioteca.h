@@ -7,6 +7,17 @@
 #include <string.h>
 #include <ctype.h>
 
+typedef struct cadastro {
+  char tipo[20]; // tipo da conta
+  char nome[51];
+  char senha[15];
+  char CPF[30];
+  char real[30]; 
+  char BTC[30];
+  char RIP[30];
+  char ETH[30];
+} Cadastro;
+
    /*                                       Prototipo das funcoes                                              */
 
 void confirmacao(char *confirmar, char *nome, char *menu, char *sair); //funcao para continuar no menu ou sair do programa
