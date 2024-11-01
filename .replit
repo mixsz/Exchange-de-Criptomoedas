@@ -1,0 +1,2 @@
+run = "gcc main.c biblioteca.c -o main && ./main"
+language = "c"

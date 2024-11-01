@@ -67,7 +67,8 @@ int main() {
 
   FILE *ler = fopen("usuarios.txt", "r"); // LER ARQUIVO TXT
   char linha[2550]; // VARIAVEL QUE ARMAZENA TEMPORARIAMENTE OS CADASTROS DO TXT
-  while (fgets(linha, 2550, ler) != NULL) { // LOOP QUE LE SEPARADAMENTE OS CADASRTOS SEPARADOS POR \n
+  while (fgets(linha, 2550, ler) !=
+         NULL) { // LOOP QUE LE SEPARADAMENTE OS CADASRTOS SEPARADOS POR \n
     contador_tipo = 0;
     contador_CPF = 0;
     contador_nome = 0;
@@ -140,8 +141,8 @@ int main() {
     }
 
   }
-  printf("%s\n", usuarios[0].nome);
-  printf("%s\n", usuarios[0].tipo);
+  //printf("%s\n", usuarios[0].nome);
+ // printf("%s\n", usuarios[0].CPF);
   // printf(" %d", contador_cadastros);
   fclose(ler);
 
@@ -149,25 +150,24 @@ int main() {
   if (contador_cadastros == 0){
   fprintf(escreve1, "\n");}
   fclose(escreve1);
-  int mostrar = 1;
+
 
 
     while(1) {
-      if (mostrar == 1){
-        printf("1 - Investidor \n");
-        printf("2 - Administrador\n");
-        printf("3 - Sair\n");
-      }
-      printf("\nDigite o tipo de usuário: ");
+      printf("1 - Investidor \n");
+      printf("2 - Administrador\n");
+      printf("3 - Sair\n");
+      printf("Digite o tipo de usuário: ");
       fgets(resposta, sizeof(resposta), stdin);
+      puts("");
 
       if (resposta[0] == '1'&& strlen(resposta) == 2){
-        puts("");
+        printf("AAAAA");
         escolha_menu[0] = '1';
         break;
       }
       else if (resposta[0] == '2'&& strlen(resposta) == 2){
-        puts("");
+        printf("AAAAA");
         escolha_menu[0] = '2';
         break;
       }
@@ -176,8 +176,8 @@ int main() {
         break;
       }
       else {
-        puts("Resposta inválida!");
-        mostrar = 0;
+        printf("AAAAA");
+        puts("Resposta inválida!\n");
       }
     }
 
@@ -285,7 +285,6 @@ int main() {
                   usuarios[NV].CPF[i] = '\0';              
                 }
               }
-              strcpy(usuarios[NV].tipo, "investidor");
               strcpy(usuarios[NV].real, "0.00");
               strcpy(usuarios[NV].BTC, "0.00");
               strcpy(usuarios[NV].RIP, "0.00");
@@ -307,7 +306,7 @@ int main() {
             FILE *escreve = fopen("usuarios.txt", "a"); // SALVA O CADSATRO NO TXT
 
             fprintf(
-                escreve, "*;%s;%s;%s;%s;%s;%s;%s;%s;\n",usuarios[NV].tipo, usuarios[NV].CPF, usuarios[NV].senha,
+                escreve, "*;%s;%s;%s;%s;%s;%s;%s;\n", usuarios[NV].CPF, usuarios[NV].senha,
                 usuarios[NV].nome, usuarios[NV].real,usuarios[NV].BTC,usuarios[NV].RIP,usuarios[NV].ETH); // ADICIONA O %X E ESCREVE O USUARIO[NV].XXXX
 
             fclose(escreve);
@@ -368,7 +367,6 @@ int main() {
                   break;
                 }
                 if (j == 5 && senha_finder == 0) {
-                  printf("AAAAAAA");
                   permissao_acesso = 0;
                   verificar = 'f';
                   break;
@@ -385,7 +383,6 @@ int main() {
         }
         ///////////////////////////////////////////////////
       }
-      printf("AAAAAAAAAAA");
       if (permissao_acesso == 0) {    
         strcpy(registro, registros[indice_usuario]);
 
