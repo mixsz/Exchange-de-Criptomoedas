@@ -57,7 +57,7 @@ As 3 cotações são armazenadas dentro de um arquivo TXT para facilitar a ident
 8. Sair: Se o usuário digitar 8, o programa será finalizado e exibirá a seguinte mensagem: Tenha um ótimo dia, Sr(a)[nome do usuário]!
 
 
-# Informações adicionais:
+### Informações adicionais:
 
 1.  Além das 8 funções já existentes, foram criadas mais duas chamadas “permissao” e “confirmacao” utilizadas para facilitar a leitura do código e reduzir redundâncias.
 
