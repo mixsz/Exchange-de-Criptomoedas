@@ -1,5 +1,8 @@
 #ifndef biblioteca
 
+// run = "gcc main.c biblioteca.c -o main && ./main"
+// language = "c"
+  
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
