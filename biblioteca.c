@@ -663,11 +663,11 @@ void atualizar_cotacao(char *cotacao_btc, char *cotacao_rip, char *cotacao_eth){
   variacao2 = rand() % 11;
   variacao3 = rand() % 11;
 
-  variacao1 -= 5;
+  variacao1 -= 5;// -5 a +5
   variacao2 -= 5;
   variacao3 -= 5;
 
-  cotacao_btc_double = atof(cotacao_btc);
+  cotacao_btc_double = atof(cotacao_btc);// converte string p double
   cotacao_rip_double = atof(cotacao_rip);
   cotacao_eth_double = atof(cotacao_eth);
 
@@ -682,5 +682,6 @@ void atualizar_cotacao(char *cotacao_btc, char *cotacao_rip, char *cotacao_eth){
   sprintf(cotacao_btc, "%.2lf", cotacao_btc_double);
   sprintf(cotacao_rip, "%.2lf", cotacao_rip_double);
   sprintf(cotacao_eth, "%.2lf", cotacao_eth_double);
+  
   puts("Cotação atualizada!");
 }

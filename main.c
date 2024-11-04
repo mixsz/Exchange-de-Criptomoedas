@@ -34,12 +34,15 @@ int main() {
       switch(PT){
         case 1:
           cotacao_btc[i] = linha1[i];
+          cotacao_btc[i+1] = '\0';
           break; 
         case 2:
           cotacao_rip[i] = linha1[i];
+          cotacao_rip[i+1] = '\0';
           break;
         case 3:
           cotacao_eth[i] = linha1[i];
+          cotacao_eth[i+1] = '\0';
           break;
       }     
     } 
