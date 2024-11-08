@@ -46,4 +46,6 @@ void cadastrar_investidor(Cadastro *usuarios, int *contador_cadastros);
 void excluir_investidor(Cadastro *usuarios, int *contador_cadastros); // falta excluir do struct
 
 void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros);
+
+void consultar_extrato_investidor(Cadastro *usuarios, int *contador_cadastros); // como passar registros como parametro
 #endif

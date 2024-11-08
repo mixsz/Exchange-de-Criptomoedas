@@ -771,7 +771,7 @@ int main() {
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '6'){
-              puts("opcao 6");
+              consultar_extrato_investidor(usuarios, &contador_cadastros);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '7'){

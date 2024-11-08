@@ -630,7 +630,7 @@ void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_
 }
 
 void consultar_extrato(char *registro, char *nome, char *cpf){
-
+  
   FILE *extrato = fopen(registro, "r");
   printf("\n%s\n",nome);
   printf("%s\n",cpf);
@@ -926,4 +926,59 @@ void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros){
       puts("Este perfil nao pode ser consultado!");
     }
   }
+}
+
+void consultar_extrato_investidor(Cadastro *usuarios, int *contador_cadastros){
+  char cpf_escolhido[20], confirmar[15];
+  char registro[15];
+  int i, id = -1, tentativa = 0;
+  while (1){
+    if (tentativa == 0){
+       printf("Digite o CPF do investidor: ");
+    }
+    else{
+       printf("Digite o CPF do investidor ou digite 'CANCELAR' para voltar: ");
+    }
+    fgets(cpf_escolhido, sizeof(cpf_escolhido), stdin);
+    cpf_escolhido[strcspn(cpf_escolhido, "\n")] = '\0';
+    if (strcmp(cpf_escolhido, "CANCELAR") == 0){
+      break;
+    }
+    for (i = 0; i < *contador_cadastros; i++){
+      if (strcmp(usuarios[i].CPF, cpf_escolhido) == 0){
+        id = i;
+        break;
+      }
+    }
+    if (id == -1){
+      puts("CPF não encontrado!\n");
+      tentativa++;
+    }
+    else{
+      break;
+    }
+  } // fim while
+  if (id != -1){
+    i = 0;
+    char nome_mostra[51];
+    while(usuarios[id].nome[i] != '\0'){
+
+      if (usuarios[id].nome[i] == '_') {
+          nome_mostra[i] = ' ';
+        }
+      else{
+        nome_mostra[i] = usuarios[id].nome[i];
+      }
+      i++;
+    }
+    
+    if (usuarios[i].tipo[0] == 'i'){ // se for investidor
+      // strcpy(registro, registros[indice_usuario]);
+      // consultar_extrato(registro,nome_mostra,usuarios[id].CPF);
+      
+    }
+    else{
+      puts("Este perfil nao pode ser consultado!");
+    }
+  } // fim id != -1
 }
