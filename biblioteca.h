@@ -41,6 +41,6 @@ void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_
 
 void atualizar_cotacao(char *cotacao_btc, char *cotacao_rip, char *cotacao_eth);
 
-void cadastrar_investidor(Cadastro *usuarios, int *contador_cadastros);
+void cadastrar_investidor(Cadastro *usuarios, int *contador_cadastros); // limite continua 10 contas
 
 #endif
