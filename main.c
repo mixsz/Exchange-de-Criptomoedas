@@ -388,6 +388,7 @@ int main() {
             }
             i++;
           }
+          nome_mostra[i] = '\0';
   
           while (menu == 't') {
           
@@ -709,6 +710,7 @@ int main() {
             }
             i++;
           }
+          nome_mostra[i] = '\0';
           while (menu == 't') {
             FILE *nova_cotacao = fopen("cotacao.txt", "w");
             fprintf(nova_cotacao, "\n");
@@ -728,8 +730,8 @@ int main() {
             puts("2. Excluir investidor");
             puts("3. Cadastrar nova criptomoeda");
             puts("4. Excluir criptomoeda");
-            puts("5. Consultar saldo de investidor");
-            puts("6. Consultar extrato de investidor");
+            puts("5. Consultar saldo de um investidor");
+            puts("6. Consultar extrato de um investidor");
             puts("7. Atualizar cotação");
             puts("8. Sair");
             puts("");
@@ -759,11 +761,11 @@ int main() {
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '3'){
-              puts("opcao 3");
+              puts("rafael");
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '4'){
-              puts("opcao 4");
+              puts("testa");
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '5'){
@@ -786,6 +788,7 @@ int main() {
           } // fim menu == t
         } // fim permissao acesso (menu)
       } // fim opcao acessar conta
+        
       else if (resposta[0] == '4' && strlen(resposta) == 2) { // Sair do programa
         puts("Tenha um ótimo dia!\n");
         sair = 't';

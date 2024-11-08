@@ -41,6 +41,19 @@ void permissao (char *senharegistrada){
   }
 }
 
+void nome(char nome_mostra[], const char nome[]) {
+    int i = 0;
+    while (nome[i] != '\0') {
+        if (nome[i] == '_') {
+            nome_mostra[i] = ' ';  // substitui '_' por ' '
+        } else {
+            nome_mostra[i] = nome[i];  // copia o caractere
+        }
+        i++;
+    }
+    nome_mostra[i] = '\0';  // adiciona \0
+}
+
 void depositar(char *real, char *bitcoin, char *ripple, char *ethereum, char *registro){
   double valor;
   int i = 0; 
@@ -818,7 +831,7 @@ void cadastrar_investidor(Cadastro *usuarios, int *contador_cadastro){
 }
 
 void excluir_investidor(Cadastro *usuarios, int *contador_cadastros){
-  char cpf_escolhido[20], confirmar[15];
+  char cpf_escolhido[20], confirmar[15], nome_mostra[50];
   int i, id = -1, tentativa = 0;
   while (1){
     if (tentativa == 0){
@@ -846,9 +859,10 @@ void excluir_investidor(Cadastro *usuarios, int *contador_cadastros){
       break;
     }
   } // fim while
-  if (id != -1){
+  if (id != -1){ 
     if (usuarios[i].tipo[0] == 'i'){ // se for investidor exclui
-      printf("\nNome: %s\n", usuarios[id].nome);
+      nome(nome_mostra, usuarios[id].nome); 
+      printf("\nNome: %s\n", nome_mostra);
       printf("CPF: %s\n", usuarios[id].CPF);
       printf("Senha: ***%c%c%c\n",usuarios[id].senha[3],usuarios[id].senha[4],usuarios[id].senha[5]);
       printf("Saldo: R$%.2lf\n", atof(usuarios[id].real));
@@ -877,6 +891,7 @@ void excluir_investidor(Cadastro *usuarios, int *contador_cadastros){
           usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH);   
         }
         fclose(escreve);
+      printf("Conta excluída com sucesso!\n");
       }
     }
     else{
@@ -886,7 +901,7 @@ void excluir_investidor(Cadastro *usuarios, int *contador_cadastros){
 }
 
 void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros){
-  char cpf_escolhido[20], confirmar[15];
+  char cpf_escolhido[20], confirmar[15], nome_mostra[51];
   int i, id = -1, tentativa = 0;
   while (1){
     if (tentativa == 0){
@@ -915,8 +930,9 @@ void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros){
     }
   } // fim while
   if (id != -1){
-    if (usuarios[i].tipo[0] == 'i'){ // se for investidor
-      printf("\nSaldo de %s:\n\n", usuarios[id].nome);
+    nome(nome_mostra, usuarios[id].nome); 
+    if (usuarios[id].tipo[0] == 'i'){ // se for investidor
+      printf("\nSaldo de %s:\n\n",nome_mostra);
       printf("REAL: %.2lf\n", atof(usuarios[id].real));
       printf("BTC: %.2lf\n", atof(usuarios[id].BTC));
       printf("RIP: %.2lf\n", atof(usuarios[id].RIP));
@@ -929,7 +945,7 @@ void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros){
 }
 
   void consultar_extrato_investidor(Cadastro *usuarios, int *contador_cadastros, char registros[10][15]){
-  char registro[50];
+  char registro[50], nome_mostra[51];
   char cpf_escolhido[20], confirmar[15];
   int i, id = -1, tentativa = 0;
   while (1){
@@ -959,18 +975,7 @@ void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros){
     }
   } // fim while
   if (id != -1){
-    i = 0;
-    char nome_mostra[51];
-    while(usuarios[id].nome[i] != '\0'){
-
-      if (usuarios[id].nome[i] == '_') {
-          nome_mostra[i] = ' ';
-        }
-      else{
-        nome_mostra[i] = usuarios[id].nome[i];
-      }
-      i++;
-    }
+    nome(nome_mostra, usuarios[id].nome); 
     
     if (usuarios[id].tipo[0] == 'i'){
       strcpy(registro, registros[id]);
@@ -982,3 +987,5 @@ void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros){
     }
   } // fim id != -1
 }
+
+

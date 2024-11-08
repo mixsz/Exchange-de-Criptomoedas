@@ -27,6 +27,8 @@ void confirmacao(char *confirmar, char *nome, char *menu, char *sair); //funcao 
 
 void permissao (char *senharegistrada); // funcao para realizar a acao desejada apos a confirmacao de senha
 
+void nome(char nome_mostra[], const char nome[]);
+
 void consultar_extrato(char *registro, char *nome, char *cpf); 
 
 void depositar(char *real, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario, char *registro);

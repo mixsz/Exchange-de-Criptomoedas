@@ -4,3 +4,4 @@
 *;administrador;333.123.123-12;123123;rmirgnrbrnibn;0.00;0.00;0.00;0.00;
 *;administrador;123.123.412-12;123123;ferifnerivnenveivnwe;0.00;0.00;0.00;0.00;
 *;investidor;123.123.123-11;123111;awsfvewrvvav;400981.27;0.00;31.490683;0.00;
+*;administrador;123.123.123-00;123456;ronaldo_fenomeno;0.00;0.00;0.00;0.00;
