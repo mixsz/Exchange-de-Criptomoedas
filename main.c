@@ -755,7 +755,7 @@ int main() {
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '2'){
-              puts("opcao 2");
+              excluir_investidor(usuarios, &contador_cadastros);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '3'){
@@ -767,7 +767,7 @@ int main() {
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '5'){
-              puts("opcao 5");
+              consultar_saldo_investidor(usuarios, &contador_cadastros);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '6'){

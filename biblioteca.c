@@ -816,3 +816,114 @@ void cadastrar_investidor(Cadastro *usuarios, int *contador_cadastro){
     }
   } // fim do else
 }
+
+void excluir_investidor(Cadastro *usuarios, int *contador_cadastros){
+  char cpf_escolhido[20], confirmar[15];
+  int i, id = -1, tentativa = 0;
+  while (1){
+    if (tentativa == 0){
+       printf("Digite o CPF do investidor: ");
+    }
+    else{
+       printf("Digite o CPF do investidor ou digite 'CANCELAR' para voltar: ");
+    }
+    fgets(cpf_escolhido, sizeof(cpf_escolhido), stdin);
+    cpf_escolhido[strcspn(cpf_escolhido, "\n")] = '\0';
+    if (strcmp(cpf_escolhido, "CANCELAR") == 0){
+      break;
+    }
+    for (i = 0; i < *contador_cadastros; i++){
+      if (strcmp(usuarios[i].CPF, cpf_escolhido) == 0){
+        id = i;
+        break;
+      }
+    }
+    if (id == -1){
+      puts("CPF não encontrado!\n");
+      tentativa++;
+    }
+    else{
+      break;
+    }
+  } // fim while
+  if (id != -1){
+    if (usuarios[i].tipo[0] == 'i'){ // se for investidor exclui
+      printf("\nInvestidor %s\n", usuarios[id].nome);
+      printf("CPF: %s\n", usuarios[id].CPF);
+      printf("Senha: ***%c%c%c\n",usuarios[id].senha[3],usuarios[id].senha[4],usuarios[id].senha[5]);
+      printf("Saldo: R$%.2lf\n", atof(usuarios[id].real));
+
+      
+      while (1){ // loop de confirmacao/rejeicao de exclusao de conta
+        puts("\nDigite 'CONFIRMAR' para a excluir a conta.\nDigite 'CANCELAR' para cancelar a exclusão da conta.");
+        fgets(confirmar, sizeof(confirmar), stdin);
+        confirmar[strcspn(confirmar, "\n")] = '\0';
+        if(strcmp(confirmar, "CONFIRMAR") == 0 || strcmp(confirmar, "CANCELAR") == 0){
+          break;
+        }
+      }
+      if (strcmp(confirmar, "CANCELAR") == 0){
+        puts("\nExclusão cancelada com êxito!");
+      }
+      else{
+        FILE *escreve = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO RETORNA AO MENU!
+        fprintf(escreve, "\n");
+        for(i = 0; i < *contador_cadastros; i++){
+          if (i != id){
+            fprintf(
+              escreve, "*;%s;%s;%s;%s;%s;%s;%s;%s;\n",usuarios[i].tipo, usuarios[i].CPF, usuarios[i].senha,
+              usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH);
+          }
+        }
+        fclose(escreve);
+        // EXCLUIR DA STRUCT AQUI!
+      }
+    }
+    else{
+      puts("Este usuário não pode ser excluído!");
+    }
+  } // fim do if id != -1
+}
+
+void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros){
+  char cpf_escolhido[20], confirmar[15];
+  int i, id = -1, tentativa = 0;
+  while (1){
+    if (tentativa == 0){
+       printf("Digite o CPF do investidor: ");
+    }
+    else{
+       printf("Digite o CPF do investidor ou digite 'CANCELAR' para voltar: ");
+    }
+    fgets(cpf_escolhido, sizeof(cpf_escolhido), stdin);
+    cpf_escolhido[strcspn(cpf_escolhido, "\n")] = '\0';
+    if (strcmp(cpf_escolhido, "CANCELAR") == 0){
+      break;
+    }
+    for (i = 0; i < *contador_cadastros; i++){
+      if (strcmp(usuarios[i].CPF, cpf_escolhido) == 0){
+        id = i;
+        break;
+      }
+    }
+    if (id == -1){
+      puts("CPF não encontrado!\n");
+      tentativa++;
+    }
+    else{
+      break;
+    }
+  } // fim while
+  if (id != -1){
+    if (usuarios[i].tipo[0] == 'i'){ // se for investidor
+      printf("\nSaldo de %s:\n\n", usuarios[id].nome);
+      printf("REAL: %.2lf\n", atof(usuarios[id].real));
+      printf("BTC: %.2lf\n", atof(usuarios[id].BTC));
+      printf("RIP: %.2lf\n", atof(usuarios[id].RIP));
+      printf("ETH: %.2lf\n", atof(usuarios[id].ETH));
+    }
+    else{
+      puts("Este perfil nao pode ser consultado!");
+    }
+  }
+}

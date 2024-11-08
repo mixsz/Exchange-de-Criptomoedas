@@ -43,4 +43,7 @@ void atualizar_cotacao(char *cotacao_btc, char *cotacao_rip, char *cotacao_eth);
 
 void cadastrar_investidor(Cadastro *usuarios, int *contador_cadastros);
 
+void excluir_investidor(Cadastro *usuarios, int *contador_cadastros); // falta excluir do struct
+
+void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros);
 #endif
