@@ -143,9 +143,11 @@ int main() {
     if (inicio == 1){
       while(1) {
         if (mostrar == 1){
-          printf("1. Investidor \n");
-          printf("2. Administrador\n");
-          printf("3. Sair\n");
+          printf("                    Menu Principal\n");
+          printf("                    ---- ---------\n");
+          puts("1. Investidor");
+          puts("2. Administrador");
+          puts("3. Sair");
         }
         printf("\nDigite o tipo de usuário: ");
         fgets(resposta, sizeof(resposta), stdin);
@@ -153,11 +155,13 @@ int main() {
         if (resposta[0] == '1'&& strlen(resposta) == 2){
           puts("");
           escolha_menu = 1;
+          puts("");
           break;
         }
         else if (resposta[0] == '2'&& strlen(resposta) == 2){
           puts("");
           escolha_menu = 2;
+          puts("");
           break;
         }
         else if (resposta[0] == '3'&& strlen(resposta) == 2){
@@ -174,6 +178,8 @@ int main() {
     inicio = 0;
     int NV = contador_cadastros; // Novo Cadastro
     if (escolha_menu == 1){
+      puts("                      Investidor");
+      puts("~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~");
       printf("1. Criar conta \n");
       printf("2. Acessar conta\n");
       printf("3. Voltar\n");
@@ -189,7 +195,14 @@ int main() {
   
       if (resposta[0] == '1' && strlen(resposta) == 2) { // Cadastra conta
         if (contador_cadastros >= 10) {
-          printf("Número máximo de contas atingido.\n\n\n");
+          printf("Número máximo de contas atingido.\n\n");
+          while (1){
+            puts("Digite ENTER para continuar...");
+            fgets(resposta, sizeof(resposta), stdin);
+            if(strlen(resposta) == 1){
+              break;
+            }
+          }
           bemvindo = 'f';
   
         }
@@ -286,7 +299,7 @@ int main() {
           }
           verificar = 'n'; 
           while (verificar == 'n') {
-            puts("Deseja cadastrar a conta? [S/N]: "); // CONFIRMACAO DE CADASTRO DE CONTA
+            printf("Deseja cadastrar a conta? [S/N]: "); // CONFIRMACAO DE CADASTRO DE CONTA
             fgets(confirmar, sizeof(confirmar), stdin);
             if (confirmar[0] == 's'  && strlen(confirmar) == 2 || confirmar[0] == 'S' && strlen(confirmar) == 2) {
               // SALVAR STRUCT
@@ -344,7 +357,7 @@ int main() {
             }
             else{
               verificar = 't';
-              puts("\nEste usuário não tem permissão para acessar o menu de investimentos.\nVocê será redirecionado ao menu principal.\n");
+              puts("\nEste usuário não tem permissão para acessar o menu de investimentos.\nVocê será redirecionado ao menu.\n");
               while (1){
                 puts("Digite ENTER para continuar...");
                 fgets(resposta, sizeof(resposta), stdin);
@@ -481,6 +494,8 @@ int main() {
       } 
       else if (resposta[0] == '3' && strlen(resposta) == 2){
         inicio = 1;
+        puts("");
+        puts("");
       }
       else {
         puts("Resposta inválida!\n");
@@ -488,6 +503,8 @@ int main() {
       }
     }
     else if (escolha_menu == 2){
+      puts("                     Administrador");
+      puts("~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~~-~~");
       printf("1. Criar conta \n");
       printf("2. Acessar conta\n");
       printf("3. Voltar\n");
@@ -502,126 +519,136 @@ int main() {
       puts("");
       if (resposta[0] == '1' && strlen(resposta) == 2) { // Cadastra conta
         if (contador_cadastros >= 10) {
-          printf("Número máximo de contas atingido.\n\n\n");
+          printf("Número máximo de contas atingido.\n\n");
+          while (1){
+            puts("Digite ENTER para continuar...");
+            fgets(resposta, sizeof(resposta), stdin);
+            if(strlen(resposta) == 1){
+              break;
+            }
+          }
           bemvindo = 'f';
+
         }
-        verificar = 'n';
-        while (verificar == 'n') {
-          printf("Digite seu nome completo: ");
-          fgets(usuarios[NV].nome, sizeof(usuarios[NV].nome), stdin);
-          if (strlen(usuarios[NV].nome) < 10 || strlen(usuarios[NV].nome) > 50) { // nome maior que 10 e menor que 50
-            puts("Nome inválido!\n");
-            continue;
-          } else {
-            for (i = 0; i < strlen(usuarios[NV].nome); i++) {
-              if (usuarios[NV].nome[i] == ' ') {
-                usuarios[NV].nome[i] = '_';
-              } else if (usuarios[NV].nome[i] == '\n') {
-                usuarios[NV].nome[i] = '\0';
-              }
-            }
-            puts("Nome cadastrado!\n");
-            verificar = 't';
-          }
-        }
-        verificar = 'n';
-        while (verificar == 'n') {
-          printf("Digite uma senha de 6 dígitos: ");
-          fgets(usuarios[NV].senha, sizeof(usuarios[NV].senha), stdin);
-          tamanho = strlen(usuarios[NV].senha);
-          if (tamanho != 7) {
-            puts("A senha precisa ter 6 caracteres!\n");
-
-            continue;
-          } else {
-
-            for (i = 0; i < strlen(usuarios[NV].senha); i++) {
-              if (usuarios[NV].senha[i] == '\n') {
-                usuarios[NV].senha[i] = '\0';
-              }
-            }
-            // troca o \n por ;
-
-            puts("Senha cadastrada!\n");
-            verificar = 't';
-          }
-        }
-        verificar = 'n';
-        while (verificar == 'n') {
-          printf("Digite seu CPF (formato de CPF: xxx.xxx.xxx-xx): ");
-          fgets(usuarios[NV].CPF, sizeof(usuarios[NV].CPF), stdin);
-
-          if (strlen(usuarios[NV].CPF) != 15) {
-            puts("CPF inválido!\n");
-            verificar = 'n';
-          } 
-          else {
-            CPF_existente1 = 0;
-            if (contador_cadastros != 0){
-              for (i = 0; i < 10; i++) {
-
-                for (j = 0; j < 14; j++) {
-                  if (usuarios[i].CPF[j] == usuarios[NV].CPF[j]) {
-                    cpf_finder1 = 0;
-                  } // Comparador
-                  else {
-                    cpf_finder1 = 1;
-                    break;
-                  }
-                  if (j == 13 && cpf_finder1 == 0) {
-                    CPF_existente1++;
-                    break;
-                  }
+        else{
+          verificar = 'n';
+          while (verificar == 'n') {
+            printf("Digite seu nome completo: ");
+            fgets(usuarios[NV].nome, sizeof(usuarios[NV].nome), stdin);
+            if (strlen(usuarios[NV].nome) < 10 || strlen(usuarios[NV].nome) > 50) { // nome maior que 10 e menor que 50
+              puts("Nome inválido!\n");
+              continue;
+            } else {
+              for (i = 0; i < strlen(usuarios[NV].nome); i++) {
+                if (usuarios[NV].nome[i] == ' ') {
+                  usuarios[NV].nome[i] = '_';
+                } else if (usuarios[NV].nome[i] == '\n') {
+                  usuarios[NV].nome[i] = '\0';
                 }
               }
-            }
-            if (CPF_existente1 == 2){
-              puts("Esse CPF já foi cadastrado!\n"); 
-              verificar = 'n';
-            }
-            else{
-              for (i = 0; i < strlen(usuarios[NV].CPF); i++) {
-                if (usuarios[NV].CPF[i] == '\n') {
-                  usuarios[NV].CPF[i] = '\0';              
-                }
-              }
-              strcpy(usuarios[NV].tipo, "administrador");
-              strcpy(usuarios[NV].real, "0.00");
-              strcpy(usuarios[NV].BTC, "0.00");
-              strcpy(usuarios[NV].RIP, "0.00");
-              strcpy(usuarios[NV].ETH, "0.00");
-              puts("CPF cadastrado!\n");
+              puts("Nome cadastrado!\n");
               verificar = 't';
             }
-          }    
-        }
-        verificar = 'n'; 
-        while (verificar == 'n') {
-          puts("Deseja cadastrar a conta? [S/N]: "); // CONFIRMACAO DE CADASTRO DE CONTA
-          fgets(confirmar, sizeof(confirmar), stdin);
-          if (confirmar[0] == 's'  && strlen(confirmar) == 2 || confirmar[0] == 'S' && strlen(confirmar) == 2) {
-            // SALVAR STRUCT
-            puts("\nConta cadastrada com sucesso!\n");
-
-
-            FILE *escreve = fopen("usuarios.txt", "a"); // SALVA O CADSATRO NO TXT
-
-            fprintf(
-                escreve, "*;%s;%s;%s;%s;%s;%s;%s;%s;\n",usuarios[NV].tipo, usuarios[NV].CPF, usuarios[NV].senha,
-                usuarios[NV].nome, usuarios[NV].real,usuarios[NV].BTC,usuarios[NV].RIP,usuarios[NV].ETH); // ADICIONA O %X E ESCREVE O USUARIO[NV].XXXX
-
-            fclose(escreve);
-
-            contador_cadastros++;
-
-
-            verificar = 't';
-          } else if (confirmar[0] == 'n'  && strlen(confirmar) == 2 ||
-                     confirmar[0] == 'N' && strlen(confirmar) == 2) { // VOLTA AO INICIO DO PROGRAMA!
-            puts("\nConta cancelada com sucesso!\n");
-            verificar = 't';
-          } else {
-            puts("Opção inválida!\n");
+          }
+          verificar = 'n';
+          while (verificar == 'n') {
+            printf("Digite uma senha de 6 dígitos: ");
+            fgets(usuarios[NV].senha, sizeof(usuarios[NV].senha), stdin);
+            tamanho = strlen(usuarios[NV].senha);
+            if (tamanho != 7) {
+              puts("A senha precisa ter 6 caracteres!\n");
+  
+              continue;
+            } else {
+  
+              for (i = 0; i < strlen(usuarios[NV].senha); i++) {
+                if (usuarios[NV].senha[i] == '\n') {
+                  usuarios[NV].senha[i] = '\0';
+                }
+              }
+              // troca o \n por ;
+  
+              puts("Senha cadastrada!\n");
+              verificar = 't';
+            }
+          }
+          verificar = 'n';
+          while (verificar == 'n') {
+            printf("Digite seu CPF (formato de CPF: xxx.xxx.xxx-xx): ");
+            fgets(usuarios[NV].CPF, sizeof(usuarios[NV].CPF), stdin);
+  
+            if (strlen(usuarios[NV].CPF) != 15) {
+              puts("CPF inválido!\n");
+              verificar = 'n';
+            } 
+            else {
+              CPF_existente1 = 0;
+              if (contador_cadastros != 0){
+                for (i = 0; i < 10; i++) {
+  
+                  for (j = 0; j < 14; j++) {
+                    if (usuarios[i].CPF[j] == usuarios[NV].CPF[j]) {
+                      cpf_finder1 = 0;
+                    } // Comparador
+                    else {
+                      cpf_finder1 = 1;
+                      break;
+                    }
+                    if (j == 13 && cpf_finder1 == 0) {
+                      CPF_existente1++;
+                      break;
+                    }
+                  }
+                }
+              }
+              if (CPF_existente1 == 2){
+                puts("Esse CPF já foi cadastrado!\n"); 
+                verificar = 'n';
+              }
+              else{
+                for (i = 0; i < strlen(usuarios[NV].CPF); i++) {
+                  if (usuarios[NV].CPF[i] == '\n') {
+                    usuarios[NV].CPF[i] = '\0';              
+                  }
+                }
+                strcpy(usuarios[NV].tipo, "administrador");
+                strcpy(usuarios[NV].real, "0.00");
+                strcpy(usuarios[NV].BTC, "0.00");
+                strcpy(usuarios[NV].RIP, "0.00");
+                strcpy(usuarios[NV].ETH, "0.00");
+                puts("CPF cadastrado!\n");
+                verificar = 't';
+              }
+            }    
+          }
+          verificar = 'n'; 
+          while (verificar == 'n') {
+            printf("Deseja cadastrar a conta? [S/N]: "); // CONFIRMACAO DE CADASTRO DE CONTA
+            fgets(confirmar, sizeof(confirmar), stdin);
+            if (confirmar[0] == 's'  && strlen(confirmar) == 2 || confirmar[0] == 'S' && strlen(confirmar) == 2) {
+              // SALVAR STRUCT
+              puts("\nConta cadastrada com sucesso!\n");
+  
+  
+              FILE *escreve = fopen("usuarios.txt", "a"); // SALVA O CADSATRO NO TXT
+  
+              fprintf(
+                  escreve, "*;%s;%s;%s;%s;%s;%s;%s;%s;\n",usuarios[NV].tipo, usuarios[NV].CPF, usuarios[NV].senha,
+                  usuarios[NV].nome, usuarios[NV].real,usuarios[NV].BTC,usuarios[NV].RIP,usuarios[NV].ETH); // ADICIONA O %X E ESCREVE O USUARIO[NV].XXXX
+  
+              fclose(escreve);
+  
+              contador_cadastros++;
+  
+  
+              verificar = 't';
+            } else if (confirmar[0] == 'n'  && strlen(confirmar) == 2 ||
+                       confirmar[0] == 'N' && strlen(confirmar) == 2) { // VOLTA AO INICIO DO PROGRAMA!
+              puts("\nConta cancelada com sucesso!\n");
+              verificar = 't';
+            } else {
+              puts("Opção inválida!\n");
+            }
           }
         }
       } // fim opcao criar conta
@@ -655,7 +682,7 @@ int main() {
             }
             else{
               verificar = 't';
-              puts("\nEste usuário não tem permissão para acessar o menu de administrador.\nVocê será redirecionado ao menu principal.\n");
+              puts("\nEste usuário não tem permissão para acessar o menu de administrador.\nVocê será redirecionado ao menu.\n");
               while (1){
                 puts("Digite ENTER para continuar...");
                 fgets(resposta, sizeof(resposta), stdin);
@@ -695,6 +722,7 @@ int main() {
                 usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH); 
             }
             fclose(escreve2);
+            
             puts("");
             puts("1. Cadastrar novo investidor");
             puts("2. Excluir investidor");
@@ -723,7 +751,7 @@ int main() {
               puts("");
             }
             if(opcao[0] == '1'){
-              puts("opcao 1");
+              cadastrar_investidor(usuarios, &contador_cadastros);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '2'){
@@ -764,6 +792,8 @@ int main() {
       }
       else if (resposta[0] == '3' && strlen(resposta) == 2){
         inicio = 1;
+        puts("");
+        puts("");
       }
       else {
         puts("Resposta inválida!\n");

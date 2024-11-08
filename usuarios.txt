@@ -2,5 +2,4 @@
 *;administrador;123.123.123-12;123123;dammesdfiomfs;138155.95;0.000058;2.535714;0.00;
 *;investidor;123.123.123-11;123111;awsfvewrvvav;0.00;0.00;0.00;0.00;
 *;administrador;123.123.133-12;123123;olaeusougay;0.00;0.00;0.00;0.00;
-*;administrador;333.123.123-12;123123;rmirgnrbrnibn;0.00;0.00;0.00;0.00;
-*;administrador;123.123.412-12;123123;ferifnerivnenveivnwe;0.00;0.00;0.00;0.00;
+
