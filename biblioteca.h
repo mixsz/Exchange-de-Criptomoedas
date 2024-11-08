@@ -27,7 +27,7 @@ void confirmacao(char *confirmar, char *nome, char *menu, char *sair); //funcao 
 
 void permissao (char *senharegistrada); // funcao para realizar a acao desejada apos a confirmacao de senha
 
-void consultar_extrato(char *registro, char *nome, char *cpf); // funcao para consultar o extrato)
+void consultar_extrato(char *registro, char *nome, char *cpf); 
 
 void depositar(char *real, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario, char *registro);
 
@@ -43,9 +43,9 @@ void atualizar_cotacao(char *cotacao_btc, char *cotacao_rip, char *cotacao_eth);
 
 void cadastrar_investidor(Cadastro *usuarios, int *contador_cadastros);
 
-void excluir_investidor(Cadastro *usuarios, int *contador_cadastros); // falta excluir do struct
+void excluir_investidor(Cadastro *usuarios, int *contador_cadastros); 
 
 void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros);
 
-void consultar_extrato_investidor(Cadastro *usuarios, int *contador_cadastros); // como passar registros como parametro
+void consultar_extrato_investidor(Cadastro *usuarios, int *contador_cadastros, char registros[10][15]); 
 #endif

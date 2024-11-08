@@ -848,7 +848,7 @@ void excluir_investidor(Cadastro *usuarios, int *contador_cadastros){
   } // fim while
   if (id != -1){
     if (usuarios[i].tipo[0] == 'i'){ // se for investidor exclui
-      printf("\nInvestidor %s\n", usuarios[id].nome);
+      printf("\nNome: %s\n", usuarios[id].nome);
       printf("CPF: %s\n", usuarios[id].CPF);
       printf("Senha: ***%c%c%c\n",usuarios[id].senha[3],usuarios[id].senha[4],usuarios[id].senha[5]);
       printf("Saldo: R$%.2lf\n", atof(usuarios[id].real));
@@ -866,17 +866,17 @@ void excluir_investidor(Cadastro *usuarios, int *contador_cadastros){
         puts("\nExclusão cancelada com êxito!");
       }
       else{
-        FILE *escreve = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO RETORNA AO MENU!
+        for (i = id; i < *contador_cadastros - 1; i++) {
+          usuarios[i] = usuarios[i + 1]; // desloca os elementos para a esquerda, duplicando cada perfil dps do id
+        }
+        (*contador_cadastros)--; // exclui o ultimo indice que seria uma duplicata
+        FILE *escreve = fopen("usuarios.txt", "w"); // atualiza na funcao caso o codigo seja fechado errado
         fprintf(escreve, "\n");
-        for(i = 0; i < *contador_cadastros; i++){
-          if (i != id){
-            fprintf(
-              escreve, "*;%s;%s;%s;%s;%s;%s;%s;%s;\n",usuarios[i].tipo, usuarios[i].CPF, usuarios[i].senha,
-              usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH);
-          }
+        for(i = 0; i < *contador_cadastros; i++){     
+          fprintf( escreve, "*;%s;%s;%s;%s;%s;%s;%s;%s;\n",usuarios[i].tipo, usuarios[i].CPF, usuarios[i].senha,
+          usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH);   
         }
         fclose(escreve);
-        // EXCLUIR DA STRUCT AQUI!
       }
     }
     else{
@@ -928,9 +928,9 @@ void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros){
   }
 }
 
-void consultar_extrato_investidor(Cadastro *usuarios, int *contador_cadastros){
+  void consultar_extrato_investidor(Cadastro *usuarios, int *contador_cadastros, char registros[10][15]){
+  char registro[50];
   char cpf_escolhido[20], confirmar[15];
-  char registro[15];
   int i, id = -1, tentativa = 0;
   while (1){
     if (tentativa == 0){
@@ -972,10 +972,10 @@ void consultar_extrato_investidor(Cadastro *usuarios, int *contador_cadastros){
       i++;
     }
     
-    if (usuarios[i].tipo[0] == 'i'){ // se for investidor
-      // strcpy(registro, registros[indice_usuario]);
-      // consultar_extrato(registro,nome_mostra,usuarios[id].CPF);
-      
+    if (usuarios[id].tipo[0] == 'i'){
+      strcpy(registro, registros[id]);
+      printf("\nConsultando extrato de %s...\n", nome_mostra);
+      consultar_extrato(registro, nome_mostra, usuarios[id].CPF);
     }
     else{
       puts("Este perfil nao pode ser consultado!");
