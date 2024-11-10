@@ -2,6 +2,7 @@
 
 
 int main() {
+  
   char resposta1[30];
   char cotacao_btc[30];
   char cotacao_rip[30];
@@ -10,6 +11,7 @@ int main() {
   char sair = 'f', bemvindo = 't', oi = 't';
   char resposta[10], confirmar[10], cpflogin[16], senhalogin[15], opcao[10], nome_mostra[51];
   Cadastro usuarios[10];
+  Cripto criptomoedas[10];
   int tamanho, i, j;
   char verificar = 'n', login = 'f', menu = 't';
   int contador = 0;
@@ -24,6 +26,7 @@ int main() {
   char registros[10][15] ={"registro0.txt","registro1.txt","registro2.txt","registro3.txt","registro4.txt","registro5.txt","registro6.txt","registro7.txt","registro8.txt","registro9.txt"};
   char registro[15];
 
+  
   FILE *arquivo_moedas = fopen("cotacao.txt", "r");
   char linha1[2550];
   PT = 0;
@@ -761,7 +764,7 @@ int main() {
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '3'){
-              puts("rafael");
+              cadastrar_criptomoeda(criptomoedas);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '4'){

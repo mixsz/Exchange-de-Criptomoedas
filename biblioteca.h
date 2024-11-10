@@ -10,6 +10,16 @@
 #include <string.h>
 #include <ctype.h>
 
+
+
+typedef struct cripto {
+  char nome[20];
+  char cotacao[20];
+  char taxa_compra[20];
+  char taxa_venda[20];
+} Cripto;
+
+
 typedef struct cadastro {
   char tipo[20]; // tipo da conta
   char nome[51];
@@ -20,6 +30,8 @@ typedef struct cadastro {
   char RIP[30];
   char ETH[30];
 } Cadastro;
+
+
 
    /*                                       Prototipo das funcoes                                              */
 
@@ -50,4 +62,9 @@ void excluir_investidor(Cadastro *usuarios, int *contador_cadastros);
 void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros);
 
 void consultar_extrato_investidor(Cadastro *usuarios, int *contador_cadastros, char registros[10][15]); 
+
+void cadastrar_criptomoeda(Cripto *criptomoedas);
+
+int numero(char input[]); // verifica se eh numero
+
 #endif

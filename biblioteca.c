@@ -813,7 +813,7 @@ void cadastrar_investidor(Cadastro *usuarios, int *contador_cadastro){
 
         fprintf(
             escreve, "*;%s;%s;%s;%s;%s;%s;%s;%s;\n",usuarios[*contador_cadastro].tipo, usuarios[*contador_cadastro].CPF, usuarios[*contador_cadastro].senha,
-            usuarios[*contador_cadastro].nome, usuarios[*contador_cadastro].real,usuarios[*contador_cadastro].BTC,usuarios[*contador_cadastro].RIP,usuarios[*contador_cadastro].ETH); // ADICIONA O %X E ESCREVE O USUARIO[NV].XXXX
+            usuarios[*contador_cadastro].nome, usuarios[*contador_cadastro].real,usuarios[*contador_cadastro].BTC,usuarios[*contador_cadastro].RIP,usuarios[*contador_cadastro].ETH);
         
         fclose(escreve);
         *contador_cadastro += 1;
@@ -988,4 +988,83 @@ void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros){
   } // fim id != -1
 }
 
+void cadastrar_criptomoeda(Cripto *criptomoedas){
+  char confirmar[10];   // no lugar do indice [0] sera o proximo indice disponivel
+  while (1){
+    strcpy(confirmar, "teste");
+    printf("Digite o nome da criptomoeda: ");
+    fgets(criptomoedas[0].nome, sizeof(criptomoedas[0].nome), stdin);
+    puts("\nDigite 1 para confirmar o nome da criptomoeda.");
+    puts("Digite 2 para editar o nome da criptomoeda.");
+    while (strcmp(confirmar, "1") != 0 && strcmp(confirmar, "2") != 0){
+      fgets(confirmar,sizeof(confirmar),stdin);
+      confirmar[strcspn(confirmar, "\n")] = '\0';
+    }
+    if (strcmp(confirmar, "1") == 0){
+      break;
+    }
+    else{
+      puts("");
+    }
+  }
+  puts("");
+  while (1){
+    printf("Digite a cotação da criptomoeda: ");
+    fgets(criptomoedas[0].cotacao, sizeof(criptomoedas[0].cotacao),stdin);
+    criptomoedas[0].cotacao[strcspn(criptomoedas[0].cotacao, "\n")] = '\0';
+    if (numero(criptomoedas[0].cotacao) == 1){
+      break;
+    }
+  }
+  puts("");
+  while (1){
+    printf("Digite a taxa de compra da criptomoeda: ");
+    fgets(criptomoedas[0].taxa_compra, sizeof(criptomoedas[0].taxa_compra),stdin);
+    criptomoedas[0].taxa_compra[strcspn(criptomoedas[0].taxa_compra, "\n")] = '\0';
+    if (numero(criptomoedas[0].taxa_compra) == 1){
+      break;
+    }
+  }
+  puts("");
+  while (1){
+    printf("Digite a taxa de venda da criptomoeda: ");
+    fgets(criptomoedas[0].taxa_venda, sizeof(criptomoedas[0].taxa_venda),stdin);  
+    criptomoedas[0].taxa_venda[strcspn(criptomoedas[0].taxa_venda, "\n")] = '\0';
+    if (numero(criptomoedas[0].taxa_venda) == 1){
+      break;
+    }
+  }
+}
+
+
+int numero(char input[]){
+  int i;
+  char letra = 'f', numero = 'f';
+  for (i = 0; i < strlen(input);i++){
+    if ( !isdigit(input[i])){ // verificacao de caracter (caso tenha letras) e numero negativo
+      if (input[i] != '.' && input[i] != ','|| numero == 'f'){
+        letra = 't';
+      }
+      else if (input[i] == ','){
+        input[i] = '.'; // muda a virgula para um ponto
+      }
+    }
+    else{
+      numero = 't'; // caso o usuario digite apenas '.' o programa entendera que esta errado!
+    }
+  }
+  if (letra != 'f'){
+    puts("Valor inválido!\n");
+    return 0;
+  }
+  else{
+    if (atof(input) > 0){ // se o valor for = 0 nao funcionara!
+      return 1;
+    }
+    else{
+      puts("Valor inválido!\n");
+      return 0;
+    }
+  }
+}
 
