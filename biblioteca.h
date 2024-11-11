@@ -14,6 +14,7 @@
 
 typedef struct cripto {
   char nome[20];
+  char ticker[10];
   char cotacao[20];
   char taxa_compra[20];
   char taxa_venda[20];
@@ -29,6 +30,8 @@ typedef struct cadastro {
   char BTC[30];
   char RIP[30];
   char ETH[30];
+  // Cripto criptomoedas[10]; 
+  // int total_criptomoedas;
 } Cadastro;
 
 
@@ -63,8 +66,9 @@ void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros);
 
 void consultar_extrato_investidor(Cadastro *usuarios, int *contador_cadastros, char registros[10][15]); 
 
-void cadastrar_criptomoeda(Cripto *criptomoedas);
+void cadastrar_criptomoeda(Cripto *criptomoedas, int *total);
 
 int numero(char input[]); // verifica se eh numero
 
+void excluir_criptomoeda(Cripto *criptomoedas, int *total);
 #endif

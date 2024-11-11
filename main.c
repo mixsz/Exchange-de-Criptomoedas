@@ -52,6 +52,68 @@ int main() {
   }
   fclose(arquivo_moedas);
 
+  int total_criptomoedas = 0; 
+
+  FILE *arq = fopen("criptomoeda.txt", "r");
+  if (arq == NULL) {
+      printf("Erro ao abrir o arquivo de criptomoedas!\n");
+      return 1;
+  }
+
+  char linha3[200];  
+
+  while (fgets(linha3, sizeof(linha3), arq)) {
+      linha3[strcspn(linha3, "\n")] = '\0';
+    
+      if (linha3[0] == '*') {
+          char *token = strtok(linha3 + 1, ";");
+
+          int indice = total_criptomoedas;
+
+          if (token != NULL) {
+              strcpy(criptomoedas[indice].nome, token);
+              token = strtok(NULL, ";");
+          }
+          if (token != NULL) {
+              strcpy(criptomoedas[indice].ticker, token);
+              token = strtok(NULL, ";");
+          }
+          if (token != NULL) {
+              strcpy(criptomoedas[indice].cotacao, token);
+              token = strtok(NULL, ";");
+          }
+          if (token != NULL) {
+              strcpy(criptomoedas[indice].taxa_compra, token);
+              token = strtok(NULL, ";");
+          }
+          if (token != NULL) {
+              strcpy(criptomoedas[indice].taxa_venda, token);
+          }
+
+          // Incrementa o total de criptomoedas lidas
+          total_criptomoedas++;
+
+          // Limita o número de criptomoedas a 10
+          if (total_criptomoedas >= 10) {
+              break;
+          }
+      }
+  }
+
+  fclose(arq);  // Fecha o arquivo
+
+  printf("%d numero total\n",total_criptomoedas);
+
+
+  // printf("Lista de Criptomoedas:\n");
+  // for (int i = 0; i < total_criptomoedas; i++) {
+  //     printf("\nCriptomoeda %d:\n", i + 1);
+  //     printf("Nome: %s\n", criptomoedas[i].nome);
+  //     printf("Cotação: %s\n", criptomoedas[i].cotacao);
+  //     printf("Taxa de Compra: %s\n", criptomoedas[i].taxa_compra);
+  //     printf("Taxa de Venda: %s\n", criptomoedas[i].taxa_venda);
+  // }
+
 
   FILE *ler = fopen("usuarios.txt", "r"); // LER ARQUIVO TXT
   char linha[2550]; // VARIAVEL QUE ARMAZENA TEMPORARIAMENTE OS CADASTROS DO TXT
@@ -715,10 +777,12 @@ int main() {
           }
           nome_mostra[i] = '\0';
           while (menu == 't') {
+            
             FILE *nova_cotacao = fopen("cotacao.txt", "w");
             fprintf(nova_cotacao, "\n");
             fprintf(nova_cotacao, "%s;\n%s;\n%s;", cotacao_btc, cotacao_rip, cotacao_eth);
             fclose(nova_cotacao);
+            
             FILE *escreve2 = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO RETORNA AO MENU!
             fprintf(escreve2, "\n");
             for(i = 0; i < contador_cadastros; i++){
@@ -728,6 +792,11 @@ int main() {
             }
             fclose(escreve2);
             
+            FILE *escreve3 = fopen("criptomoedas.txt", "w");
+            for(i = 0; i < total_criptomoedas; i++){
+              fprintf(escreve3, "*;%s;%s;%s;%s;\n", criptomoedas[i].nome, criptomoedas[i].ticker, criptomoedas[i].cotacao, criptomoedas[i].taxa_compra, criptomoedas[i].taxa_venda);
+            }
+            fclose(escreve3);
             puts("");
             puts("1. Cadastrar novo investidor");
             puts("2. Excluir investidor");
@@ -764,11 +833,11 @@ int main() {
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '3'){
-              cadastrar_criptomoeda(criptomoedas);
+              cadastrar_criptomoeda(criptomoedas,&total_criptomoedas);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '4'){
-              puts("testa");
+              excluir_criptomoeda(criptomoedas, &total_criptomoedas);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '5'){
