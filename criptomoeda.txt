@@ -1,6 +1,4 @@
-*;as;2;101;101;
-*;aaaaaaaaaaa;3;6;6;
-*;cria igual ser huma;cria;35.12;39.53;
-*;TESTRW2;aAS;2;2.4;
-*;a;aaadref;3;4;
-*;ok;OK;12;12.5;
+*;Teste;TES;1.2;0.2;1;
+*;Urso;GAY;3.13;0.69;0.24;
+*;Hetero;HET;33;44;55;
+*;Excluir;EXC;1;2;3;

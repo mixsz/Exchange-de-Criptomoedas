@@ -1001,13 +1001,23 @@ void cadastrar_criptomoeda(Cripto *criptomoedas, int *total){
       printf("Digite o nome da criptomoeda: ");
       fgets(criptomoedas[*total].nome, sizeof(criptomoedas[*total].nome), stdin);
       criptomoedas[*total].nome[strcspn(criptomoedas[*total].nome, "\n")] = '\0';
+      
+      for (int i = 0; i < strlen( criptomoedas[*total].nome); i++) { // deixa o input em maiusculo normalizado
+        if (i ==0){
+          criptomoedas[*total].nome[i] = toupper( criptomoedas[*total].nome[i]);
+        }
+        else{
+          criptomoedas[*total].nome[i] = tolower( criptomoedas[*total].nome[i]);
+
+        }
+      }
       for (int i=0;i < *total; i++){ // verifica se a cripto ja existe
         if (strcmp(criptomoedas[*total].nome,criptomoedas[i].nome) == 0){
           existe = 1;
           break;
         }
       }
-      if(existe == 1){
+      if(existe == 1 || strcmp(criptomoedas[*total].nome, "Bitcoin") == 0 || strcmp(criptomoedas[*total].nome, "Ethereum") == 0 || strcmp(criptomoedas[*total].nome, "Ripple") == 0  ){
         puts("Essa criptomoeda já está no sistema!\n");
       }
       else{
@@ -1032,13 +1042,16 @@ void cadastrar_criptomoeda(Cripto *criptomoedas, int *total){
       printf("Digite o ticker da criptomoeda (ex: BTC): ");
       fgets(criptomoedas[*total].ticker, sizeof(criptomoedas[*total].ticker), stdin);
       criptomoedas[*total].ticker[strcspn(criptomoedas[*total].ticker, "\n" )] = '\0';
+      for (int i = 0; i < strlen( criptomoedas[*total].ticker); i++) { // deixa o input em maiusculo
+        criptomoedas[*total].ticker[i] = toupper(criptomoedas[*total].ticker[i]);
+      }
       for (int i = 0; i < *total; i++){
         if (strcmp(criptomoedas[*total].ticker, criptomoedas[i].ticker) == 0){
           existe = 1;
           break;
         }
       }
-      if (existe == 1){
+      if (existe == 1 || strcmp(criptomoedas[*total].ticker, "BTC") == 0 || strcmp(criptomoedas[*total].ticker, "ETH") == 0 || strcmp(criptomoedas[*total].ticker, "XRP") == 0  ){
         puts("Este ticker já está em uso!\n");
       }
       else{
@@ -1094,7 +1107,7 @@ void cadastrar_criptomoeda(Cripto *criptomoedas, int *total){
               printf("Erro ao abrir o arquivo para salvar a criptomoeda!\n");
           }
         fprintf(
-        arq, "*;%s;%s;%s;%s;%s;\n",criptomoedas[*total].nome, criptomoedas[*total].ticker, criptomoedas[*total].cotacao,criptomoedas[*total].taxa_compra,criptomoedas[0].taxa_venda);
+        arq, "*;%s;%s;%s;%s;%s;\n",criptomoedas[*total].nome, criptomoedas[*total].ticker, criptomoedas[*total].cotacao,criptomoedas[*total].taxa_compra,criptomoedas[*total].taxa_venda);
         fclose(arq);
         puts("\nCriptomoeda cadastrada com sucesso!");
         (*total)++;
@@ -1124,20 +1137,35 @@ void excluir_criptomoeda(Cripto *criptomoedas, int *total){
     }
     fgets(crip, sizeof(crip), stdin);
     crip[strcspn(crip, "\n")] = '\0';
-    if (strcmp(crip, "CANCELAR") == 0){
+    if (strcmp(crip, "CANCELAR") == 0 || strcmp(crip, "cancelar") == 0){
       break;
     }
     else{
+      for (int i = 0; i < strlen(crip); i++) { // normaliza o input - primeira letra maiuscula e o resto minuscula
+          if (i == 0) {
+              crip[i] = toupper(crip[i]);
+          } else {
+              crip[i] = tolower(crip[i]);
+          }
+      }
+    
+    
+    
       for (int i = 0; i < *total; i++){
         if (strcmp(criptomoedas[i].nome, crip) == 0){
           id = i;
           break;
         }
       }
-      if (id == -1){
+      if(strcmp(crip, "Bitcoin") == 0 || strcmp(crip, "Ripple") == 0 || strcmp(crip, "Ethereum") == 0 ){
+        puts("Essa criptomoeda não pode ser excluída!\n");
+        tentativa++;
+      }
+      else if (id == -1){
         puts("Criptomoeda não encontrada!\n");
         tentativa++;
       }
+     
       else{
         break;
       }
@@ -1167,7 +1195,7 @@ void excluir_criptomoeda(Cripto *criptomoedas, int *total){
       (*total)--; // exclui o ultimo indice que seria uma duplicata
       FILE *escreve = fopen("criptomoeda.txt", "w"); // atualiza na funcao caso o codigo seja fechado errado
       for(int i = 0; i < *total; i++){
-        fprintf(escreve, "*;%s;%s;%s;%s;\n", criptomoedas[i].nome, criptomoedas[i].ticker, criptomoedas[i].cotacao, criptomoedas[i].taxa_compra, criptomoedas[i].taxa_venda);
+        fprintf(escreve, "*;%s;%s;%s;%s;%s;\n", criptomoedas[i].nome, criptomoedas[i].ticker, criptomoedas[i].cotacao, criptomoedas[i].taxa_compra, criptomoedas[i].taxa_venda);
       }
     fclose(escreve);
     printf("\nCriptomoeda excluída com sucesso!\n");

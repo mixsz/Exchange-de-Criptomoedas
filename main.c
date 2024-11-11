@@ -794,7 +794,7 @@ int main() {
             
             FILE *escreve3 = fopen("criptomoeda.txt", "w");
             for(i = 0; i < total_criptomoedas; i++){
-              fprintf(escreve3, "*;%s;%s;%s;%s;\n", criptomoedas[i].nome, criptomoedas[i].ticker, criptomoedas[i].cotacao, criptomoedas[i].taxa_compra, criptomoedas[i].taxa_venda);
+              fprintf(escreve3, "*;%s;%s;%s;%s;%s;\n", criptomoedas[i].nome, criptomoedas[i].ticker, criptomoedas[i].cotacao, criptomoedas[i].taxa_compra, criptomoedas[i].taxa_venda);
             }
             fclose(escreve3);
             puts("");
