@@ -1,4 +1,4 @@
-*;Teste;TES;1.2;0.2;1;
+*;Teste;TES;1.2;0.2;0.1;
 *;Urso;GAY;3.13;0.69;0.24;
-*;Hetero;HET;33;44;55;
-*;Excluir;EXC;1;2;3;
+*;Hetero;HET;33;0.1;0.2;
+*;Excluir;EXC;50.23;0.2;0.3;

@@ -18,6 +18,7 @@ typedef struct cripto {
   char cotacao[20];
   char taxa_compra[20];
   char taxa_venda[20];
+  char saldo[20];
 } Cripto;
 
 
@@ -30,8 +31,7 @@ typedef struct cadastro {
   char BTC[30];
   char RIP[30];
   char ETH[30];
-  // Cripto criptomoedas[10]; 
-  // int total_criptomoedas;
+  Cripto criptomoedas[10];
 } Cadastro;
 
 
@@ -52,7 +52,7 @@ void sacar (char *real, char *registro, char *bitcoin_usuario, char *ripple_usua
 
 void consultar_saldo(char *real,char *bitcoin,char *ripple,char *ethereum, char *nome, char *cpf);
 
-void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario, char *registro, char *cotacao_btc2, char *cotacao_rip2, char *cotacao_eth2);
+void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario, char *registro, char *cotacao_btc2, char *cotacao_rip2, char *cotacao_eth2, Cripto *criptomoedas, int total, Cadastro *usuario, int NV);
 
 void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario, char *registro, char *cotacao_btc1, char *cotacao_rip1, char *cotacao_eth1);
 

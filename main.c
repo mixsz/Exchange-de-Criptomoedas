@@ -524,7 +524,7 @@ int main() {
             } else if (opcao[0] == '5') {
   
               permissao(usuarios[indice_usuario].senha);
-              comprar_criptomoeda(usuarios[indice_usuario].real,usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP, usuarios[indice_usuario].ETH, registro, cotacao_btc, cotacao_rip, cotacao_eth);      
+              comprar_criptomoeda(usuarios[indice_usuario].real,usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP, usuarios[indice_usuario].ETH, registro, cotacao_btc, cotacao_rip, cotacao_eth, criptomoedas, total_criptomoedas, usuarios, indice_usuario);  
               confirmacao(confirmar, nome_mostra, &menu, &sair);
   
             } else if (opcao[0] == '6') {
@@ -560,6 +560,7 @@ int main() {
       } 
       else if (resposta[0] == '3' && strlen(resposta) == 2){
         inicio = 1;
+        mostrar = 1;
         puts("");
         puts("");
       }
@@ -867,6 +868,7 @@ int main() {
       }
       else if (resposta[0] == '3' && strlen(resposta) == 2){
         inicio = 1;
+        mostrar = 1;
         puts("");
         puts("");
       }

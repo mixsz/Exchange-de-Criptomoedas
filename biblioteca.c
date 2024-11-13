@@ -210,9 +210,8 @@ void consultar_saldo(char *real,char *bitcoin,char *ripple,char *ethereum,char *
   }
 }
 
-void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario,char *registro, char *cotacao_btc2, char *cotacao_rip2, char *cotacao_eth2){
-  int i = 0; 
-
+void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario,char *registro, char *cotacao_btc2, char *cotacao_rip2, char *cotacao_eth2, Cripto *criptomoedas, int total, Cadastro *usuario, int NV){
+  int i = 0, id; 
   time_t antes = 0;
   time( &antes);
    antes -= 10800;// converter para horario de brasilia subtraindo 3 horas em segundos
@@ -230,26 +229,42 @@ void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple
   char valor[18];
   double double_valor, double_bitcoin, double_ripple, double_ethereum; // converter string p double
   double valor_atual, bitcoin_atual, ripple_atual, ethereum_atual; // converter o saldo atual de string p double
-
+  int mostra = 1;
   double taxa;
 
   while (ok != 't'){
-    printf("\n1. Bitcoin   - Cotação: %s\n", cotacao_btc2); //COTACAO MUDA AO ATUALIZAR COTACAO - TRANSFORMAR EM VARIAVEL CT
-    printf("2. Ripple    - Cotação: %s\n", cotacao_rip2);
-    printf("3. Ethereum  - Cotação: %s\n", cotacao_eth2);
-    puts("4. Cancelar compra\n");
+    if (mostra == 1){
+      printf("\n1. Bitcoin   - Cotação: %s\n", cotacao_btc2); //COTACAO MUDA AO ATUALIZAR COTACAO - TRANSFORMAR EM VARIAVEL CT
+      printf("2. Ripple    - Cotação: %s\n", cotacao_rip2);
+      printf("3. Ethereum  - Cotação: %s\n", cotacao_eth2);
+      for (i = 0; i < total; i++){
+        printf("%d. %s     - Cotação: %s\n", i+4, criptomoedas[i].nome,criptomoedas[i].cotacao);
+      }    
+      puts("0. Cancelar compra\n");
+    }
     printf("Digite a criptomoeda desejada: ");
     fgets(escolha, sizeof(escolha), stdin);
-
-    if (strlen(escolha) > 2 || escolha[0] != '1' && escolha[0] != '2' && escolha[0] != '3' && escolha[0] != '4'){
-      puts("Opção inválida!");
+    if (strlen(escolha) == 2 && escolha[0] == '1' || escolha[0] == '2' || escolha[0] == '3' || escolha[0] == '0'){
+      ok = 't';
     }
     else{
-      ok = 't';
+      if (!isdigit(escolha[0]) && strlen(escolha) != 2){
+        puts("Opção inválida!\n");
+        mostra = 0;
+      }
+      else{
+        if (atoi(escolha) > 3 && atoi(escolha) <= total + 3) {
+            ok = 't';
+        }
+        else{
+          puts("Opção inválida!\n");
+          mostra = 0;
+        }
+      }
     }              
   }
   ok = 'f';
-  if (escolha[0] == '4'){
+  if (escolha[0] == '0'){
     puts("Compra cancelada com sucesso!");
     ok = 't';
   }
@@ -415,6 +430,77 @@ void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple
       }
     }          
   }
+  else{
+    id = atoi(escolha) - 4;
+    while (ok == 'f'){
+      char numero = 'f', letra = 'f'; // variaveis de verificacao
+      printf("\nDigite o valor que deseja investir em %s: R$", criptomoedas[id].nome);
+      letra = 'f';
+      fgets(valor, sizeof(valor), stdin);
+      valor[strcspn(valor, "\n")] = '\0';
+      for (i = 0; i < strlen(valor);i++){
+        if ( !isdigit(valor[i])){ // verificacao de caracter (caso tenha letras) e numero negativo
+          if (valor[i] != '.' && valor[i] != ','|| numero == 'f'){
+            letra = 't';
+          }
+          else if (valor[i] == ','){
+            valor[i] = '.'; // muda a virgula para um ponto
+          }
+        }
+        else{
+          numero = 't'; // caso o usuario digite apenas '.' o programa entendera que esta errado!
+        }
+      }
+      if (letra != 'f'){
+        puts("Valor inválido!");
+      }
+      else{
+        double_valor = atof(valor);
+        if(double_valor > 0){
+          if (double_valor > atof(real_usuario)){
+            puts("Saldo insuficiente!");
+            ok = 't';
+          }
+          else{ // COMPRA DE NOVA CRIPTOMOEDA
+            double double_preco = 0;
+            double taxa_float = atof(criptomoedas[id].taxa_compra);
+            double saldo_criptomoeda = 0;
+            double_preco = double_valor / atof(criptomoedas[id].cotacao); // valor em cripto comprado
+            if (taxa_float < 1){
+              double_preco = double_preco * (1 - taxa_float); // taxa de comissao
+            }
+            else{
+              double_preco = double_preco * (1 - (taxa_float / 100));
+            }
+              
+            saldo_criptomoeda = atof(usuario[NV].criptomoedas[id].saldo) + double_preco;  // valor TOTAL
+            
+            valor_atual = atof(real_usuario) - double_valor; // valor TOTAL em real
+            sprintf((real_usuario), "%.2lf", valor_atual); // double para string
+            sprintf(usuario[NV].criptomoedas[id].saldo, "%.6lf", saldo_criptomoeda);
+            FILE *escreve7 = fopen(registro, "a"); 
+            fprintf(escreve7, "\n");
+            puts("1");
+            fprintf(escreve7, "%s_+_%.6lf_%s__CT:_%s__TX:_%s\n", horario, double_preco, criptomoedas[id].ticker, criptomoedas[id].cotacao, criptomoedas[id].taxa_compra);
+            puts("2");
+            fprintf(escreve7, "%s_REAL:_%.2lf__BTC:_%.6lf__XRP:_%s__ETH:_%s",horario, valor_atual, bitcoin_atual, ripple_usuario,ethereum_usuario);
+            puts("3");
+            for (i=0;i < total; i++){
+              fprintf(escreve7, "__%s:_%s", criptomoedas[i].ticker, usuario[NV].criptomoedas[i].saldo); 
+            }
+            puts("4");
+            fprintf(escreve7, "\n");
+            fclose(escreve7);
+            puts("Compra realizada com sucesso!");
+            ok = 't';
+          }
+        }
+        else{
+          puts("Valor inválido!\n");
+        }
+      }
+    } 
+  }
 }
 
 void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario,char *registro, char *cotacao_btc1, char *cotacao_rip1, char *cotacao_eth1){
@@ -444,6 +530,7 @@ void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_
     printf("\n1. Bitcoin   - Cotação: %s\n",cotacao_btc1); //COTACAO MUDA AO ATUALIZAR COTACAO - TRANSFORMAR EM VARIAVEL CT
     printf("2. Ripple    - Cotação: %s\n",cotacao_rip1);
     printf("3. Ethereum  - Cotação: %s\n",cotacao_eth1);
+    
     puts("4. Cancelar venda\n");
     printf("Digite a criptomoeda desejada: ");
     fgets(escolha, sizeof(escolha), stdin);
@@ -1080,7 +1167,7 @@ void cadastrar_criptomoeda(Cripto *criptomoedas, int *total){
     }
     puts("");
     while (1){
-      printf("Digite a taxa de compra da criptomoeda: ");
+      printf("Digite a taxa de compra da criptomoeda em decimal: ");
       fgets(criptomoedas[*total].taxa_compra, sizeof(criptomoedas[*total].taxa_compra),stdin);
       criptomoedas[*total].taxa_compra[strcspn(criptomoedas[*total].taxa_compra, "\n")] = '\0';
       if (numero(criptomoedas[*total].taxa_compra) == 1){
@@ -1089,7 +1176,7 @@ void cadastrar_criptomoeda(Cripto *criptomoedas, int *total){
     }
     puts("");
     while (1){
-      printf("Digite a taxa de venda da criptomoeda: ");
+      printf("Digite a taxa de venda da criptomoeda em decimal: ");
       fgets(criptomoedas[*total].taxa_venda, sizeof(criptomoedas[*total].taxa_venda),stdin);  
       criptomoedas[*total].taxa_venda[strcspn(criptomoedas[*total].taxa_venda, "\n")] = '\0';
       if (numero(criptomoedas[*total].taxa_venda) == 1){
