@@ -50,25 +50,46 @@ void depositar(char *real, char *bitcoin_usuario, char *ripple_usuario, char *et
 
 void sacar (char *real, char *registro, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario);
 
-void consultar_saldo(char *real,char *bitcoin,char *ripple,char *ethereum, char *nome, char *cpf);
+void consultar_saldo(char *real,char *bitcoin,char *ripple,char *ethereum, char *nome, char *cpf,Cripto *criptomoedas, int total, Cadastro *usuario, int NV);
 
 void comprar_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario, char *registro, char *cotacao_btc2, char *cotacao_rip2, char *cotacao_eth2, Cripto *criptomoedas, int total, Cadastro *usuario, int NV);
 
-void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario, char *registro, char *cotacao_btc1, char *cotacao_rip1, char *cotacao_eth1);
+void vender_criptomoeda(char *real_usuario, char *bitcoin_usuario, char *ripple_usuario, char *ethereum_usuario, char *registro, char *cotacao_btc1, char *cotacao_rip1, char *cotacao_eth1, Cripto *criptomoedas, int total, Cadastro *usuario, int NV);
 
-void atualizar_cotacao(char *cotacao_btc, char *cotacao_rip, char *cotacao_eth);
+void atualizar_cotacao(char *cotacao_btc, char *cotacao_rip, char *cotacao_eth, Cripto *criptomoedas, int total);
 
-void cadastrar_investidor(Cadastro *usuarios, int *contador_cadastros);
+void cadastrar_investidor(Cadastro *usuarios, int *contador_cadastros, Cripto *criptomoedas, int total);
 
-void excluir_investidor(Cadastro *usuarios, int *contador_cadastros); 
+void excluir_investidor(Cadastro *usuarios, int *contador_cadastros, Cripto *criptomoedas, int total_criptomoedas); 
 
-void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros);
+void consultar_saldo_investidor(Cadastro *usuarios, int *contador_cadastros,Cripto *criptomoedas, int total);
 
 void consultar_extrato_investidor(Cadastro *usuarios, int *contador_cadastros, char registros[10][15]); 
 
-void cadastrar_criptomoeda(Cripto *criptomoedas, int *total);
+void cadastrar_criptomoeda(Cripto *criptomoedas, int *total, Cadastro *usuarios, int *contador_cadastros);
 
 int numero(char input[]); // verifica se eh numero
 
-void excluir_criptomoeda(Cripto *criptomoedas, int *total);
+void excluir_criptomoeda(Cripto *criptomoedas, int *total,  Cadastro *usuarios, int *total_usuarios);
 #endif
+
+
+// PRECISO MUDAR AS FUNCOES: 
+
+// COMPRAR CRIPTO (MUDEI)
+
+// VENDER CRIPTOMOEDA (MUDEI)
+
+// CONSULTAR SALDO (MUDEI)
+
+// ATUALIZAR COTACAO  (MUDEI)
+
+// CRIAR CRIPTOMOEDA (MUDEI)
+
+// EXCLUIR CRIPTOMOEDA(MUDEI)
+
+// CONSULTAR SALDO DE UM INVESTIDOR (MUDEI)
+
+// CADASTRAR NOVO INVESTIDOR
+
+// EXCLUIR INVESTIDOR (?)

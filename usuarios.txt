@@ -1,7 +1,5 @@
 
-*;administrador;123.123.123-12;123123;dammesdfiomfs;138155.95;0.000058;2.535714;0.00;
-*;administrador;123.123.133-12;123123;olaeusougay;0.00;0.00;0.00;0.00;
-*;administrador;333.123.123-12;123123;rmirgnrbrnibn;0.00;0.00;0.00;0.00;
-*;administrador;123.123.412-12;123123;ferifnerivnenveivnwe;0.00;0.00;0.00;0.00;
-*;investidor;123.123.123-11;123111;awsfvewrvvav;277059.27;0.00;31.490683;0.00;
-*;administrador;123.123.123-00;123456;ronaldo_fenomeno;0.00;0.00;0.00;0.00;
+*;investidor;123.123.323-34;123123;Testando_da_silva;0.00;0.00;0.00;0.00;10.00;0.00;0.00;
+*;administrador;123.143.123-10;123123;Bolsonaro_Lula;0.00;0.00;0.00;0.00;0.00;0.00;0.00;
+*;administrador;123.123.123-55;123123;Anita_Nascimento;0.00;0.00;0.00;0.00;0.00;0.00;0.00;
+*;investidor;123.123.153-45;123456;Osvaldo_Junior;9899.00;0.00;0.00;0.00;0.00;0.00;97.826087;

@@ -1,4 +1,3 @@
-*;Teste;TES;1.2;0.2;0.1;
-*;Urso;GAY;3.13;0.69;0.24;
-*;Hetero;HET;33;0.1;0.2;
-*;Excluir;EXC;50.23;0.2;0.3;
+*;Urso;URS;35.63;0.2;0.05;
+*;Moedinha;MOE;1047.12;0.5;0.3;
+*;Palmares;PAL;1.84;0.1;0.05;

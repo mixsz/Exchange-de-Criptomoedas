@@ -102,100 +102,136 @@ int main() {
 
   fclose(arq);  // Fecha o arquivo
 
-  printf("%d numero total\n",total_criptomoedas);
+  // printf("%d numero total\n",total_criptomoedas);
 
 
-  // printf("Lista de Criptomoedas:\n");
-  // for (int i = 0; i < total_criptomoedas; i++) {
-  //     printf("\nCriptomoeda %d:\n", i + 1);
-  //     printf("Nome: %s\n", criptomoedas[i].nome);
-  //     printf("Cotação: %s\n", criptomoedas[i].cotacao);
-  //     printf("Taxa de Compra: %s\n", criptomoedas[i].taxa_compra);
-  //     printf("Taxa de Venda: %s\n", criptomoedas[i].taxa_venda);
-  // }
 
+  FILE *ler = fopen("usuarios.txt", "r"); // Lê o arquivo de usuários
+  if (ler == NULL) {
+      printf("Erro ao abrir o arquivo usuarios.txt\n");
+      return 1;
+  }
 
-  FILE *ler = fopen("usuarios.txt", "r"); // LER ARQUIVO TXT
-  char linha[2550]; // VARIAVEL QUE ARMAZENA TEMPORARIAMENTE OS CADASTROS DO TXT
-  while (fgets(linha, 2550, ler) != NULL) { // LOOP QUE LE SEPARADAMENTE OS CADASRTOS SEPARADOS POR \n
-    contador_tipo = 0;
-    contador_CPF = 0;
-    contador_nome = 0;
-    contador_senha = 0;
-    contador_real = 0;
-    contador_btc = 0;
-    contador_ripple = 0;
-    contador_eth = 0;
-    PT = 0; // CONTADOR DE PONTO E VÍRGULA
-    fscanf(ler, "%s", linha);
-    for (i = 0; i < strlen(linha); i++) {
-      if (linha[i] == '*') {
-        contador_cadastros++;
+  contador_cadastros = 0; // Contador de cadastros lidos
+  char linha[2550]; // Variável que armazena temporariamente os cadastros do TXT
+
+  while (fgets(linha, sizeof(linha), ler) != NULL) { // Loop que lê separadamente os cadastros separados por \n
+      contador_tipo = 0;
+      contador_CPF = 0;
+      contador_nome = 0;
+      contador_senha = 0;
+      contador_real = 0;
+      contador_btc = 0;
+      contador_ripple = 0;
+      contador_eth = 0;
+      PT = 0; // Contador de ponto e vírgula
+
+      // Limpa os dados do usuário
+      for (int i = 0; i < 10; i++) {
+          usuarios[contador_cadastros].criptomoedas[i].nome[0] = '\0';
+          usuarios[contador_cadastros].criptomoedas[i].ticker[0] = '\0';
+          usuarios[contador_cadastros].criptomoedas[i].cotacao[0] = '\0';
+          usuarios[contador_cadastros].criptomoedas[i].taxa_compra[0] = '\0';
+          usuarios[contador_cadastros].criptomoedas[i].taxa_venda[0] = '\0';
+          usuarios[contador_cadastros].criptomoedas[i].saldo[0] = '\0';
       }
-    }
 
-    for (i = 0; i < strlen(linha); i++) {
-      if (linha[i] == ';') {
-        PT++;
-      } else if (linha[i] == '*') {
-        continue;
-      } else {
-        switch (PT) {
-        case 1:
-          usuarios[contador_cadastros - 1].tipo[contador_tipo] = linha[i];
-          usuarios[contador_cadastros - 1].tipo[contador_tipo + 1] = '\0';
-          contador_tipo++;
-        break;
-        case 2:
-          usuarios[contador_cadastros - 1].CPF[contador_CPF] = linha[i]; // COLOCA O CPF NO VETOR
-          usuarios[contador_cadastros - 1].CPF[contador_CPF + 1] = '\0'; // TIRA LIXOS QUE FICAM NO FINAL DO VETOR
-          contador_CPF++;
-          break;
-        case 3:
-          usuarios[contador_cadastros - 1].senha[contador_senha] = linha[i];
-          usuarios[contador_cadastros - 1].senha[contador_senha + 1] = '\0';
-          contador_senha++;
-          break;
-        case 4:
-          usuarios[contador_cadastros - 1].nome[contador_nome] = linha[i];
-          usuarios[contador_cadastros - 1].nome[contador_nome + 1] = '\0';
-          contador_nome++;
-          break;
-        case 5:
-          usuarios[contador_cadastros - 1].real[contador_real] = linha[i];
-          usuarios[contador_cadastros - 1].real[contador_real + 1] = '\0';
-          contador_real++;
-          break;
-        case 6:
-          usuarios[contador_cadastros - 1].BTC[contador_btc] = linha[i];
-          usuarios[contador_cadastros - 1].BTC[contador_btc + 1] = '\0';
-          contador_btc++;
-          break;
-        case 7:
-          usuarios[contador_cadastros - 1].RIP[contador_ripple] = linha[i];
-          usuarios[contador_cadastros - 1].RIP[contador_ripple + 1] = '\0';
-          contador_ripple++;
-          break;
-        case 8:
-          usuarios[contador_cadastros - 1].ETH[contador_eth] = linha[i];
-          usuarios[contador_cadastros - 1].ETH[contador_eth + 1] = '\0';
-          contador_eth++;
-          break;
+      // Preenche os dados do usuário
+      int criptomoeda_index = 0; // Inicia o índice para as criptomoedas
+      for (int i = 0; i < strlen(linha); i++) { 
+          if (linha[i] == '*') {
+              contador_cadastros++;
+          }
+      }
 
+      PT = 0;
+      for (int i = 0; i < strlen(linha); i++) { 
+          if (linha[i] == ';') {
+              PT++; // Incrementa o contador quando encontra o delimitador ';'
+          } else if (linha[i] == '*') {
+              continue;
+          } else {
+              switch (PT) {
+                  case 1:
+                      usuarios[contador_cadastros - 1].tipo[contador_tipo] = linha[i];
+                      usuarios[contador_cadastros - 1].tipo[contador_tipo + 1] = '\0';
+                      contador_tipo++;
+                      break;
+                  case 2:
+                      usuarios[contador_cadastros - 1].CPF[contador_CPF] = linha[i];
+                      usuarios[contador_cadastros - 1].CPF[contador_CPF + 1] = '\0';
+                      contador_CPF++;
+                      break;
+                  case 3:
+                      usuarios[contador_cadastros - 1].senha[contador_senha] = linha[i];
+                      usuarios[contador_cadastros - 1].senha[contador_senha + 1] = '\0';
+                      contador_senha++;
+                      break;
+                  case 4:
+                      usuarios[contador_cadastros - 1].nome[contador_nome] = linha[i];
+                      usuarios[contador_cadastros - 1].nome[contador_nome + 1] = '\0';
+                      contador_nome++;
+                      break;
+                  case 5:
+                      usuarios[contador_cadastros - 1].real[contador_real] = linha[i];
+                      usuarios[contador_cadastros - 1].real[contador_real + 1] = '\0';
+                      contador_real++;
+                      break;
+                  case 6:
+                    usuarios[contador_cadastros - 1].BTC[contador_btc] = linha[i];
+                    usuarios[contador_cadastros - 1].BTC[contador_btc + 1] = '\0';
+                    contador_btc++;
+                    break;
+                  case 7:
+                    usuarios[contador_cadastros - 1].RIP[contador_ripple] = linha[i];
+                    usuarios[contador_cadastros - 1].RIP[contador_ripple + 1] = '\0';
+                    contador_ripple++;
+                    break;
+                  case 8:
+                    usuarios[contador_cadastros - 1].ETH[contador_eth] = linha[i];
+                    usuarios[contador_cadastros - 1].ETH[contador_eth + 1] = '\0';
+                    contador_eth++;
+                    break;
+                  default:
+                    break;
+              }
+          }
 
-        default:
-          break;
+        if (PT >= 9 && criptomoeda_index < 10) {
+            // Encontrar o próximo valor que não seja BTC, ETH ou RIP
+            if (linha[i] != ';') {
+                int saldo_index = 0;
+                while (linha[i] != ';' && linha[i] != '\0' && saldo_index < sizeof(usuarios[contador_cadastros - 1].criptomoedas[criptomoeda_index].saldo) - 1) {
+                    usuarios[contador_cadastros - 1].criptomoedas[criptomoeda_index].saldo[saldo_index] = linha[i];
+                    saldo_index++;
+                    i++;
+                }
+                // Garantir que a string 'saldo' seja terminada corretamente
+                usuarios[contador_cadastros - 1].criptomoedas[criptomoeda_index].saldo[saldo_index] = '\0';
+                criptomoeda_index++;
+            }
         }
       }
-    }
-
   }
-  // printf("%s\n", usuarios[0].nome);
-  // printf("%s\n", usuarios[0].CPF);
-  // printf("%s\n", usuarios[0].senha);
 
-  // printf(" %d", contador_cadastros);
   fclose(ler);
+  
+  // PRINT DE TODAS AS INFORMACOES DE CADA PERFIL:
+    
+  // for (i = 0; i < contador_cadastros; i++){
+  //   printf("%s\n",usuarios[i].nome);
+  //   printf("CPF: %s\n",usuarios[i].CPF);
+  //   printf("Tipo: %s\n",usuarios[i].tipo);
+  //   printf("Senha: %s\n",usuarios[i].senha);
+  //   printf("Real: %s\n",usuarios[i].real);
+  //   printf("BTC: %s\n",usuarios[i].BTC);
+  //   printf("ETH: %s\n",usuarios[i].ETH);
+  //   printf("XRP: %s\n",usuarios[i].RIP);
+  //   for (j = 0; j < total_criptomoedas; j++){
+  //     printf("%s: %s\n",criptomoedas[j].nome, usuarios[i].criptomoedas[j].saldo);
+  //   }
+  // }
+  
 
   FILE *escreve1 = fopen("usuarios.txt", "a"); 
   if (contador_cadastros == 0){
@@ -357,6 +393,9 @@ int main() {
                 strcpy(usuarios[NV].BTC, "0.00");
                 strcpy(usuarios[NV].RIP, "0.00");
                 strcpy(usuarios[NV].ETH, "0.00");
+                for (i = 0; i < total_criptomoedas; i++){
+                  strcpy(usuarios[NV].criptomoedas[i].saldo, "0.00");
+                }
                 puts("CPF cadastrado!\n");
                 verificar = 't';
               }
@@ -374,8 +413,13 @@ int main() {
               FILE *escreve = fopen("usuarios.txt", "a"); // SALVA O CADSATRO NO TXT
   
               fprintf(
-                  escreve, "*;%s;%s;%s;%s;%s;%s;%s;%s;\n",usuarios[NV].tipo, usuarios[NV].CPF, usuarios[NV].senha,
+                  escreve, "*;%s;%s;%s;%s;%s;%s;%s;%s;",usuarios[NV].tipo, usuarios[NV].CPF, usuarios[NV].senha,
                   usuarios[NV].nome, usuarios[NV].real,usuarios[NV].BTC,usuarios[NV].RIP,usuarios[NV].ETH); // ADICIONA O %X E ESCREVE O USUARIO[NV].XXXX
+              for (int i = 0; i < total_criptomoedas; i++) {
+                  fprintf(escreve, "%s;", usuarios[NV].criptomoedas[i].saldo);
+              }
+              fprintf(escreve, "\n");
+              
   
               fclose(escreve);
   
@@ -462,14 +506,39 @@ int main() {
             fprintf(nova_cotacao, "%s;\n%s;\n%s;", cotacao_btc, cotacao_rip, cotacao_eth);
             fclose(nova_cotacao);
           
-            FILE *escreve2 = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO RETORNA AO MENU!
+
+            FILE *escreve2 = fopen("usuarios.txt", "w"); // Abre o arquivo para sobrescrever o conteúdo
+
             fprintf(escreve2, "\n");
-            for(i = 0; i < contador_cadastros; i++){
-            fprintf(
-                escreve2, "*;%s;%s;%s;%s;%s;%s;%s;%s;\n",usuarios[i].tipo, usuarios[i].CPF, usuarios[i].senha,
-                usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH); 
+
+            for (i = 0; i < contador_cadastros; i++) {
+                // Escreve as informações do usuário
+                fprintf(escreve2, "*;%s;%s;%s;%s;%s;%s;%s;%s;", 
+                    usuarios[i].tipo, 
+                    usuarios[i].CPF, 
+                    usuarios[i].senha,
+                    usuarios[i].nome, 
+                    usuarios[i].real,
+                    usuarios[i].BTC,
+                    usuarios[i].RIP, 
+                    usuarios[i].ETH
+                );
+
+                for (int j = 0; j < total_criptomoedas; j++) {
+                    fprintf(escreve2, "%s;", usuarios[i].criptomoedas[j].saldo);
+                }
+
+                // Finaliza o registro do usuário com uma nova linha
+                fprintf(escreve2, "\n");
             }
-            fclose(escreve2);
+
+            fclose(escreve2); // Fecha o arquivo
+
+            FILE *escrevendoo = fopen("criptomoeda.txt", "w");
+            for(i = 0; i < total_criptomoedas; i++){
+              fprintf(escrevendoo, "*;%s;%s;%s;%s;%s;\n", criptomoedas[i].nome, criptomoedas[i].ticker, criptomoedas[i].cotacao, criptomoedas[i].taxa_compra, criptomoedas[i].taxa_venda);
+            }
+            fclose(escrevendoo);
             
             puts("");
             puts("1. Consultar saldo");
@@ -500,7 +569,7 @@ int main() {
             if (opcao[0] == '1') {
   
               permissao(usuarios[indice_usuario].senha);
-              consultar_saldo(usuarios[indice_usuario].real,   usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP,                  usuarios[indice_usuario].ETH,nome_mostra,usuarios[indice_usuario].CPF);
+              consultar_saldo(usuarios[indice_usuario].real,   usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP,                  usuarios[indice_usuario].ETH,nome_mostra,usuarios[indice_usuario].CPF,criptomoedas, total_criptomoedas, usuarios, indice_usuario);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
   
             } else if (opcao[0] == '2') {
@@ -530,11 +599,11 @@ int main() {
             } else if (opcao[0] == '6') {
   
               permissao(usuarios[indice_usuario].senha);
-              vender_criptomoeda(usuarios[indice_usuario].real,usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP,usuarios[indice_usuario].ETH, registro, cotacao_btc, cotacao_rip, cotacao_eth);
+              vender_criptomoeda(usuarios[indice_usuario].real,usuarios[indice_usuario].BTC,usuarios[indice_usuario].RIP,usuarios[indice_usuario].ETH, registro, cotacao_btc, cotacao_rip, cotacao_eth, criptomoedas, total_criptomoedas, usuarios, indice_usuario);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
   
             } else if (opcao[0] == '7') {
-              atualizar_cotacao(cotacao_btc, cotacao_rip, cotacao_eth);
+              atualizar_cotacao(cotacao_btc, cotacao_rip, cotacao_eth, criptomoedas, total_criptomoedas);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
   
             } else if (opcao[0] == '8') {
@@ -544,14 +613,32 @@ int main() {
             }
           }
   
-          FILE *escreve3 = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO SAI DO PROGRAMA!
+          FILE *escreve3 = fopen("usuarios.txt", "w"); // Abre o arquivo para sobrescrever o conteúdo
+
           fprintf(escreve3, "\n");
-          for(i = 0; i < contador_cadastros; i++){
-          fprintf(
-              escreve3, "*;%s;%s;%s;%s;%s;%s;%s;%s;\n", usuarios[i].tipo, usuarios[i].CPF, usuarios[i].senha,
-              usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH); 
+
+          for (i = 0; i < contador_cadastros; i++) {
+              // Escreve as informações do usuário
+              fprintf(escreve3, "*;%s;%s;%s;%s;%s;%s;%s;%s;", 
+                  usuarios[i].tipo, 
+                  usuarios[i].CPF, 
+                  usuarios[i].senha,
+                  usuarios[i].nome, 
+                  usuarios[i].real,
+                  usuarios[i].BTC,
+                  usuarios[i].RIP, 
+                  usuarios[i].ETH
+              );
+
+              for (int j = 0; j < total_criptomoedas; j++) {
+                  fprintf(escreve3, "%s;", usuarios[i].criptomoedas[j].saldo);
+              }
+
+              // Finaliza o registro do usuário com uma nova linha
+              fprintf(escreve3, "\n");
           }
-          fclose(escreve3);
+
+          fclose(escreve3); // Fecha o arquivo
         }
       } 
       else if (resposta[0] == '4' && strlen(resposta) == 2) { // Sair do programa
@@ -700,8 +787,12 @@ int main() {
               FILE *escreve = fopen("usuarios.txt", "a"); // SALVA O CADSATRO NO TXT
   
               fprintf(
-                  escreve, "*;%s;%s;%s;%s;%s;%s;%s;%s;\n",usuarios[NV].tipo, usuarios[NV].CPF, usuarios[NV].senha,
+                  escreve, "*;%s;%s;%s;%s;%s;%s;%s;%s;",usuarios[NV].tipo, usuarios[NV].CPF, usuarios[NV].senha,
                   usuarios[NV].nome, usuarios[NV].real,usuarios[NV].BTC,usuarios[NV].RIP,usuarios[NV].ETH); // ADICIONA O %X E ESCREVE O USUARIO[NV].XXXX
+              for (int i = 0; i < total_criptomoedas; i++) {
+                  fprintf(escreve, "%s;", usuarios[NV].criptomoedas[i].saldo);
+              }
+              fprintf(escreve, "\n");
   
               fclose(escreve);
   
@@ -784,14 +875,32 @@ int main() {
             fprintf(nova_cotacao, "%s;\n%s;\n%s;", cotacao_btc, cotacao_rip, cotacao_eth);
             fclose(nova_cotacao);
             
-            FILE *escreve2 = fopen("usuarios.txt", "w"); // ATUALIZA O CADASTRO QUANDO RETORNA AO MENU!
+            FILE *escreve2 = fopen("usuarios.txt", "w"); // Abre o arquivo para sobrescrever o conteúdo
+
             fprintf(escreve2, "\n");
-            for(i = 0; i < contador_cadastros; i++){
-            fprintf(
-                escreve2, "*;%s;%s;%s;%s;%s;%s;%s;%s;\n",usuarios[i].tipo, usuarios[i].CPF, usuarios[i].senha,
-                usuarios[i].nome, usuarios[i].real, usuarios[i].BTC, usuarios[i].RIP, usuarios[i].ETH); 
+
+            for (i = 0; i < contador_cadastros; i++) {
+                // Escreve as informações do usuário
+                fprintf(escreve2, "*;%s;%s;%s;%s;%s;%s;%s;%s;", 
+                    usuarios[i].tipo, 
+                    usuarios[i].CPF, 
+                    usuarios[i].senha,
+                    usuarios[i].nome, 
+                    usuarios[i].real,
+                    usuarios[i].BTC,
+                    usuarios[i].RIP, 
+                    usuarios[i].ETH
+                );
+
+                for (int j = 0; j < total_criptomoedas; j++) {
+                    fprintf(escreve2, "%s;", usuarios[i].criptomoedas[j].saldo);
+                }
+
+                // Finaliza o registro do usuário com uma nova linha
+                fprintf(escreve2, "\n");
             }
-            fclose(escreve2);
+
+            fclose(escreve2); // Fecha o arquivo
             
             FILE *escreve3 = fopen("criptomoeda.txt", "w");
             for(i = 0; i < total_criptomoedas; i++){
@@ -826,23 +935,23 @@ int main() {
               puts("");
             }
             if(opcao[0] == '1'){
-              cadastrar_investidor(usuarios, &contador_cadastros);
+              cadastrar_investidor(usuarios, &contador_cadastros, criptomoedas, total_criptomoedas);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '2'){
-              excluir_investidor(usuarios, &contador_cadastros);
+              excluir_investidor(usuarios, &contador_cadastros, criptomoedas, total_criptomoedas);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '3'){
-              cadastrar_criptomoeda(criptomoedas,&total_criptomoedas);
+              cadastrar_criptomoeda(criptomoedas,&total_criptomoedas, usuarios, &contador_cadastros);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '4'){
-              excluir_criptomoeda(criptomoedas, &total_criptomoedas);
+              excluir_criptomoeda(criptomoedas, &total_criptomoedas, usuarios, &contador_cadastros);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '5'){
-              consultar_saldo_investidor(usuarios, &contador_cadastros);
+              consultar_saldo_investidor(usuarios, &contador_cadastros, criptomoedas, total_criptomoedas);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '6'){
@@ -850,7 +959,7 @@ int main() {
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '7'){
-              atualizar_cotacao(cotacao_btc, cotacao_rip, cotacao_eth);
+              atualizar_cotacao(cotacao_btc, cotacao_rip, cotacao_eth,criptomoedas, total_criptomoedas);
               confirmacao(confirmar, nome_mostra, &menu, &sair);
             }
             else if(opcao[0] == '8'){
