@@ -16,7 +16,9 @@ Para a execução do código será necessária a criação e cópia dos seguinte
 Obs: Os registros.txt serão gerados automaticamente por conta do fluxo do código, não sendo necessária a sua criação
 
 
-## Documentação Projeto - Exchange de Criptomoedas
+# Documentação Projeto - Exchange de Criptomoedas
+
+## Tipo Usuário:
 
 Cadastro de conta: É necessário que o usuário insira o nome completo, senha obrigatoriamente de 6 dígitos e CPF no formato: XXX.XXX.XXX-XX. 
 Após digitar corretamente os dados fornecidos, o programa pedirá para o usuário confirmar o registro de conta com “S/s” ou “N/n”, caso o usuário digite “n/N”, o cadastro da conta será cancelado e ele retornará ao menu, se digitado “S/s” a conta será criada e armazenada (em TXT) em um arquivo onde ficará todos os perfis separados por linha, cada perfil terá os atributos na seguinte ordem: CPF, senha, nome, saldo inicializado com 0 (Real, Bitcoin, Ripple e Ethereum), e um arquivo separado contendo todos os extratos da conta individual (os arquivos de extrato são identificados e separados por ID) onde será armazenada as transações como o depósito, saque, compra de criptomoedas e vendas de criptomoedas.
