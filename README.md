@@ -123,9 +123,9 @@ As cotações das criptomoedas FIXAS são armazenadas dentro de um arquivo TXT s
 
 2. Funções adicionais:
 
-*Função numero: Verifica se o input é um número.
+* Função numero: Verifica se o input é um número.
 
-*Função nome: Tira os "_" do txt substituindo por espaços. Ou seja: Urso_Alves ----> Urso Alves
+* Função nome: Tira os "_" do txt substituindo por espaços. Ou seja: Urso_Alves ----> Urso Alves
 
 3. Foi implementado o novo arquivo criptomoeda.txt que salva as novas criptomoedas flexíveis.
 
